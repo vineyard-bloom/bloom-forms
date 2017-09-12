@@ -1,1 +1,3 @@
-export * from './src/formReducer'
+'use strict';
+
+export * from './src/formReducer';

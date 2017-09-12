@@ -1,4 +1,4 @@
-export default function formReducer(state = initialState.forms, action) {
+export default function formReducer(state = {}, action) {
   let newForms = state
 
   switch (action.type) {
