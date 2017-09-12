@@ -62,7 +62,7 @@ class LoginFormContainer extends React.Component {
 ## Updating Form State
 By default, inputs' values are updated via the `updateForm` method. It receives the event coming from changing that input and sets that field's value for you. You can stick it right on an input like:
 ```
-<TextInput onChange={this.props.updateForm} />
+<TextInput onChange={ this.props.updateForm } />
 ```
 
 You can also manually update a field. Say you have a button that changes the value of a text input. You would want to manually pass in which values and which fields are needed. You can do this through `manualFieldUpdate`, which accepts three parameters: the formId, the fieldValue, and the fieldName. To use:
@@ -71,10 +71,10 @@ const { formData, formId, manualFieldUpdate } = this.props
 
 ...
 
-<Button onClick={ () => this.props.manualFieldUpdate(formId, 'Choice #1 - Blah', 'choice') }>
-  Choice #1
-</Button>
-<TextInput name='choice' value={ formData.choice.value } />
+    <Button onClick={ () => this.props.manualFieldUpdate(formId, 'Choice #1 - Blah', 'choice') }>
+      Choice #1
+    </Button>
+    <TextInput name='choice' value={ formData.choice.value } />
 
 ...
 ```
