@@ -5,12 +5,12 @@
 Includes:
 
 * Redux:
-- formActions.js
-- formReducer.js
+** formActions.js
+** formReducer.js
 
 * Components:
-- form.jsx (form wrapper)
-- form inputs
+** form.jsx (form wrapper)
+** form inputs
 
 ## Usage
 To use this package, you can install with either npm or yarn.
