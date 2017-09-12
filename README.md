@@ -2,12 +2,13 @@
 
 #### All your form functionality in one place.
 
-Files:
-Redux:
+Includes:
+
+* Redux:
 - formActions.js
 - formReducer.js
 
-Components:
+* Components:
 - form.jsx (form wrapper)
 - form inputs
 
