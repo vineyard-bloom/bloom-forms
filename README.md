@@ -2,8 +2,7 @@
 
 #### All your form functionality in one place.
 
-Contents:
-
+Files:
 Redux:
 - formActions.js
 - formReducer.js
