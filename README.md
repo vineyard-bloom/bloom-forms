@@ -10,7 +10,10 @@ Includes:
 
 * Components:
     - form.jsx (form wrapper)
+    - error-tip.jsx (default inline form errors)
     - form inputs
+      * text-input.jsx
+      * toggle-switch.jsx
 
 ## Usage
 To use this package, you can install with either npm or yarn.
@@ -125,7 +128,7 @@ To have your form populate with existing data, pass in a JSON object of key/valu
 You may have to use an ajax call to grab the necessary data. Form.jsx will load those values as soon as it receives them.
 
 ## Submitting Forms
-Form.jsx will handle your form data, but you should write your own submitForm function and pass it in as a prop. Your submitForm should be able to handle formData, an array of files, and both a success and fail callback. You *must* call the success and fail callbacks for the form to update `pendingRequest` -- otherwise, anything showing loading/pending that's dependent on that field will continue to spin endlessly.
+Form.jsx will handle your form data, but you should write your own submitForm function and pass it in as a prop. Your submitForm should be able to handle formData, a FormData object of files, and both a success and fail callback. You *must* call the success and fail callbacks for the form to update `pendingRequest` -- otherwise, anything showing loading/pending that's dependent on that field will continue to spin endlessly.
 
 An example submitForm might look like:
 ```
