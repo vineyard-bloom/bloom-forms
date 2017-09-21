@@ -15,11 +15,18 @@ Includes:
     - formReducer.js
 
 * Components:
-    - form.jsx (form wrapper)
-    - error-tip.jsx (default inline form errors)
+    - Form (form wrapper)
+    - ErrorTip (default inline form errors)
     - form inputs
-      * text-input.jsx
-      * toggle-switch.jsx
+      * Button
+      * Checkbox
+      * CurrencyInput
+      * Dropzone
+      * FileInput
+      * RangeInput
+      * SelectInput
+      * TextInput
+      * ToggleSwitch
 
 ## Usage
 To use this package, you can install with either npm or yarn.

@@ -33,23 +33,30 @@ export function createForm(formId, formObject) {
   }
 }
 
-export function updateForm(e, formId) {
-  let fieldName = e.target.getAttribute('name');
-  let fieldValue;
+export function updateForm (e, formId, fieldName, fieldValue) {
+  fieldName = fieldName || ((e && e.target) ? e.target.getAttribute('name') : null)
+  if (!fieldName || !formId) {
+    console.log('missing either fieldName or formId')
+    return { type: '' }
+  }
+  const documentItem = document.getElementById(fieldName) ? document.getElementById(fieldName) : [...document.getElementsByName(fieldName)][0]
 
-  switch(e.target.getAttribute('type')) {
+  switch (documentItem.getAttribute('type')) {
     case 'checkbox':
-      fieldValue = e.target.checked;
-      break;
+      fieldValue = fieldValue || e.target.checked
+      break
     case 'file':
-      fieldValue = '\\fake-route-to-trigger-grab';
-      break;
+      fieldValue = fieldValue && fieldValue[0] ? fieldValue[0].name : ''
+      break
+    case 'radio':
+      fieldValue = fieldValue || e.target.id
+      break
     default:
-      fieldValue = e.target.value;
+      fieldValue = fieldValue || e.target.value
   }
 
   return {
-    type: 'UPDATE_FORM',
+    type: actionTypes.UPDATE_FORM,
     formId,
     fieldName,
     fieldValue

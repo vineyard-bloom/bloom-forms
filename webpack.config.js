@@ -7,7 +7,10 @@ module.exports = {
   entry: APP_DIR + 'index.js',
   output: {
     filename: 'index.js',
-    path: BUILD_DIR
+    path: BUILD_DIR,
+    library: 'bloom-forms',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
 
   module: {
@@ -40,6 +43,11 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
     new webpack.optimize.UglifyJsPlugin({ minimize: true})
   ],
 

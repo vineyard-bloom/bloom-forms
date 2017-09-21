@@ -12,9 +12,9 @@ import SelectInput from './inputs/select-input.jsx'
 import TextInput from './inputs/text-input.jsx'
 import ToggleSwitch from './inputs/toggle-switch.jsx'
 
-import { validatorAggregator } from './validator.js';
+import { validatorAggregator as validator } from './validator.js';
 
-export default {
+export {
   Button,
   Checkbox,
   CurrencyInput,
@@ -27,5 +27,5 @@ export default {
   SelectInput,
   TextInput,
   ToggleSwitch,
-  validator: validatorAggregator
+  validator
 }
