@@ -1,9 +1,10 @@
 {
   "name": "bloom-forms",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "form functionality used in bloom packages",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
     "test": "test"
   },
   "repository": {
@@ -11,14 +12,23 @@
     "url": "git+https://github.com/vineyard-bloom/bloom-forms.git"
   },
   "keywords": [
+    "bloom",
+    "vineyard",
     "redux",
     "react",
     "forms"
   ],
-  "author": "inkblotty <fosterkatiea@gmail.com> (inkblotty.github.io)",
+  "author": "inkblotty (inkblotty.github.io)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/vineyard-bloom/bloom-forms/issues"
   },
-  "homepage": "https://github.com/vineyard-bloom/bloom-forms#readme"
+  "homepage": "https://github.com/vineyard-bloom/bloom-forms#readme",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "webpack": "^3.6.0"
+  }
 }

@@ -2,6 +2,12 @@
 
 #### All your form functionality in one place.
 
+Features:
+- Fully accessible, responsive and custom-stylable inputs.
+- Integrates seamlessly with bloom-starter.
+- All form actions available through redux.
+- Fully customizable validation. Works through form.jsx and independently.
+
 Includes:
 
 * Redux:
