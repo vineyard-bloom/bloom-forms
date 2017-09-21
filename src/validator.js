@@ -1,6 +1,26 @@
 import language from 'language'
 
 // pass in a dict of field / value pairs to the aggregator as testDataObject
+// example testDataObject:
+/*
+  {
+    [fieldName]: { value: fieldValue, validateAs: 'not-empty', name: fieldName},
+    [fieldName]: { value: fieldValue, validateAs: 'phone', name: fieldName},
+    ...
+  }
+*/
+
+// pass in error language from a localization file or json object of error messages
+
+// pass in an optDic of validateAs keys with functions to process. for example:
+/*
+  {
+    'cat': (testData) => testData === 'cat' ? null : 'This field should equal "cat."',
+    'biggerThan2': (testData) => testData > 2 ? null : 'This field must be at least 2'
+  }
+*/
+// and now you can use validateAs='cat' and validateAs='biggerThan2'
+
 export function validatorAggregator(testDataObject = {}, errorLanguage=null, optDict=null) {
   let status = { isValid: true, warnings: {}}
 

@@ -80,28 +80,26 @@ const { formData, formId, manualFieldUpdate } = this.props
 ```
 
 ## Validation
-All the existing inputs have support for a `validateAs` string and an `onBlur` (when that field loses focus) function prop, which should call `props.checkField`. You can add more types of validaton to the validator file in util/.
+All the existing inputs have support for a `validateAs` string and an `onBlur` (when that field loses focus) function prop, which should call `props.checkField`. You can add more types of validaton to the validator by passing in a `validationHelp` prop to form.jsx.
 
+`validationHelp` should be an object with two fields: a json object of error messages, and a dictionary of custom `validateAs` keys with their test functions that return errors.
 - Example:
-You have a field that you want to validate as one of 3 pets. You're calling this 'isAPet'. You add a case to the validator dict:
 ```
-    ...
-    'file': fileError,
-    'isAPet': petError,
-    ...
-```
-and also create a function that returns an error if it isn't one of the 3 pets.
-```
-function petError(testData, fieldName) {
-  return testData === 'dog' || testData === 'cat' || testData === 'bird'
-    ? 'Not a known pet type.'
-    : null
+validationHelp = {
+  errorLanguage: {
+    'not-empty': 'This field cannot be empty',
+    'min-length': 'This field must be at least <LIMIT> chars.'
+  },
+  dictionary: {
+    'min-length-2': (testData) => testData.length && testData.length >= 2 ? null : errorLanguage['min-length'].replace('<LIMIT>', 2),
+    'min-length-8': (testData) => testData.length && testData.length >= 8 ? null : errorLanguage['min-length'].replace('<LIMIT>', 8)
+  }
 }
 ```
 
 To use this set up, an example field would look like:
 ```
-<TextInput name='pet' validateAs='isAPet' onBlur={ props.checkField } onChange={ props.updateForm }
+<TextInput name='pet' validateAs='min-length-2' onBlur={ props.checkField } onChange={ props.updateForm }
   value={ formData.pet.value } error={ formData.pet.error } />
 ```
 

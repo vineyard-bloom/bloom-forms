@@ -3,18 +3,16 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { convertEthToWei, convertWeiToEth } from 'helpers'
-import { validatorAggregator as validator } from 'validator'
+import { validatorAggregator as validator } from './validator'
 import {
   addFormError,
   clearForm,
   createForm,
   deleteFormError,
-  updateForm } from 'redux-store/actions/formActions'
-import { WebServiceType } from 'types'
+  updateForm } from './formActions'
 
-import 'styles/components/forms'
-import 'styles/components/inputs'
+import './styles/components/forms'
+import './styles/components/inputs'
 
 // container for wrapping all forms with needed methods
 class Form extends React.Component {
@@ -25,7 +23,7 @@ class Form extends React.Component {
 
   static propTypes = {
     addFormError: PropTypes.func,
-    autofillDataRoute: PropTypes.string,
+    autofillData: PropTypes.object,
     clearForm: PropTypes.func,
     createForm: PropTypes.func,
     deleteFormError: PropTypes.func,
@@ -37,12 +35,14 @@ class Form extends React.Component {
     ).isRequired,
     forms: PropTypes.object,
     id: PropTypes.string.isRequired,
-    submitAsPut: PropTypes.bool,
+    preserveAfterUnmount: PropTypes.bool,
     submitForm: PropTypes.func,
-    submitRoute: PropTypes.string.isRequired,
     updateForm: PropTypes.func,
-    WebService: PropTypes.shape(WebServiceType)
-  } // make sure only those that don't come from redux are passed in
+    validationHelp: PropTypes.shape({
+      errorLanguage: PropTypes.object,
+      dictionary: PropTypes.object
+    })
+  } // make sure only those that don't come from redux are declared
 
   static mapDispatchToProps(dispatch, ownProps) {
     return {
@@ -66,8 +66,7 @@ class Form extends React.Component {
 
   static mapStateToProps(state) {
     return {
-      forms: state.forms,
-      WebService: state.services.WebService
+      forms: state.forms
     }
   }
 
@@ -78,7 +77,12 @@ class Form extends React.Component {
     const isRequired = field.getAttribute('aria-required') || field.getAttribute('required')
 
     const thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
-    const fieldStatus = validator({ [fieldName]: { value: fieldValue, validateAs: field.getAttribute('data-validate'), name: fieldName}})
+    const fieldStatus =
+      validator(
+        { [fieldName]: { value: fieldValue, validateAs: field.getAttribute('data-validate'), name: fieldName} },
+        this.props.validationHelp ? this.props.validationHelp.errorLanguage : null,
+        this.props.validationHelp ? this.props.validationHelp.dictionary : null
+      )
     const allowNull = !isRequired || (fieldValue && isRequired)
 
     if (fieldStatus.isValid && allowNull) {
@@ -97,12 +101,11 @@ class Form extends React.Component {
 
     let thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
     const unconvertedForm = { ...thisForm }
-    console.log('unconvertedForm', unconvertedForm)
 
     let files
 
     for (let field in thisForm) {
-      if (field != 'isValid' && (!/(\.|\/)(gif|jpe?g|png|txt)$/.test(thisForm[field].value)) && (document.getElementById(field))) {
+      if (field != 'isValid' && (!/(\.|\/)(gif|jpe?g|png|txt|pdf|doc?x)$/.test(thisForm[field].value)) && (document.getElementById(field))) {
         // validate each field in case onBlur on that field never triggered
         this.checkField(null, document.getElementById(field))
       }
@@ -110,7 +113,7 @@ class Form extends React.Component {
       if (thisForm[field].value) {
         if (field.indexOf('confirm') > -1) {
           delete thisForm[field]
-        } else if (/(\.|\/)(gif|jpe?g|png|txt)$/.test(thisForm[field].value)) {
+        } else if (/(\.|\/)(gif|jpe?g|png|txt|pdf|doc?x)$/.test(thisForm[field].value)) {
           // file placeholder
           files = files || new FormData()
           files.append(field, document.getElementById(field).files[0], thisForm[field].value)
@@ -123,54 +126,35 @@ class Form extends React.Component {
       }
     } 
 
-    const call = this.props.submitAsPut ? this.props.WebService.put : this.props.WebService.post;
+    const call = this.props.submitAsPut ? put : post;
 
-    if (thisForm) {
+    if (thisForm && thisForm.isValid) {
       delete thisForm.isValid
 
-      if (this.props.submitForm) {
-        return this.props.submitForm(thisForm)
-      } else {
-        call(this.props.submitRoute, thisForm)
-          .then((res) => {
-            this.props.clearForm(this.props.id)
-
-            if (files) {
-              this.props.WebService.uploadFile(files)
-                .then(() => {
-                  this.setState({
-                    processingRequest: false
-                  })
-
-                  if (this.props.afterSubmit) {
-                    this.props.afterSubmit(res, unconvertedForm)
-                  }
-                })
-            } else if (this.props.afterSubmit) {
-              this.setState({
-                processingRequest: false
-              })
-              this.props.afterSubmit(res, unconvertedForm)
-            }
-          })
-          .catch((err) => {
-            let message = err.response ? err.response.data.error.message : err
-            console.log({ ...err})
-            this.setState({
-              processingRequest: false
-            })
-            if (this.props.afterSubmit) {
-              this.props.afterSubmit({ error: message })
-            }
-          })
-      } else {
-          delete thisForm.isValid
-        // debugging helper
+      const successCallback = () => {
         this.setState({
           processingRequest: false
         })
-        console.log(`form id '${this.props.id}' has invalid fields`, thisForm)
       }
+
+      const failCallback = (err) => {
+        let message = err.response ? err.response.data.error.message : err
+        console.log({ ...err})
+        this.setState({
+          processingRequest: false
+        })
+      }
+
+      return this.props.submitForm(thisForm, files, successCallback, failCallback)
+    } else {
+      delete thisForm.isValid
+
+      this.setState({
+        processingRequest: false
+      })
+
+      // debugging helper
+      console.log(`form id '${this.props.id}' has invalid fields`, unconvertedForm)
     }
   }
 
@@ -194,13 +178,13 @@ class Form extends React.Component {
       formData = props.forms[props.id]
     } else {
       // initialize the form with all fields inside
-      props.fieldNames.forEach((name) => {
-        if (name.type) {
-          formData[name.name] = {}
+      props.fieldNames.forEach((fieldName) => {
+        if (fieldName.type) {
+          formData[fieldName] = {}
 
-          switch(name.type) {
+          switch(fieldName.type) {
             case 'checkbox':
-              formData[name.name].value = false
+              formData[fieldName].value = false
             default:
               break
           }
@@ -235,18 +219,14 @@ class Form extends React.Component {
   }
 
   componentWillUnmount = () => {
-    // some forms we may want to keep around even when routing back and forth
-    // this.props.clearForm()
+    if (!this.props.preserveAfterUnmount) {
+      this.props.clearForm()
+    }
   }
 
   componentDidMount = () => {
-    if (this.props.autofillDataRoute && this.props.WebService) {
-      this.props.WebService.get(this.props.autofillDataRoute)
-        .then((res) => {
-          if (res.data) {
-            this.populateFields(this.props, res.data)
-          }
-        })
+    if (this.props.autofillData) {
+      this.populateFields(this.props, autofillData)
     } else {
       this.populateFields(this.props)
     }
@@ -255,16 +235,8 @@ class Form extends React.Component {
   }
 
   componentWillReceiveProps = (newProps) => {
-    if (this.props.autofillDataRoute != newProps.autofillDataRoute && newProps.autofillDataRoute && newProps.WebService) {
-      newProps.WebService.get(newProps.autofillDataRoute)
-        .then((res) => {
-          this.populateFields(newProps, res.data)
-        })
-    } else if (!this.props.WebService && newProps.WebService && (newProps.autofillDataRoute)) {
-      newProps.WebService.get(newProps.autofillDataRoute)
-        .then((res) => {
-          this.populateFields(newProps, res.data)
-        })
+    if (Object.values(this.props.autofillData).sort().toString() != Object.values(newProps.autofillData).sort().toString()) {
+      this.populateFields(newProps, newProps.autofillData)
     }
   }
 
@@ -274,8 +246,6 @@ class Form extends React.Component {
     // make sure this works if the form has one child or many
     let children = Array.isArray(this.props.children) ? this.props.children : [this.props.children]
     let thisForm = props.forms && props.forms[props.id] ? props.forms[props.id] : null
-
-    // console.log(thisForm)
 
     // clone the children to pass in custom props related to entire form
     let formChildren = React.Children.map(children, (child, indx) => {
