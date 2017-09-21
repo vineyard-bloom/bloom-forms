@@ -6,4 +6,4 @@ dist/*
 
 config/config.json
 
-./index.js
+index.js
