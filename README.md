@@ -59,6 +59,22 @@ class LoginFormContainer extends React.Component {
 ```
 - Note that the IDs match ('login-form'), and the fieldNames match the names of the TextInputs.
 
+## Required Props
+### Field Names
+`fieldNames` is a required prop when using form.jsx. It uses this array to know which fields to track. Each entry in fieldNames can be a string, like `'firstName'`, or an object with a type and name, like `{ name: 'isFullTimeEmployee', type: 'checkbox' }`. It's recommended to use the second version for checkboxes and radios.
+### Submit Form
+`submitForm` must be a function that receives the formData, file data, and two callbacks (success and fail). See 'Submitting Forms' below.
+### Id
+`id` is just the id of your form. You should make your jsx component `<form id>` match.
+
+## Optional Props
+### Validation Help
+Used to customize bloom-form's built-in validation. See 'Validation' below.
+### Preserve After Unmount
+By default, the form will clear its data after unmounting from the ui. This means that a registration form will delete its data after you route to a new page. If `preserveAfterUnmount` is true, this will prevent the form from clearing, and you'll be able to return to that form and see the data still there.
+### Prepopulate Data
+`prepopulateData` is a json object, usually return from an ajax GET request, that fills in the fields in your form. The keys in this json object should match up with the fieldNames you passed into the form.
+
 ## Updating Form State
 By default, inputs' values are updated via the `updateForm` method. It receives the event coming from changing that input and sets that field's value for you. You can stick it right on an input like:
 ```
@@ -102,8 +118,6 @@ To use this set up, an example field would look like:
 <TextInput name='pet' validateAs='min-length-2' onBlur={ props.checkField } onChange={ props.updateForm }
   value={ formData.pet.value } error={ formData.pet.error } />
 ```
-
-You don't need to change anything inside Form.jsx.
 
 ## Prepopulating Form.jsx
 To have your form populate with existing data, pass in a JSON object of key/value pairs where the keys match your fieldNames prop.

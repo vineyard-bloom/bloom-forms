@@ -23,7 +23,6 @@ class Form extends React.Component {
 
   static propTypes = {
     addFormError: PropTypes.func,
-    autofillData: PropTypes.object,
     clearForm: PropTypes.func,
     createForm: PropTypes.func,
     deleteFormError: PropTypes.func,
@@ -35,6 +34,7 @@ class Form extends React.Component {
     ).isRequired,
     forms: PropTypes.object,
     id: PropTypes.string.isRequired,
+    prepopulateData: PropTypes.object,
     preserveAfterUnmount: PropTypes.bool,
     submitForm: PropTypes.func.isRequired,
     updateForm: PropTypes.func,
@@ -183,8 +183,12 @@ class Form extends React.Component {
           switch(fieldName.type) {
             case 'checkbox':
               formData[fieldName].value = false
-            default:
               break
+            case 'radio':
+              formData[fieldName].value = false
+              break
+            default:
+              formData[name] = { value: '' }
           }
         } else {
           formData[name] = { value: '' }
@@ -223,8 +227,8 @@ class Form extends React.Component {
   }
 
   componentDidMount = () => {
-    if (this.props.autofillData) {
-      this.populateFields(this.props, autofillData)
+    if (this.props.prepopulateData) {
+      this.populateFields(this.props, prepopulateData)
     } else {
       this.populateFields(this.props)
     }
@@ -233,13 +237,17 @@ class Form extends React.Component {
   }
 
   componentWillReceiveProps = (newProps) => {
-    if (Object.values(this.props.autofillData).sort().toString() != Object.values(newProps.autofillData).sort().toString()) {
-      this.populateFields(newProps, newProps.autofillData)
+    if (newProps.prepopulateData && (
+        !this.props.prepopulateData ||
+        (Object.values(this.props.prepopulateData).sort().toString() != Object.values(newProps.prepopulateData).sort().toString())
+      )
+    ) {
+      this.populateFields(newProps, newProps.prepopulateData)
     }
   }
 
   render() {
-    let { submitRoute, autofillDataRoute, ...props } = this.props
+    let { submitForm, prepopulateData, ...props } = this.props
     
     // make sure this works if the form has one child or many
     let children = Array.isArray(this.props.children) ? this.props.children : [this.props.children]
