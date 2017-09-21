@@ -33,7 +33,7 @@ export function createForm(formId, formObject) {
   }
 }
 
-export function updateForm (e, formId, fieldName, fieldValue) {
+export function updateForm(e, formId, fieldName, fieldValue) {
   fieldName = fieldName || ((e && e.target) ? e.target.getAttribute('name') : null)
   if (!fieldName || !formId) {
     console.log('missing either fieldName or formId')
