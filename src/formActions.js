@@ -56,7 +56,7 @@ export function updateForm(e, formId, fieldName, fieldValue) {
   }
 
   return {
-    type: actionTypes.UPDATE_FORM,
+    type: 'UPDATE_FORM',
     formId,
     fieldName,
     fieldValue
