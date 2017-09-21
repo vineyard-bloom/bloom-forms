@@ -1,5 +1,3 @@
-import language from 'language'
-
 // pass in a dict of field / value pairs to the aggregator as testDataObject
 // example testDataObject:
 /*

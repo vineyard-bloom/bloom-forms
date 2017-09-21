@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import 'styles/components/tooltip'
+// import 'styles/components/tooltip'
 
 const ErrorTip = (props) => {
   return (

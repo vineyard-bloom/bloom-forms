@@ -12,22 +12,22 @@ module.exports = {
 
   module: {
     rules: [
-      // {
-      //   test: /\.jsx?$/,
-      //   loader: 'babel-loader',
-      //   exclude: /node_modules/,
-      //   query: {
-      //     presets: ['react', 'es2015', 'stage-0', 'stage-2']
-      //   }
-      // },
       {
-        test: 'index.js',
+        test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
           presets: ['react', 'es2015', 'stage-0', 'stage-2']
         }
       },
+      // {
+      //   test: /index.js$/,
+      //   loader: 'babel-loader',
+      //   exclude: /node_modules/,
+      //   query: {
+      //     presets: ['react', 'es2015', 'stage-0', 'stage-2']
+      //   }
+      // },
       {
         test: /\.s?css$/,
         use: [

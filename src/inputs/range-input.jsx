@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import ErrorTip from '../error-tip.jsx'
 
-import 'styles/components/inputs'
+// import 'styles/components/inputs'
 
 const RangeInput = (props) => {
     let {

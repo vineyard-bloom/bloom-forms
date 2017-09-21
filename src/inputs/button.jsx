@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import 'styles/components/buttons.scss';
+// import 'styles/components/buttons.scss';
 
 const Button = (props) => {
   let { className, disabled, id, loading, loadingElement, onClick, text } = props;

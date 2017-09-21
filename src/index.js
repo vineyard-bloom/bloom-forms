@@ -14,7 +14,7 @@ import ToggleSwitch from './inputs/toggle-switch.jsx'
 
 import { validatorAggregator } from './validator.js';
 
-export default = {
+export default {
   Button,
   Checkbox,
   CurrencyInput,
