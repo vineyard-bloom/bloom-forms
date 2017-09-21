@@ -36,7 +36,7 @@ class Form extends React.Component {
     forms: PropTypes.object,
     id: PropTypes.string.isRequired,
     preserveAfterUnmount: PropTypes.bool,
-    submitForm: PropTypes.func,
+    submitForm: PropTypes.func.isRequired,
     updateForm: PropTypes.func,
     validationHelp: PropTypes.shape({
       errorLanguage: PropTypes.object,
@@ -125,8 +125,6 @@ class Form extends React.Component {
         delete thisForm[field]
       }
     } 
-
-    const call = this.props.submitAsPut ? put : post;
 
     if (thisForm && thisForm.isValid) {
       delete thisForm.isValid

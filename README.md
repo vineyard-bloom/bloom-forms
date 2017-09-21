@@ -71,7 +71,7 @@ const { formData, formId, manualFieldUpdate } = this.props
 
 ...
 
-    <Button onClick={ () => this.props.manualFieldUpdate(formId, 'Choice #1 - Blah', 'choice') }>
+    <Button onClick={ () => manualFieldUpdate(formId, 'Choice #1 - Blah', 'choice') }>
       Choice #1
     </Button>
     <TextInput name='choice' value={ formData.choice.value } />
@@ -104,6 +104,29 @@ To use this set up, an example field would look like:
 ```
 
 You don't need to change anything inside Form.jsx.
+
+## Prepopulating Form.jsx
+To have your form populate with existing data, pass in a JSON object of key/value pairs where the keys match your fieldNames prop.
+
+You may have to use an ajax call to grab the necessary data. Form.jsx will load those values as soon as it receives them.
+
+## Submitting Forms
+Form.jsx will handle your form data, but you should write your own submitForm function and pass it in as a prop. Your submitForm should be able to handle formData, an array of files, and both a success and fail callback. You *must* call the success and fail callbacks for the form to update `pendingRequest` -- otherwise, anything showing loading/pending that's dependent on that field will continue to spin endlessly.
+
+An example submitForm might look like:
+```
+submitForm = (formData, files, successCallback, failCallback) => {
+  WebService.post(formData)
+    .then((res) => {
+      // trigger a success alert
+      successCallback()
+    })
+    .catch((err) => {
+      // trigger an error alert
+      failCallback()
+    })
+}
+```
 
 ## Forms with Switch Inside
 To make forms with Routes inside, you will need to make the Switch its own Container inside another form container and pass in the props with a spread operator.
