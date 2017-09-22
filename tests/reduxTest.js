@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import { combineReducers, createStore, dispatch } from 'redux';
-import { addFormError, createForm, deleteFormError, updateForm } from '../src/formActions';
+import { addFormError, clearForm, createForm, deleteFormError, updateForm } from '../src/formActions';
 import formReducer from '../src/formReducer';
 
 const exampleApp = combineReducers({
@@ -101,5 +101,13 @@ describe('handles errors', function() {
     }
 
     assert.deepEqual(store.getState().forms['example-form'], endComparison)
+  })
+})
+
+describe('empties out form for unmounting', function() {
+  it ('deletes the contents of example-form', function() {
+    store.dispatch(clearForm('example-form'))
+
+    assert.deepEqual(store.getState().forms['example-form'], {})
   })
 })
