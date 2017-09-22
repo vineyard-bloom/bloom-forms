@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import { combineReducers, createStore, dispatch } from 'redux';
-import { createForm, updateForm } from '../src/formActions';
+import { addFormError, createForm, deleteFormError, updateForm } from '../src/formActions';
 import formReducer from '../src/formReducer';
 
 const exampleApp = combineReducers({
@@ -34,7 +34,7 @@ describe('creates a new form', function() {
   })
 })
 
-describe('populates fieldNames after already adding fieldNames', function() {
+describe('populates fieldNames after initialization', function() {
   it ('adds empty values for each new fieldName', function() {
     const newFields = ['name', 'id', 'pet', 'muffinflavor', 'blep']
     newFields.forEach((field) => {
@@ -52,5 +52,54 @@ describe('populates fieldNames after already adding fieldNames', function() {
     }
 
     assert.deepEqual(store.getState().forms['example-form'], { ...exampleFields, isValid: true });
+  })
+
+  it ('adds values to a couple fields', function() {
+    store.dispatch(updateForm(null, 'example-form', 'name', 'Bob', 'text'))
+    store.dispatch(updateForm(null, 'example-form', 'pet', 'dog', 'text'))
+
+    const endComparison = {
+      'name': { value: 'Bob' },
+      'id': { value: '' },
+      'pet': { value: 'dog' },
+      'muffinflavor': { value: '' },
+      'blep': { value: '' },
+      'isValid': true
+    }
+
+    assert.deepEqual(store.getState().forms['example-form'], endComparison)
+  })
+})
+
+describe('handles errors', function() {
+  it ('adds an error to blep', function() {
+    store.dispatch(addFormError('example-form', 'blep', 'This field can\'t be empty.'))
+
+    const endComparison = {
+      'name': { value: 'Bob' },
+      'id': { value: '' },
+      'pet': { value: 'dog' },
+      'muffinflavor': { value: '' },
+      'blep': { value: '', error: 'This field can\'t be empty.' },
+      'isValid': false
+    }
+
+    assert.deepEqual(store.getState().forms['example-form'], endComparison)
+  })
+
+  it ('updates a value and deletes an error from blep', function() {
+    store.dispatch(updateForm(null, 'example-form', 'blep', 'tiny tongue bleps', 'text'))
+    store.dispatch(deleteFormError('example-form', 'blep', 'This field can\'t be empty.'))
+
+    const endComparison = {
+      'name': { value: 'Bob' },
+      'id': { value: '' },
+      'pet': { value: 'dog' },
+      'muffinflavor': { value: '' },
+      'blep': { value: 'tiny tongue bleps' },
+      'isValid': true
+    }
+
+    assert.deepEqual(store.getState().forms['example-form'], endComparison)
   })
 })
