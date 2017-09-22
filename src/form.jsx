@@ -173,24 +173,27 @@ class Form extends React.Component {
   populateFields = (props, responseData) => {
     let formData = {}
     // initialize the form with all fields inside
+    console.log('fieldNames before populating: ', props.fieldNames)
     props.fieldNames.forEach((fieldName) => {
       if (fieldName.type) {
         formData[fieldName] = {}
 
         switch(fieldName.type) {
           case 'checkbox':
-            formData[fieldName].value = false
+            formData[fieldName.name].value = false
             break
           case 'radio':
-            formData[fieldName].value = false
+            formData[fieldName.name].value = false
             break
           default:
-            formData[name] = { value: '' }
+            formData[fieldName.name] = { value: '' }
         }
       } else {
-        formData[name] = { value: '' }
+        formData[fieldName.toString()] = { value: '' }
       }
     })
+
+    console.log('after initializing fieldNames: ', formData)
 
     if (responseData) {
       for (var key in responseData) {
@@ -212,6 +215,8 @@ class Form extends React.Component {
         }
       }
     }
+
+    console.log('before updating store: ', formData)
 
     props.createForm(props.id, formData)
   }
@@ -240,6 +245,15 @@ class Form extends React.Component {
     ) {
       this.populateFields(newProps, newProps.prepopulateData)
     }
+
+    // console.log('just fieldNames in componentWillReceiveProps: ', newProps.fieldNames)
+    // console.log(Object.keys(this.props.forms[this.props.id]).length, newProps.fieldNames.length)
+
+    // if (this.props.forms && this.props.forms[this.props.id]
+    //   && (newProps.fieldNames.length != Object.keys(this.props.forms[this.props.id]).length)) {
+    //   console.log('received new fieldNames: ', newProps.fieldNames)
+    //   this.populateFields(newProps)
+    // }
   }
 
   render() {

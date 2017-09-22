@@ -1,11 +1,11 @@
 {
   "name": "bloom-forms",
-  "version": "0.0.8",
+  "version": "0.1.13",
   "description": "form functionality used in bloom packages",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config=webpack.config.js",
-    "test": "test"
+    "test": "mocha tests/reduxTest --compilers js:babel-core/register"
   },
   "repository": {
     "type": "git",
@@ -25,11 +25,13 @@
   },
   "homepage": "https://github.com/vineyard-bloom/bloom-forms#readme",
   "dependencies": {
+    "assert": "^1.4.1",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",

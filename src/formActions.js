@@ -33,26 +33,28 @@ export function createForm(formId, formObject) {
   }
 }
 
-export function updateForm(e, formId, fieldName, fieldValue) {
+export function updateForm(e, formId, fieldName, fieldValue, optType=null) {
   fieldName = fieldName || ((e && e.target) ? e.target.getAttribute('name') : null)
   if (!fieldName || !formId) {
     console.log('missing either fieldName or formId')
     return { type: '' }
   }
-  const documentItem = document.getElementById(fieldName) ? document.getElementById(fieldName) : [...document.getElementsByName(fieldName)][0]
+  if (!optType) {
+    const documentItem = document.getElementById(fieldName) ? document.getElementById(fieldName) : [...document.getElementsByName(fieldName)][0]
+  }
 
-  switch (documentItem.getAttribute('type')) {
+  switch (optType || documentItem.getAttribute('type')) {
     case 'checkbox':
-      fieldValue = fieldValue || e.target.checked
+      fieldValue = fieldValue || (e ? e.target.checked : false)
       break
     case 'file':
       fieldValue = fieldValue && fieldValue[0] ? fieldValue[0].name : ''
       break
     case 'radio':
-      fieldValue = fieldValue || e.target.id
+      fieldValue = fieldValue || (e ? e.target.id : '')
       break
     default:
-      fieldValue = fieldValue || e.target.value
+      fieldValue = fieldValue || (e ? e.target.value : '')
   }
 
   return {
