@@ -172,29 +172,25 @@ class Form extends React.Component {
 
   populateFields = (props, responseData) => {
     let formData = {}
-    if (props.forms && props.forms[props.id]) {
-      formData = props.forms[props.id]
-    } else {
-      // initialize the form with all fields inside
-      props.fieldNames.forEach((fieldName) => {
-        if (fieldName.type) {
-          formData[fieldName] = {}
+    // initialize the form with all fields inside
+    props.fieldNames.forEach((fieldName) => {
+      if (fieldName.type) {
+        formData[fieldName] = {}
 
-          switch(fieldName.type) {
-            case 'checkbox':
-              formData[fieldName].value = false
-              break
-            case 'radio':
-              formData[fieldName].value = false
-              break
-            default:
-              formData[name] = { value: '' }
-          }
-        } else {
-          formData[name] = { value: '' }
+        switch(fieldName.type) {
+          case 'checkbox':
+            formData[fieldName].value = false
+            break
+          case 'radio':
+            formData[fieldName].value = false
+            break
+          default:
+            formData[name] = { value: '' }
         }
-      })
-    }
+      } else {
+        formData[name] = { value: '' }
+      }
+    })
 
     if (responseData) {
       for (var key in responseData) {
