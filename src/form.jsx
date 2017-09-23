@@ -58,8 +58,8 @@ class Form extends React.Component {
       deleteFormError: (formId=ownProps.id, fieldName) => {
         dispatch(deleteFormError(formId, fieldName))
       },
-      updateForm: (e=null, formId=ownProps.id, fieldName=null, optValue=null) => {
-        dispatch(updateForm(e, formId, fieldName, optValue))
+      updateForm: (e=null, formId=ownProps.id, fieldName=null, optValue=null, optType=null) => { // optType is for testing
+        dispatch(updateForm(e, formId, fieldName, optValue, optType))
       }
     }
   }
