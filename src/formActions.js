@@ -33,17 +33,14 @@ export function createForm(formId, formObject) {
   }
 }
 
-export function updateForm(e, formId, fieldName, fieldValue, optType=null) {
+export function updateForm(e, formId, fieldName, fieldValue, type) {
   fieldName = fieldName || ((e && e.target) ? e.target.getAttribute('name') : null)
   if (!fieldName || !formId) {
     console.log('missing either fieldName or formId')
     return { type: '' }
   }
-  if (!optType) {
-    const documentItem = document.getElementById(fieldName) ? document.getElementById(fieldName) : [...document.getElementsByName(fieldName)][0]
-  }
 
-  switch (optType || documentItem.getAttribute('type')) {
+  switch (type) {
     case 'checkbox':
       fieldValue = fieldValue || (e ? e.target.checked : false)
       break

@@ -88,4 +88,8 @@ describe('<Form/>', function() {
     assert.ok(store.getState().forms['example-form'].name);
     assert.equal(store.getState().forms['example-form'].name.value, 'Bob')
   })
+
+  it ('updates when an input changes', function() {
+    
+  })
 })

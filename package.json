@@ -1,6 +1,6 @@
 {
   "name": "bloom-forms",
-  "version": "0.1.14",
+  "version": "0.1.17",
   "description": "form functionality used in bloom packages",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "react",
     "forms"
   ],
-  "author": "inkblotty (inkblotty.github.io)",
+  "author": "inkblotty (http://inkblotty.github.io)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/vineyard-bloom/bloom-forms/issues"
