@@ -59,6 +59,7 @@ export class Form extends React.Component {
         dispatch(deleteFormError(formId, fieldName))
       },
       updateForm: (e=null, formId=ownProps.id, fieldName=null, optValue=null, optType=null) => { // optType is for testing
+        fieldName = fieldName || ((e && e.target) ? e.target.getAttribute('name') : null)
         const type = optType
           || (document.getElementById(fieldName)
               ? document.getElementById(fieldName)
