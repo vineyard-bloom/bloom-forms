@@ -15,7 +15,7 @@ import {
 // import './styles/inputs.scss'
 
 // container for wrapping all forms with needed methods
-class Form extends React.Component {
+export class Form extends React.Component {
   state = {
     prepopulated: false,
     processingRequest: false
@@ -173,7 +173,6 @@ class Form extends React.Component {
   populateFields = (props, responseData) => {
     let formData = {}
     // initialize the form with all fields inside
-    console.log('fieldNames before populating: ', props.fieldNames)
     props.fieldNames.forEach((fieldName) => {
       if (fieldName.type) {
         formData[fieldName] = {}
@@ -192,8 +191,6 @@ class Form extends React.Component {
         formData[fieldName.toString()] = { value: '' }
       }
     })
-
-    console.log('after initializing fieldNames: ', formData)
 
     if (responseData) {
       for (var key in responseData) {
@@ -215,8 +212,6 @@ class Form extends React.Component {
         }
       }
     }
-
-    console.log('before updating store: ', formData)
 
     props.createForm(props.id, formData)
   }
@@ -246,40 +241,39 @@ class Form extends React.Component {
       this.populateFields(newProps, newProps.prepopulateData)
     }
 
-    // console.log('just fieldNames in componentWillReceiveProps: ', newProps.fieldNames)
-    // console.log(Object.keys(this.props.forms[this.props.id]).length, newProps.fieldNames.length)
-
-    // if (this.props.forms && this.props.forms[this.props.id]
-    //   && (newProps.fieldNames.length != Object.keys(this.props.forms[this.props.id]).length)) {
-    //   console.log('received new fieldNames: ', newProps.fieldNames)
-    //   this.populateFields(newProps)
-    // }
+    if (newProps.fieldNames.length != Object.keys(newProps.forms[newProps.id]).length-1) { // ignore isValid
+      this.populateFields(newProps);
+    }
   }
 
   render() {
     let { submitForm, prepopulateData, ...props } = this.props
     
     // make sure this works if the form has one child or many
-    let children = Array.isArray(this.props.children) ? this.props.children : [this.props.children]
+    let children = props.children
+      ? (Array.isArray(this.props.children) ? this.props.children : [this.props.children])
+      : [];
     let thisForm = props.forms && props.forms[props.id] ? props.forms[props.id] : null
 
     // clone the children to pass in custom props related to entire form
-    let formChildren = React.Children.map(children, (child, indx) => {
-      return React.cloneElement(child, {
-        addFormError: props.addFormError,
-        checkField: this.checkField,
-        deleteFormError: props.deleteFormError,
-        formData: thisForm,
-        formId: props.id,
-        isValid: thisForm && thisForm.isValid,
-        manualFieldUpdate: this.manualFieldUpdate,
-        prepopulated: this.state.prepopulated,
-        processingRequest: this.state.processingRequest,
-        updateForm: props.updateForm,
-        submitForm: this.submitForm,
-        ...props
+    let formChildren = children.length ? (
+      React.Children.map(children, (child, indx) => {
+          return React.cloneElement(child, {
+            addFormError: props.addFormError,
+            checkField: this.checkField,
+            deleteFormError: props.deleteFormError,
+            formData: thisForm,
+            formId: props.id,
+            isValid: thisForm && thisForm.isValid,
+            manualFieldUpdate: this.manualFieldUpdate,
+            prepopulated: this.state.prepopulated,
+            processingRequest: this.state.processingRequest,
+            updateForm: props.updateForm,
+            submitForm: this.submitForm,
+            ...props
+          })
       })
-    })
+    ) : children;
 
     return (
       <div>
