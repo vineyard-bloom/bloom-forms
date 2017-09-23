@@ -65,7 +65,7 @@ export class Form extends React.Component {
               ? document.getElementById(fieldName)
               : [...document.getElementsByName(fieldName)][0]
             ).getAttribute('type')
-        dispatch(updateForm(e, formId, fieldName, optValue, optType))
+        dispatch(updateForm(e, formId, fieldName, optValue, type))
       }
     }
   }
@@ -172,8 +172,8 @@ export class Form extends React.Component {
     }
   }
 
-  manualFieldUpdate = (formId=this.props.id, fieldName, fieldValue) => {
-    this.props.updateForm(null, formId, fieldName, fieldValue)
+  manualFieldUpdate = (formId=this.props.id, fieldName, fieldValue, type) => {
+    this.props.updateForm(null, formId, fieldName, fieldValue, type)
   }
 
   populateFields = (props, responseData) => {
