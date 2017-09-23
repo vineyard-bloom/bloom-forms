@@ -97,13 +97,13 @@ By default, inputs' values are updated via the `updateForm` method. It receives 
 <TextInput onChange={ this.props.updateForm } />
 ```
 
-You can also manually update a field. Say you have a button that changes the value of a text input. You would want to manually pass in which values and which fields are needed. You can do this through `manualFieldUpdate`, which accepts three parameters: the formId, the fieldValue, and the fieldName. To use:
+You can also manually update a field. Say you have a button that changes the value of a text input. You would want to manually pass in which values and which fields are needed. You can do this through `manualFieldUpdate`, which accepts four parameters: the formId, the fieldValue, the fieldName, and the type of input (html5 standard input types preferred, such as 'text', 'checkbox', and 'radio'). To use:
 ```
 const { formData, formId, manualFieldUpdate } = this.props
 
 ...
 
-    <Button onClick={ () => manualFieldUpdate(formId, 'Choice #1 - Blah', 'choice') }>
+    <Button onClick={ () => manualFieldUpdate(formId, 'Choice #1 - Blah', 'choice', 'text') }>
       Choice #1
     </Button>
     <TextInput name='choice' value={ formData.choice.value } />
