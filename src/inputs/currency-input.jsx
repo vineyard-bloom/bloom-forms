@@ -28,7 +28,7 @@ const CurrencyInput = (props) => {
           { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
         </span>
         <input type='number' min='0' step='any' value={ value } name={ name } id={ id } onChange={ onChange } onBlur={ onBlur }
-          className={ `input input--currency ${ className ? className : '' } ${ formErrors ? 'input--invalid' : '' }` }
+          className={ `input input--currency ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
           data-validate='number' placeholder={ placeholder } { ...attr } />
         { afterPosition && currency ?
           <div className='input__after' style={ { right: afterPosition } }>{ currency }</div>
