@@ -96,6 +96,8 @@ class LoginFormContainer extends React.Component {
 ## Contributing
 Fork this repo, run `yarn test` and ensure everything passes, then bundle with `yarn build`. Accepted PRs will be merged and published to npm.
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
+
 ## Required Props
 ### Field Names
 `fieldNames` is a required prop when using form.jsx. It uses this array to know which fields to track. Each entry in fieldNames can be a string, like `'firstName'`, or an object with a type and name, like `{ name: 'isFullTimeEmployee', type: 'checkbox' }`. It's recommended to use the second version for checkboxes and radios.
@@ -132,6 +134,8 @@ const { formData, formId, manualFieldUpdate } = this.props
 ...
 ```
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
+
 ## Validation
 All the existing inputs have support for a `validateAs` string and an `onBlur` (when that field loses focus) function prop, which should call `props.checkField`. You can add more types of validaton to the validator by passing in a `validationHelp` prop to form.jsx.
 
@@ -156,6 +160,8 @@ To use this set up, an example field would look like:
   value={ formData.pet.value } error={ formData.pet.error } />
 ```
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
+
 ## Prepopulating `<Form />`
 To have your form populate with existing data, pass in a JSON object of key/value pairs where the keys match your fieldNames prop.
 
@@ -178,6 +184,8 @@ submitForm = (formData, files, successCallback, failCallback) => {
     })
 }
 ```
+
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
 
 ## Forms with Switch Inside
 To make forms with Routes inside, you will need to make the Switch its own Container inside another form container and pass in the props with a spread operator.
@@ -209,6 +217,8 @@ class RegistrationFormSwitch extends React.Component {
 }
 ```
 Now StepOne and StepTwo will both be able to receive their needed Form props, such as `updateForm` and `addFormError`.
+
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
 
 ## Form Children Props
 Whatever you stick inside of `<Form />` is wrapped in a variety of methods and props that are helpful to those children.
@@ -264,3 +274,6 @@ A complete list of these that are available via `this.props` are:
     See [Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-state) above.
   - `submitForm`:
     An intermediary function that processes your form data before passing it along to your `submitForm` passed into `<Form />`.
+
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
+
