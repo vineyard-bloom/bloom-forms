@@ -63,8 +63,7 @@ export class Form extends React.Component {
         fieldName = fieldName || ((e && e.target) ? e.target.getAttribute('name') : null)
         const type = optType
           || (document.getElementById(fieldName)
-              ? document.getElementById(fieldName)
-              : [...document.getElementsByName(fieldName)][0]
+              || [...document.getElementsByName(fieldName)][0]
             ).getAttribute('type')
         dispatch(updateForm(e, formId, fieldName, optValue, type))
       }

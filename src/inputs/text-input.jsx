@@ -18,17 +18,14 @@ const TextInput = (props) => {
     attr['aria-required'] = true;
     attr.required = true;
   }
-  const checkOnChange = (e) =>{
-      props.checkFieldOnUpdate(e)
-      props.onChange(e)
-  }
+
   return (
     <label className={ `input__label ${ containerClass || '' }` } htmlFor={ name } onBlur={ props.onBlur }>
       <span className={ labelTextClasses }>
         { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
       </span>
       <input type={ isPassword ? 'password' : 'text' } value={ props.value } name={ name } id={ name }
-        onChange={ props.checkFieldOnUpdate ? checkOnChange : props.onChange }
+        onChange={ props.onChange }
         className={ `input input--text ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
         data-validate={ validateAs }  placeholder={ placeholder } { ...attr } />
       { error ? <ErrorTip contents={ error } /> : '' }
