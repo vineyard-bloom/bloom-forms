@@ -121,7 +121,6 @@ describe('<Form/>', function() {
 
     const thisForm = store.getState().forms['example-form']
     assert.ok(thisForm.name);
-    assert.ok(!thisForm.name.value);
     assert.ok(thisForm.name.error);
     assert.equal(thisForm.name.error, validationHelp.errorLanguage['not-empty']);
 
