@@ -116,6 +116,8 @@ By default, the form will clear its data after unmounting from the ui. This mean
 ### Prepopulate Data
 `prepopulateData` is a json object, usually return from an ajax GET request, that fills in the fields in your form. The keys in this json object should match up with the fieldNames you passed into the form.
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
+
 ## Updating Form State
 By default, inputs' values are updated via the `updateForm` method. It receives the event coming from changing that input and sets that field's value for you. You can stick it right on an input like:
 ```
@@ -139,7 +141,7 @@ const { formData, formId, manualFieldUpdate } = this.props
 [Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
 
 ## Validation
-All the existing inputs have support for a `validateAs` string and an `onBlur` (when that field loses focus) function prop, which should call `props.checkField`. You can add more types of validaton to the validator by passing in a `validationHelp` prop to form.jsx.
+All the existing inputs have support for a `validateAs` string and an `onBlur` (when that field loses focus) function prop, which should call `props.checkField`. You can add more types of validaton to the validator by passing in a `validationHelp` prop to `<Form />`.
 
 `validationHelp` should be an object with two fields: a json object of error messages, and a dictionary of custom `validateAs` keys with their test functions that return errors.
 - Example:
