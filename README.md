@@ -75,6 +75,9 @@ class LoginFormContainer extends React.Component {
 ```
 - Note that the IDs match ('login-form'), and the fieldNames match the names of the TextInputs.
 
+## Contributing
+Fork this repo, run `yarn test` and ensure everything passes, then bundle with `yarn build`. PRs will be merged and published to npm.
+
 ## Required Props
 ### Field Names
 `fieldNames` is a required prop when using form.jsx. It uses this array to know which fields to track. Each entry in fieldNames can be a string, like `'firstName'`, or an object with a type and name, like `{ name: 'isFullTimeEmployee', type: 'checkbox' }`. It's recommended to use the second version for checkboxes and radios.
