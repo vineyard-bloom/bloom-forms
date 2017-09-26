@@ -71,7 +71,7 @@ const validate = (prevStatus, testData, validateAs, fieldName, dict, errorLangua
 function dateError(testData, fieldName, errorLanguage) {
   // const dateRegex = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/
   // return dateRegex.test(testData) ? null : errorLanguage ? errorLanguage['invalid-date']
-  return new Date(testData)
+  return new Date(testData) != 'Invalid Date'
     ? null
     : errorLanguage && errorLanguage['invalid-date']
       ? errorLanguage['invalid-date']
