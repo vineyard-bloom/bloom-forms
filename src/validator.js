@@ -93,7 +93,7 @@ function nameError(testData, fieldName, errorLanguage) {
 
 function notEmptyError(testData, fieldName, errorLanguage) {
   return !testData && (testData !== 0)
-    ? errorLanguage ? errorLanguage['empty-field'].replace('<FIELD>', fieldName) : `${fieldName} cannot be empty.`
+    ? errorLanguage ? errorLanguage['not-empty'].replace('<FIELD>', fieldName) : `${fieldName} cannot be empty.`
     : null
 }
 
