@@ -37,7 +37,7 @@ Includes:
 ### Form Usage:
 - [Required Props](https://github.com/vineyard-bloom/bloom-forms#required-props)
 - [Optional Props](https://github.com/vineyard-bloom/bloom-forms#optional-props)
-- [Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-props)
+- [Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-state)
 - [Validation](https://github.com/vineyard-bloom/bloom-forms#validation)
 - [Prepopulating Form](https://github.com/vineyard-bloom/bloom-forms#prepopulating-form)
 - [Submitting Forms](https://github.com/vineyard-bloom/bloom-forms#submitting-forms)
@@ -240,12 +240,12 @@ A complete list of these that are available via `this.props` are:
   - `isValid`:
     A boolean that indicates whether all fields in your form have passed validation. Defaults to true.
   - `manualFieldUpdate`:
-    See [Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-props) above.
+    See [Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-state) above.
   - `prepopulated`:
     A boolean that indicates whether you've passed in saved data to populate the form.
   - `processingRequest`:
     A boolean indicating whether your form is submitting. Useful for loading animations and disabling buttons.
   - `updateForm`:
-    See [Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-props) above.
+    See [Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-state) above.
   - `submitForm`:
     An intermediary function that processes your form data before passing it along to your `submitForm` passed into `<Form />`.
