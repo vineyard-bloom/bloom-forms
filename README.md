@@ -193,7 +193,7 @@ class RegistrationFormSwitch extends React.Component {
 Now StepOne and StepTwo will both be able to receive their needed Form props, such as `updateForm` and `addFormError`.
 
 ## Form children
-Whatever you stick inside of <Form /> is wrapped in a variety of methods and props that are helpful to those children.
+Whatever you stick inside of `<Form />` is wrapped in a variety of methods and props that are helpful to those children.
 
 A complete list of these that are available via `this.props` are:
   - `addFormError`:
@@ -206,7 +206,7 @@ A complete list of these that are available via `this.props` are:
     Used like `this.props.checkField(null, document.getElementById('example-field'))` or `this.props.checkField(e)`
   - `deleteFormError`:
     A function that accepts the form id and the fieldName that has an error.
-    used like `this.props.deleteFormError('example-form', 'name')`
+    Used like `this.props.deleteFormError('example-form', 'name')`
   - `formData`:
     An object that represents all the inputs inside your form. Corresponds to the object inside the redux store's `forms` object.
     An example formData object could look like:
@@ -217,7 +217,8 @@ A complete list of these that are available via `this.props` are:
         }
       ```
   - `formId`:
-    The id of your Form. You should use this on your outermost `<form id={this.props.formId}> ... </form>`
+    The id of your Form. You should use this on your outermost
+      ```<form id={this.props.formId}> ... </form>```
   - `isValid`:
     A boolean that indicates whether all fields in your form have passed validation. Defaults to true.
   - `manualFieldUpdate`:
@@ -229,4 +230,4 @@ A complete list of these that are available via `this.props` are:
   - `updateForm`:
     See 'Updating Form State' above.
   - `submitForm`:
-    An intermediary function that processes your form data before passing it along to your `submitForm` passed into <Form />.
+    An intermediary function that processes your form data before passing it along to your `submitForm` passed into `<Form />`.
