@@ -198,7 +198,7 @@ Whatever you stick inside of <Form /> is wrapped in a variety of methods and pro
 A complete list of these that are available via `this.props` are:
   - `addFormError`:
     A function that accepts the form id, the fieldName, and the error message.
-    Used like `this.props.addFormError('example-form', 'name', 'This field cannot be blank.');
+    Used like `this.props.addFormError('example-form', 'name', 'This field cannot be blank.');`
   - `attemptedSubmit`:
     A boolean that indicates whether the user has already tried to submit the form. Useful in situations where you may want to run different checks depending on if they've submitted already or not.
   - `checkField`:
