@@ -61,6 +61,9 @@ To import one of the files/components in this package, import like:
 import { formReducer } from 'bloom-forms';
 ```
 
+## Contributing
+Fork this repo, run `yarn test` and ensure everything passes, then bundle with `yarn build`. Accepted PRs will be merged and published to npm.
+
 ## Set Up
 - Every form needs two files: a container and a presentation component (with all the inputs inside it)
 - The container should render the presentation component wrapped inside of the generic Form.jsx container. This wrapper handles all your state, updating redux, errors, etc.
@@ -93,9 +96,6 @@ class LoginFormContainer extends React.Component {
 ```
 - Note that the IDs match ('login-form'), and the fieldNames match the names of the TextInputs.
 
-## Contributing
-Fork this repo, run `yarn test` and ensure everything passes, then bundle with `yarn build`. Accepted PRs will be merged and published to npm.
-
 [Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
 
 ## Required Props
@@ -105,6 +105,8 @@ Fork this repo, run `yarn test` and ensure everything passes, then bundle with `
 `submitForm` must be a function that receives the formData, file data, and two callbacks (success and fail). See 'Submitting Forms' below.
 ### Id
 `id` is just the id of your form. You should make your jsx component `<form id>` match.
+
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
 
 ## Optional Props
 ### Validation Help
