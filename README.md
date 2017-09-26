@@ -76,7 +76,7 @@ class LoginFormContainer extends React.Component {
 - Note that the IDs match ('login-form'), and the fieldNames match the names of the TextInputs.
 
 ## Contributing
-Fork this repo, run `yarn test` and ensure everything passes, then bundle with `yarn build`. PRs will be merged and published to npm.
+Fork this repo, run `yarn test` and ensure everything passes, then bundle with `yarn build`. Accepted PRs will be merged and published to npm.
 
 ## Required Props
 ### Field Names
