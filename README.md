@@ -28,6 +28,24 @@ Includes:
       * TextInput
       * ToggleSwitch
 
+## README Contents:
+### General:
+[Usage](https://github.com/vineyard-bloom/bloom-forms#usage)
+[Set Up](https://github.com/vineyard-bloom/bloom-forms#set-up)
+[Contributing](https://github.com/vineyard-bloom/bloom-forms#contributing)
+
+### Form Usage:
+[Required Props](https://github.com/vineyard-bloom/bloom-forms#required-props)
+[Optional Props](https://github.com/vineyard-bloom/bloom-forms#optional-props)
+[Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-props)
+[Validation](https://github.com/vineyard-bloom/bloom-forms#validation)
+[Prepopulating Form](https://github.com/vineyard-bloom/bloom-forms#prepopulating-form)
+[Submitting Forms](https://github.com/vineyard-bloom/bloom-forms#submitting-forms)
+[Forms with Switch Inside](https://github.com/vineyard-bloom/bloom-forms#forms-with-switch-inside)
+
+### Children
+[Form Children Props](https://github.com/vineyard-bloom/bloom-forms#form-children-props)
+
 ## Usage
 To use this package, you can install with either npm or yarn.
 ```
@@ -138,7 +156,7 @@ To use this set up, an example field would look like:
   value={ formData.pet.value } error={ formData.pet.error } />
 ```
 
-## Prepopulating Form.jsx
+## Prepopulating `<Form />`
 To have your form populate with existing data, pass in a JSON object of key/value pairs where the keys match your fieldNames prop.
 
 You may have to use an ajax call to grab the necessary data. Form.jsx will load those values as soon as it receives them.
@@ -192,7 +210,7 @@ class RegistrationFormSwitch extends React.Component {
 ```
 Now StepOne and StepTwo will both be able to receive their needed Form props, such as `updateForm` and `addFormError`.
 
-## Form children
+## Form Children Props
 Whatever you stick inside of `<Form />` is wrapped in a variety of methods and props that are helpful to those children.
 
 A complete list of these that are available via `this.props` are:
@@ -222,12 +240,12 @@ A complete list of these that are available via `this.props` are:
   - `isValid`:
     A boolean that indicates whether all fields in your form have passed validation. Defaults to true.
   - `manualFieldUpdate`:
-    See 'Updating Form State' above.
+    See [Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-props) above.
   - `prepopulated`:
     A boolean that indicates whether you've passed in saved data to populate the form.
   - `processingRequest`:
     A boolean indicating whether your form is submitting. Useful for loading animations and disabling buttons.
   - `updateForm`:
-    See 'Updating Form State' above.
+    See [Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-props) above.
   - `submitForm`:
     An intermediary function that processes your form data before passing it along to your `submitForm` passed into `<Form />`.
