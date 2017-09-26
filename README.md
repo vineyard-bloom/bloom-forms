@@ -30,21 +30,21 @@ Includes:
 
 ## README Contents:
 ### General:
-[Usage](https://github.com/vineyard-bloom/bloom-forms#usage)
-[Set Up](https://github.com/vineyard-bloom/bloom-forms#set-up)
-[Contributing](https://github.com/vineyard-bloom/bloom-forms#contributing)
+- [Usage](https://github.com/vineyard-bloom/bloom-forms#usage)
+- [Set Up](https://github.com/vineyard-bloom/bloom-forms#set-up)
+- [Contributing](https://github.com/vineyard-bloom/bloom-forms#contributing)
 
 ### Form Usage:
-[Required Props](https://github.com/vineyard-bloom/bloom-forms#required-props)
-[Optional Props](https://github.com/vineyard-bloom/bloom-forms#optional-props)
-[Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-props)
-[Validation](https://github.com/vineyard-bloom/bloom-forms#validation)
-[Prepopulating Form](https://github.com/vineyard-bloom/bloom-forms#prepopulating-form)
-[Submitting Forms](https://github.com/vineyard-bloom/bloom-forms#submitting-forms)
-[Forms with Switch Inside](https://github.com/vineyard-bloom/bloom-forms#forms-with-switch-inside)
+- [Required Props](https://github.com/vineyard-bloom/bloom-forms#required-props)
+- [Optional Props](https://github.com/vineyard-bloom/bloom-forms#optional-props)
+- [Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-props)
+- [Validation](https://github.com/vineyard-bloom/bloom-forms#validation)
+- [Prepopulating Form](https://github.com/vineyard-bloom/bloom-forms#prepopulating-form)
+- [Submitting Forms](https://github.com/vineyard-bloom/bloom-forms#submitting-forms)
+- [Forms with Switch Inside](https://github.com/vineyard-bloom/bloom-forms#forms-with-switch-inside)
 
 ### Children
-[Form Children Props](https://github.com/vineyard-bloom/bloom-forms#form-children-props)
+- [Form Children Props](https://github.com/vineyard-bloom/bloom-forms#form-children-props)
 
 ## Usage
 To use this package, you can install with either npm or yarn.
