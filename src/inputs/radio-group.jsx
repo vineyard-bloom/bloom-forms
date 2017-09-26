@@ -7,10 +7,10 @@ import ErrorTip from '../error-tip'
 
 const RadioGroup = (props) => {
   let {
-    className, containerClass, error, isPassword,
-    name, labelClass, options, placeholder, selectedVal,
-    showLabel, validateAs, ...rest } = props;
-  let labelTextClasses = `input__label__text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : ' u-sr-only' }`;
+    className, containerClass, error,
+    name, labelClass, options, selectedId,
+    validateAs, ...rest } = props;
+  let labelTextClasses = `input__label__text ${ labelClass ? labelClass : '' }`;
 
   let attr = {};
 
@@ -28,7 +28,7 @@ const RadioGroup = (props) => {
               { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
             </span>
             <input type='radio' value={ value } name={ name } id={ id } onChange={ props.onChange }
-              checked={ selectedVal === id } data-validate={ validateAs } { ...attr }
+              checked={ selectedId === id } data-validate={ validateAs } { ...attr }
               className={ `input input--radio ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
             />
             { error ? <ErrorTip contents={ error } /> : '' }
@@ -53,12 +53,11 @@ TextInput.propTypes = {
       label: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.element
-      ]).isRequired,
-      value: PropTypes.string.isRequired
+      ]).isRequired
     })
   ).isRequired,
   required: PropTypes.bool,
-  selectedVal: PropTypes.string.isRequired,
+  selectedId: PropTypes.string.isRequired,
   validateAs: PropTypes.string
 };
 
