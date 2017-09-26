@@ -224,10 +224,20 @@ A complete list of these that are available via `this.props` are:
     A boolean that indicates whether the user has already tried to submit the form. Useful in situations where you may want to run different checks depending on if they've submitted already or not.
   - `checkField`:
     A function that accepts a DOM event and an optional element if you don't want to use the DOM event target.
-    Used like `this.props.checkField(null, document.getElementById('example-field'))` or `this.props.checkField(e)`
+    Used like
+    ```
+    this.props.checkField(null, document.getElementById('example-field'))
+    ```
+    or
+    ```
+    this.props.checkField(e)
+    ```
   - `deleteFormError`:
     A function that accepts the form id and the fieldName that has an error.
-    Used like `this.props.deleteFormError('example-form', 'name')`
+    Used like
+    ```
+    this.props.deleteFormError('example-form', 'name')
+    ```
   - `formData`:
     An object that represents all the inputs inside your form. Corresponds to the object inside the redux store's `forms` object.
     An example formData object could look like:
@@ -239,7 +249,9 @@ A complete list of these that are available via `this.props` are:
       ```
   - `formId`:
     The id of your Form. You should use this on your outermost
-      ```<form id={this.props.formId}> ... </form>```
+      ```
+      <form id={this.props.formId}> ... </form>
+      ```
   - `isValid`:
     A boolean that indicates whether all fields in your form have passed validation. Defaults to true.
   - `manualFieldUpdate`:
