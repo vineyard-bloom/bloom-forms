@@ -17,6 +17,7 @@ import {
 // container for wrapping all forms with needed methods
 export class Form extends React.Component {
   state = {
+    attemptedSubmit: false,
     prepopulated: false,
     processingRequest: false
   }
@@ -102,6 +103,7 @@ export class Form extends React.Component {
     e.preventDefault()
 
     this.setState({
+      attemptedSubmit: true,
       processingRequest: true
     })
 
@@ -266,6 +268,7 @@ export class Form extends React.Component {
       React.Children.map(children, (child, indx) => {
           return React.cloneElement(child, {
             addFormError: props.addFormError,
+            attemptedSubmit: this.state.attemptedSubmit,
             checkField: this.checkField,
             deleteFormError: props.deleteFormError,
             formData: thisForm,
