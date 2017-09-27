@@ -1,13 +1,13 @@
 {
   "name": "bloom-forms",
-  "version": "0.1.31",
+  "version": "0.1.32",
   "description": "form functionality used in bloom packages",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config=webpack.config.js",
     "test": "npm run test-redux && npm run test-components",
     "test-redux": "mocha tests/reduxTest --compilers js:babel-core/register",
-    "test-components": "mocha -w tests/helpers/virtual-dom.js tests/formTest.js --compilers js:babel-core/register"
+    "test-components": "mocha -w tests/helpers/virtual-dom.js tests/formTest.js --compilers js:babel-core/register --require ignore-styles"
   },
   "repository": {
     "type": "git",
@@ -37,15 +37,20 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "css-loader": "^0.28.7",
     "enzyme": "^2.9.1",
+    "ignore-styles": "^5.0.1",
     "jsdom": "^11.2.0",
+    "node-sass": "^4.5.3",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
     "react-test-renderer": "^15.6.1",
     "redux": "^3.7.2",
+    "sass-loader": "^6.0.6",
     "sinon": "^3.3.0",
+    "style-loader": "^0.18.2",
     "webpack": "^3.6.0"
   }
 }

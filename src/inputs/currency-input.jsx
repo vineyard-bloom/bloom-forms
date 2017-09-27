@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import 'styles/inputs';
+import '../styles/inputs.scss';
 
 const CurrencyInput = (props) => {
   let {

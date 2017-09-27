@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import 'styles/inputs.scss';
-import 'styles/checkbox';
+import '../styles/inputs.scss';
+import '../styles/checkbox.scss';
 
 const Checkbox = (props) => {
   let {

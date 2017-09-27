@@ -3,7 +3,9 @@ RANGE INPUTS
 ============
 */
 
-@import './variables'
+@import './variables';
+
+$slider-height: 10px;
 
 input[type='range'] {
   background: transparent;

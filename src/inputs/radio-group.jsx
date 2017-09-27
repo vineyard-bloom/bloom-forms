@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import ErrorTip from '../error-tip'
 
-import 'styles/inputs'
+import '../styles/inputs.scss'
 
 const RadioGroup = (props) => {
   let {

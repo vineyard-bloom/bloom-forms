@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import 'styles/inputs';
-import 'styles/toggle-switch';
+import '../styles/inputs.scss';
+import '../styles/toggle-switch.scss';
 
 const ToggleSwitch = (props) => {
   let { className, disabled, name, isActive, labelText, onClick, required } = props;

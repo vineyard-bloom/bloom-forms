@@ -44,9 +44,6 @@ module.exports = {
   ],
 
   resolve: {
-    alias: {
-      styles: path.join(__dirname, '/src/styles')
-    },
     extensions: ['.webpack.js', '.web.js', '.jsx', '.js', '.html', '.scss']
   }
 }
