@@ -39,7 +39,7 @@ const RadioGroup = (props) => {
   )
 }
 
-TextInput.propTypes = {
+RadioGroup.propTypes = {
   className: PropTypes.string,
   containerClass: PropTypes.string,
   error: PropTypes.string,
