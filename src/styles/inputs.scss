@@ -6,6 +6,15 @@ INPUTS
 
 @import './variables';
 
+.u-sr-only {
+  height: 1px;
+  left:-999em;
+  outline: none !important;
+  overflow: hidden;
+  position: absolute !important;
+  width: 1px;
+}
+
 input[type='number'] {
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
