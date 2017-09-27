@@ -34,6 +34,7 @@ input[type='number'] {
 
 .input__label {
   display: inline-flex;
+  flex-wrap: wrap;
   position: relative;
   width: 100%;
 
@@ -48,6 +49,7 @@ input[type='number'] {
 
   &--inline {
     align-items: center;
+    flex-wrap: nowrap;
   }
 
   &--wrap {

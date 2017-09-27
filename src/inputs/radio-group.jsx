@@ -9,7 +9,7 @@ import '../styles/radio-input.scss'
 const RadioGroup = (props) => {
   let {
     className, containerClass, error,
-    name, labelClass, options, selectedId,
+    name, labelClass, options, value,
     validateAs, ...rest } = props;
   let labelTextClasses = `input__label__text ${ labelClass ? labelClass : '' }`;
 
@@ -22,14 +22,14 @@ const RadioGroup = (props) => {
   return (
     <radiogroup className={ containerClass }>
       { options.map((opt) => {
-        let { label, id, value } = opt
+        let { label, id } = opt
         return (
-          <label className='input__label input__label--radio' htmlFor={ name } onBlur={ props.onBlur }>
+          <label className='input__label input__label--radio input__label--inline' htmlFor={ name } onBlur={ props.onBlur }>
             <span className={ labelTextClasses }>
               { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
             </span>
             <input type='radio' value={ value } name={ name } id={ id } onChange={ props.onChange }
-              checked={ selectedId === id } data-validate={ validateAs } { ...attr }
+              checked={ value === id } data-validate={ validateAs } { ...attr }
               className={ `input input--radio ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
             />
             { error ? <ErrorTip contents={ error } /> : '' }
@@ -58,8 +58,8 @@ RadioGroup.propTypes = {
     })
   ).isRequired,
   required: PropTypes.bool,
-  selectedId: PropTypes.string.isRequired,
-  validateAs: PropTypes.string
+  validateAs: PropTypes.string,
+  value: PropTypes.string.isRequired
 };
 
 export default RadioGroup;
