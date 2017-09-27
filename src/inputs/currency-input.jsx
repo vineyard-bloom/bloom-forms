@@ -36,7 +36,7 @@ const CurrencyInput = (props) => {
           className={ `input input--currency ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
           data-validate='number' placeholder={ placeholder } { ...attr } />
         { afterPosition && currency ?
-          <div className='input__after' style={ { left: afterPosition } }>{ currency }</div>
+          <div className='input__after' style={ { left: afterPosition, top: topPosition } }>{ currency }</div>
           : '' }
       </label>
       { error ? <ErrorTip contents={ error } /> : '' }
