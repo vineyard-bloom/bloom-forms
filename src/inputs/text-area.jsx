@@ -25,7 +25,7 @@ const TextArea = (props) => {
         { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
       </span>
       <textarea style={ {minHeight: '100px', resize: 'none', width: '100%'} } value={ value } data-validate={ validateAs }
-        onChange={ props.onBlur } onBlur={ props.onChange } name={ name } id={ name }
+        onChange={ props.onChange } onBlur={ props.onBlur } name={ name } id={ name }
         className={ `input input--text ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
       />
       { error ? <ErrorTip contents={ error } /> : '' }
