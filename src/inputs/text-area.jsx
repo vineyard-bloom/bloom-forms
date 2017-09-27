@@ -9,7 +9,7 @@ const TextArea = (props) => {
   let {
     className, error, isPassword,
     name, label, labelClass, placeholder,
-    showLabel, validateAs, containerClass, ...rest } = props;
+    showLabel, validateAs, value, containerClass, ...rest } = props;
   let labelTextClasses = `input__label__text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : ' u-sr-only' }`;
 
   let attr = {};
