@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 import ErrorTip from '../error-tip'
 
-// import '../styles/inputs.scss'
-// import '../styles/select-input.scss'
+import 'styles/inputs'
+import 'styles/select-input'
 
 class SelectInput extends React.Component {
   state = {

@@ -1,0 +1,63 @@
+/*
+TOGGLE SWITCH
+=============
+aka a checkbox that looks like a switch
+*/
+
+.toggle-switch {
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 400;
+  outline: none;
+  position: relative;
+  user-select: none;
+  z-index: 1;
+}
+
+.toggle-switch > div {
+  height: 1em;
+}
+
+.toggle-switch.disabled {
+  cursor: not-allowed;
+}
+
+.toggle-switch.active .toggle-switch-label {
+  background-color: #F2A900;
+}
+
+.toggle-switch-input {
+  position: absolute;
+  right: 10px;
+  top: 2px;
+  z-index: -1;
+}
+
+.toggle-switch-label {
+  background-color: #ddd;
+  border-radius: 50px;
+  display: inline-block;
+  height: calc(1em + 2px);
+  margin-left: 5px;
+  padding: 2px;
+  width: 40px;
+  z-index: 1;
+}
+
+.toggle-switch-handle {
+  background-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  height: 1em;
+  margin-left: -38px;
+  margin-top: 1px;
+  position: absolute;
+  width: 1em;
+
+  transition: margin ease 0.3s;
+}
+
+.toggle-switch-handle.active {
+  margin-left: -19px;
+}

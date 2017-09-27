@@ -11,7 +11,7 @@ import {
   deleteFormError,
   updateForm } from './formActions'
 
-// import './styles/forms.scss'
+import './styles/forms.scss'
 // import './styles/inputs.scss'
 
 // container for wrapping all forms with needed methods

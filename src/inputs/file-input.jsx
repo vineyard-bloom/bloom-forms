@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ErrorTip from '../error-tip'
 
-// import '../styles/inputs.scss'
+import 'styles/inputs'
 
 class FileInput extends React.Component {
   constructor(props) {

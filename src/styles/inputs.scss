@@ -1,0 +1,84 @@
+/*
+INPUTS
+======
+- site-wide styles for inputs
+*/
+
+$slider-height: 10px;
+
+@import './variables';
+
+input[type='number'] {
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.input {
+  border: 1px solid $dark-gray;
+  color: $dark-gray;
+  font-size: $main-font-size;
+  margin: $pad-mar-small 0;
+  padding: $pad-mar-small $pad-mar-med;
+  width: 100%;
+}
+
+.input__error {
+  display: block;
+  color: $red;
+  font-size: $h5-font-size;
+  margin: 0 0 $pad-mar-med;
+  padding: 0;
+  width: 100%;
+}
+
+.input__label {
+  display: inline-flex;
+  position: relative;
+  width: 100%;
+
+  &--small {
+    margin: $pad-mar-small 0 $pad-mar-small $pad-mar-small;
+    width: 40%;
+
+    &:last-of-type {
+      margin-right: $pad-mar-small;
+    }
+  }
+
+  &--inline {
+    align-items: center;
+  }
+
+  &--wrap {
+    flex-wrap: wrap;
+  }
+}
+
+.input--currency {
+  & ~ .input__after {
+    color: $light-gray;
+    margin-top: 1.5em;
+    position: absolute;
+  }
+}
+
+.input--invalid {
+  box-shadow: 0 0 5px $red;
+}
+
+.input--file {
+  cursor: pointer;
+
+  .btn {
+    background-color: $green;
+    color: white;
+    padding: $pad-mar-small;
+  }
+}
+
+.input--file__text {
+  display: inline-block;
+}
