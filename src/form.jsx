@@ -231,7 +231,7 @@ export class Form extends React.Component {
 
   componentDidMount = () => {
     if (this.props.prepopulateData) {
-      this.populateFields(this.props, prepopulateData)
+      this.populateFields(this.props, this.props.prepopulateData)
     } else {
       this.populateFields(this.props)
     }
