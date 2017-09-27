@@ -17,13 +17,13 @@ const CurrencyInput = (props) => {
     attr.required = true;
   }
 
-  const label = document.getElementById(`${id}__label`)
+  const labelElem = document.getElementById(`${id}__label`)
 
-  let afterPosition = label
-    ? label.getBoundingClientRect().right - 40
+  let afterPosition = labelElem
+    ? labelElem.getBoundingClientRect().right - 40
     : null;
-  let topPosition = label
-    ? label.getBoundingClientRect().top + 10
+  let topPosition = labelElem
+    ? labelElem.getBoundingClientRect().top + 10
     : null;
 
   return (
