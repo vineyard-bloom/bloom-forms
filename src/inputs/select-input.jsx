@@ -107,7 +107,7 @@ class SelectInput extends React.Component {
         <span className={ `input__label__text ${ !showLabel ? 'u-sr-only' : '' }` }>
           { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
         </span>
-        <button disabled={!options.length} className={ `${!options.length ? 'btn' : 'disabled btn'} input__placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
+        <button disabled={!options.length} className={ `${!options.length ? 'btn disabled' : 'btn'} input__placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
           onClick={ this.toggleList }>
           { this.props.placeholder && !value
             ? <span className='u-grayed-out'>{ this.props.placeholder }</span>
