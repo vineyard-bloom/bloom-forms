@@ -75,13 +75,13 @@ class SelectInput extends React.Component {
       return opt.label
         ? (
           <li key={ `${ name }-opt-${i}` } onClick={ (e) => this.selectOpt(opt.value) }>
-            <button className='btn--null'>
+            <button>
               { opt.label }
             </button>
           </li>
         ) : (
           <li key={ `${ name }-opt-${i}` } onClick={ (e) => this.selectOpt(opt) }>
-            <button className='btn--null'>
+            <button>
               { opt }
             </button>
           </li>
@@ -136,7 +136,15 @@ SelectInput.propTypes = {
   name: PropTypes.string.isRequired,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType(
+      PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        value: PropTypes.oneOfType(PropTypes.string, PropTypes.number)
+      }),
+      PropTypes.string
+    ).isRequired
+  ).isRequired,
   required: PropTypes.bool,
   showLabel: PropTypes.bool,
   validateAs: PropTypes.string,
