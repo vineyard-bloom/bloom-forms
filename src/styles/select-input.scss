@@ -6,7 +6,11 @@ SELECT INPUT
 
 .select-input {
   .input__placeholder {
-    background-color: transparent;
+    align-items: center;
+    background-color: $white;
+    border: 1px solid $med-gray;
+    display: flex;
+    font-size: 1em;
     height: 2.5em;
     padding: $pad-mar-small $pad-mar-med;
 
@@ -16,7 +20,8 @@ SELECT INPUT
       border-top: 5px solid $med-gray;
       content: '';
       display: inline-block;
-      transition: 300ms ease all;
+      margin-left: 5px;
+      transition: 300ms ease;
     }
 
     &.is-open {
