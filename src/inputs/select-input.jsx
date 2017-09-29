@@ -13,7 +13,6 @@ class SelectInput extends React.Component {
 
   selectOpt = (val) => {
     this.props.onChange(this.props.formId, this.props.name, val);
-    this.props.makeRequest ? this.props.makeRequest() : null
     this.setState({
       showList: false
     });
@@ -38,11 +37,11 @@ class SelectInput extends React.Component {
       thisLabel = null;
     }
 
-    if (!thisLabel || (thisLabel.getAttribute && thisLabel.getAttribute('for') && (thisLabel.getAttribute('for') !== this.props.name))) {
-      this.setState({
-        showList: false
-      })
-    }
+    // if (!thisLabel || (thisLabel.getAttribute && thisLabel.getAttribute('for') && (thisLabel.getAttribute('for') !== this.props.name))) {
+    //   this.setState({
+    //     showList: false
+    //   })
+    // }
 
     const select = document.getElementById(this.props.name)
 
@@ -131,6 +130,7 @@ class SelectInput extends React.Component {
 
 SelectInput.propTypes = {
   containerClass: PropTypes.string,
+  formId: PropTypes.string.isRequired,
   error: PropTypes.string,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

@@ -281,3 +281,6 @@ A complete list of these that are available via `this.props` are:
 
 [Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
 
+## NOTE ON Z-INDEX
+To ensure that SelectInputs in rows above other SelectInputs render on top of them, their wrapping row div much has a higher z-index than the row below.
+
