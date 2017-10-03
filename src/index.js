@@ -1,5 +1,5 @@
 import Form from './form.jsx'
-import formActions from './formActions.js'
+import * as formActions from './formActions.js'
 import formReducer from './formReducer.js'
 
 import Button from './inputs/button.jsx'
