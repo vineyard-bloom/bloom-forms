@@ -135,6 +135,7 @@ SelectInput.propTypes = {
   error: PropTypes.string,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  loading: PropTypes.string,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
