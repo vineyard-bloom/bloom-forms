@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ErrorTip from '../error-tip'
-
+import Loading from './loading'
 import '../styles/inputs.scss'
 import '../styles/select-input.scss'
 
@@ -58,7 +58,7 @@ class SelectInput extends React.Component {
   };
 
   render() {
-    const { containerClass, label, name, onChange, options, showLabel, validateAs, value, error, ...rest } = this.props;
+    const { containerClass, label, name, onChange, loading, options, showLabel, validateAs, value, error, ...rest } = this.props;
     let opts = options.map((opt, i) => {
       return opt.label
         ? (
@@ -105,6 +105,7 @@ class SelectInput extends React.Component {
       <label className={ `input__label select-input ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.closeOpts }>
         <span className={ `input__label__text ${ !showLabel ? 'u-sr-only' : '' }` }>
           { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
+            {loading ? <Loading/> : null}
         </span>
         <button disabled={!options.length} className={ `${!options.length ? 'btn disabled' : 'btn'} input__placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
           onClick={ this.toggleList }>
