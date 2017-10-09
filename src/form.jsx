@@ -62,12 +62,11 @@ export class Form extends React.Component {
       },
       updateForm: (e=null, formId=ownProps.id, fieldName=null, optValue=null, optType=null) => { // optType is for testing
         fieldName = fieldName || ((e && e.target) ? e.target.getAttribute('name') : null)
-        console.log(ownProps)
         const type = optType
           || (document.getElementById(fieldName)
               || [...document.getElementsByName(fieldName)][0]
             ).getAttribute('type')
-        dispatch(updateForm(e, formId, fieldName, optValue, type, ownProps.forms ? ownProps.forms[ownProps.id] : {}))
+        dispatch(updateForm(e, formId, fieldName, optValue, type))
       }
     }
   }

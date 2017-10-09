@@ -49,6 +49,19 @@ export default function formReducer(state = {}, action) {
       newForms[action.formId][action.fieldName].value = action.fieldValue
       return { ...newForms }
 
+    case 'UPDATE_FORM_FILE':
+      if (!newForms[action.formId]) {
+        newForms[action.formId] = {}
+      }
+      if (
+        !newForms[action.formId][action.fieldName] ||
+        newForms[action.formId][action.fieldName] === ''
+      ) {
+        newForms[action.formId][action.fieldName] = {}
+      }
+      newForms[action.formId][action.fieldName].value = [...newForms[action.formId][action.filedName].value, action.fieldValue]
+      return { ...newForms }
+
     default:
       return state
   }

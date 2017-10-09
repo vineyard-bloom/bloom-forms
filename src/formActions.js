@@ -33,21 +33,22 @@ export function createForm(formId, formObject) {
   }
 }
 
-export function updateForm(e, formId, fieldName, fieldValue, type, formData) {
+export function updateForm(e, formId, fieldName, fieldValue, type) {
   fieldName = fieldName || ((e && e.target) ? e.target.getAttribute('name') : null)
   if (!fieldName || !formId) {
     console.log('missing either fieldName or formId')
     return { type: '' }
   }
 
+  let reducerType = 'UPDATE_FORM'
+
   switch (type) {
     case 'checkbox':
       fieldValue = fieldValue || (e ? e.target.checked : false)
       break
     case 'file':
-      fieldValue = formData[fieldName] && formData[fieldName].value
-        ? [...formData[fieldName].value, ...fieldValue && fieldValue[0] ? fieldValue[0].name : '']
-        : fieldValue && fieldValue[0] ? fieldValue[0].name : ''
+      fieldValue = fieldValue && fieldValue[0] ? fieldValue[0].name : ''
+      reducerType = 'UPDATE_FORM_FILE'
       break
     case 'radio':
       if (e.target.checked) {
@@ -62,7 +63,7 @@ export function updateForm(e, formId, fieldName, fieldValue, type, formData) {
   }
 
   return {
-    type: 'UPDATE_FORM',
+    type: reducerType,
     formId,
     fieldName,
     fieldValue
