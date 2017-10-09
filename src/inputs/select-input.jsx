@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ErrorTip from '../error-tip'
-
+import Loading from './loading'
 import '../styles/inputs.scss'
 import '../styles/select-input.scss'
 
@@ -159,7 +159,7 @@ class SelectInput extends React.Component {
   }
 
   render() {
-    const { containerClass, label, name, onChange, options, typeAhead, showLabel, validateAs, value, error, ...rest } = this.props;
+    const { containerClass, label, name, onChange, loading, options, typeAhead, showLabel, validateAs, value, error, ...rest } = this.props;
     const sortedOpts = this.state.sortedOpts || this.props.options
     let opts = sortedOpts.map((opt, i) => {
       return opt.label
@@ -217,6 +217,7 @@ class SelectInput extends React.Component {
       <label className={ `input__label select-input ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.closeOpts } onKeyDown={ this.onKeyDown }>
         <span className={ `input__label__text ${ !showLabel ? 'u-sr-only' : '' }` }>
           { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
+            {loading ? <Loading/> : null}
         </span>
         { options.length && typeAhead
           ? (
@@ -255,6 +256,7 @@ SelectInput.propTypes = {
   error: PropTypes.string,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  loading: PropTypes.string,
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
