@@ -53,7 +53,7 @@ $toggle-height: 20px;
   border-radius: 50%;
   display: inline-block;
   height: $toggle-height;
-  margin-left: calc(#{$toggle-height} * -1.5);
+  margin-left: calc(#{$toggle-height} * -2);
   margin-top: 2px;
   position: absolute;
   transition: margin ease 0.3s;
