@@ -46,7 +46,6 @@ export class Form extends React.Component {
   } // make sure only those that don't come from redux are declared
 
   static mapDispatchToProps(dispatch, ownProps) {
-    console.log(ownProps)
     return {
       addFormError: (formId=ownProps.id, fieldName, errorMessage) => {
         dispatch(addFormError(formId, fieldName, errorMessage))

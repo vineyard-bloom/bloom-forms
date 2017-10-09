@@ -60,9 +60,9 @@ export default function formReducer(state = {}, action) {
         newForms[action.formId][action.fieldName] = {}
       }
       if (action.fieldValue && action.fieldValue[0]) {
-        val = [...action.fieldValue]
+        let val = [...action.fieldValue]
       } else {
-        val = [ action.fieldValue ]
+        let val = [ action.fieldValue ]
       }
       newForms[action.formId][action.fieldName].value = [...newForms[action.formId][action.filedName].value, ...val]
       return { ...newForms }
