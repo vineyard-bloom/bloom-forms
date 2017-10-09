@@ -36,7 +36,6 @@ const TextArea = (props) => {
 TextArea.propTypes = {
   className: PropTypes.string,
   error: PropTypes.string,
-  isPassword: PropTypes.bool,
   label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element

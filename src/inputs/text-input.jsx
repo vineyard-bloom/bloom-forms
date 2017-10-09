@@ -46,6 +46,7 @@ TextInput.propTypes = {
   placeholder: PropTypes.string,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
+  onKeyDown: PropTypes.func,
   required: PropTypes.bool,
   showLabel: PropTypes.bool,
   validateAs: PropTypes.string,

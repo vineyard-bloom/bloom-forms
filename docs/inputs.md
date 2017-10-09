@@ -31,6 +31,7 @@
 - `loadingElement`:
   A React Element containing a spinner or other loading indicator in case you don't want to use the bloom-forms default spinner.
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## Checkbox
 ### Required Props
@@ -57,26 +58,30 @@
 - `showLabel`:
   A boolean showing or hiding the label text. By default, all bloom forms input labels are hidden.
 - `validateAs`:
-  A string tying into the validation help passed in to the wrapper `<Form>`. Example include 'not-empty', 'zip', and 'number'.
+  A string tying into the validation help passed in to the wrapper `<Form>`. Examples include 'not-empty', 'zip', and 'number'.
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## CurrencyInput
 ### Required Props
 
 ### Optional Props
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## Dropzone
 ### Required Props
 
 ### Optional Props
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## FileInput
 ### Required Props
 
 ### Optional Props
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## RadioGroup
 ### Required Props
@@ -89,7 +94,7 @@
   ```
   {
     id: string,
-    label: either a strig or a react element
+    label: either a string or a react element
   }
   ```
 - `value`:
@@ -109,14 +114,19 @@
 - `required`:
   A boolean indicating if the input value can't be empty.
 - `validateAs`:
-  A string tying into the validation help passed in to the wrapper `<Form>`. Example include 'not-empty', 'zip', and 'number'.
+  A string tying into the validation help passed in to the wrapper `<Form>`. Examples include 'not-empty', 'zip', and 'number'.
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## RangeInput
+### Notes:
+WIP
+
 ### Required Props
 
 ### Optional Props
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## SelectInput
 ### Required Props
@@ -149,22 +159,95 @@
 - `typeAhead`:
   A boolean indicating if the `SelectInput` should have typeahead functionality. If set to false, typing letter characters has no effect on results.
 - `validateAs`:
-  A string tying into the validation help passed in to the wrapper `<Form>`. Example include 'not-empty', 'zip', and 'number'.
+  A string tying into the validation help passed in to the wrapper `<Form>`. Examples include 'not-empty', 'zip', and 'number'.
+
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## TextArea
-### Required Props
+- `label`:
+  Either a string or a React element that labels the `TextArea`. Required for accessibility purposes, but hidden by default.
+- `name`:
+  A string tying the `formData` to the input's value. It should match one of the strings in `fieldNames` array passed into `<Form>`.
+- `onChange`:
+  A function used to update the `TextArea`'s value. Generally, this should be `updateForm`.
+- `value`:
+  A string holding the value of the `TextArea`. Generally passed in like `formData.field.value`.
 
 ### Optional Props
+- `className`:
+  A string that styles the input box directly.
+- `error`:
+  A string usually passed in directly from `formData` that notes an error with that field validation. Generally passed in like `formData.field.error`.
+- `labelClass`:
+  A string that styles only the label text of the `TextArea`.
+- `placeholder`:
+  A string that shows up in the background of the `TextArea` when its value is empty.
+- `onBlur`:
+  A function that fires when focus leaves the element. Usually used to `checkField`.
+- `required`:
+  A boolean indicating if the input value can't be empty.
+- `showLabel`:
+  A boolean showing or hiding the label text. By default, all bloom forms input labels are hidden.
+- `validateAs`:
+  A string tying into the validation help passed in to the wrapper `<Form>`. Examples include 'not-empty', 'zip', and 'number'.
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## TextInput
 ### Required Props
+- `label`:
+  Either a string or a React element that labels the `TextInput`. Required for accessibility purposes, but hidden by default.
+- `name`:
+  A string tying the `formData` to the input's value. It should match one of the strings in `fieldNames` array passed into `<Form>`.
+- `onChange`:
+  A function used to update the `TextInput`'s value. Generally, this should be `updateForm`.
+- `value`:
+  A string holding the value of the `TextInput`. Generally passed in like `formData.field.value`.
 
 ### Optional Props
+- `className`:
+  A string that styles the input box directly.
+- `error`:
+  A string usually passed in directly from `formData` that notes an error with that field validation. Generally passed in like `formData.field.error`.
+- `isPassword`:
+  A boolean that, when true, obfuscates all characters entered into the input and makes them appear as dots.
+- `labelClass`:
+  A string that styles only the label text of the `TextInput`.
+- `placeholder`:
+  A string that shows up in the background of the `TextInput` when its value is empty.
+- `onBlur`:
+  A function that fires when focus leaves the element. Usually used to `checkField`.
+- `onKeyDown`:
+  A function capturing a keydown event.
+- `required`:
+  A boolean indicating if the input value can't be empty.
+- `showLabel`:
+  A boolean showing or hiding the label text. By default, all bloom forms input labels are hidden.
+- `validateAs`:
+  A string tying into the validation help passed in to the wrapper `<Form>`. Examples include 'not-empty', 'zip', and 'number'.
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## ToggleSwitch
+### Notes:
+The ToggleSwitch is a hidden checkbox that appears in the UI like a sideways light switch. In the DOM, it looks either 'on' or 'off' depending on the `isActive` prop.
+
 ### Required Props
+- `name`:
+  A string tying the `formData` to the input's value. It should match one of the strings in `fieldNames` array passed into `<Form>`.
+- `isActive`:
+  A boolean that indicates if the `ToggleSwitch` is 'on' or 'off'.
+- `labelText`:
+  A string that labels the `ToggleSwitch`.
+- `onClick`:
+  A function that changes the value of the corresponding field in `formData`. Usually passed in like `manualFieldUpdate('example-form-id', 'toggle-switch-name', !formData['toggle-switch-name'].value)`
 
 ### Optional Props
+- `className`:
+  A string that styles the toggle switch.
+- `disabled`:
+  A boolean that, when true, prevents the onClick event from firing and leaves the `ToggleSwitch` in 'off' position.
+- `required`:
+  A boolean indicating if the input value can't be empty. HTML checkboxes don't support this fully, so it's only used for UX display purposes.
 
+[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
