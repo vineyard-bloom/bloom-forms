@@ -25,7 +25,7 @@ class FileInput extends React.Component {
   };
 
   triggerInput = (e) => {
-    let input = document.getElementById(this.props.id);
+    const input = document.getElementById(this.props.id);
     if (e.target.getAttribute('type') === 'file') {
       return;
     }
@@ -35,13 +35,13 @@ class FileInput extends React.Component {
 
   updateText = (e) => {
     e.persist();
-    let fileName = document.getElementById(this.props.id).value.split( '\\' ).pop();
-    // we don't want to update prevFile, or the input will disappear and it won't be able to upload
+    const fileElem = document.getElementById(this.props.id);
+    let fileName = fileElem.value.split( '\\' ).pop();
     this.setState({
       fileText: fileName
     }, () => {
       if (this.props.onChange) {
-        this.props.onChange(this.props.formId, this.props.name, Array.from(e.target.files), 'file')
+        this.props.onChange(this.props.formId, this.props.name, Array.from(fileElem.files), 'file')
       }
     });
 

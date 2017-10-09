@@ -65,7 +65,7 @@ export class Form extends React.Component {
           || (document.getElementById(fieldName)
               || [...document.getElementsByName(fieldName)][0]
             ).getAttribute('type')
-        dispatch(updateForm(e, formId, fieldName, optValue, type))
+        dispatch(updateForm(e, formId, fieldName, optValue, type, ownProps.forms ? ownProps.forms[ownProps.id] : {}))
       }
     }
   }

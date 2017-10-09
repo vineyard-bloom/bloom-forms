@@ -41,7 +41,7 @@ describe('<Form/>', function() {
 
   it ('communicates with redux form store', function() {
     const wrapper = shallow(<ConnectedForm store={store} fieldNames={fieldNames} id='example-form' submitForm={submitProcess}/>);
-    wrapper.props().updateForm(null, 'example-form', 'name', 'Bob', 'text');
+    wrapper.props().updateForm(null, 'example-form', 'name', 'Bob', 'text', { 'name': { value: '' } });
     assert.ok(wrapper.props().forms['example-form']);
     assert.ok(wrapper.props().forms['example-form'].name);
     assert.ok(wrapper.props().forms['example-form'].name.value);

@@ -33,7 +33,7 @@ export function createForm(formId, formObject) {
   }
 }
 
-export function updateForm(e, formId, fieldName, fieldValue, type) {
+export function updateForm(e, formId, fieldName, fieldValue, type, formData) {
   fieldName = fieldName || ((e && e.target) ? e.target.getAttribute('name') : null)
   if (!fieldName || !formId) {
     console.log('missing either fieldName or formId')
@@ -45,7 +45,9 @@ export function updateForm(e, formId, fieldName, fieldValue, type) {
       fieldValue = fieldValue || (e ? e.target.checked : false)
       break
     case 'file':
-      fieldValue = fieldValue && fieldValue[0] ? fieldValue[0].name : ''
+      fieldValue = formData[fieldName] && formData[fieldName].value
+        ? [...formData[fieldName].value, ...fieldValue && fieldValue[0] ? fieldValue[0].name : '']
+        : fieldValue && fieldValue[0] ? fieldValue[0].name : ''
       break
     case 'radio':
       if (e.target.checked) {
