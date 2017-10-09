@@ -36,13 +36,12 @@ class FileInput extends React.Component {
   updateText = (e) => {
     e.persist();
     const fileElem = document.getElementById(this.props.id);
-    let fileName = fileElem.value.split( '\\' ).pop();
-    console.log(Array.from(fileElem.files))
+    let fileNames = [...fileElem.files].map(file => file.name);
     this.setState({
-      fileText: fileName
+      fileText: fileNames.join(', ')
     }, () => {
       if (this.props.onChange) {
-        this.props.onChange(this.props.formId, this.props.name, Array.from(fileElem.files), 'file')
+        this.props.onChange(this.props.formId, this.props.name, [...fileElems.files], 'file')
       }
     });
 
