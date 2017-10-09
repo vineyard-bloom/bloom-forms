@@ -1,0 +1,104 @@
+/*
+BUTTONS
+*/
+
+@import './variables';
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+
+input[type='button'],
+button {
+  cursor: pointer;
+  font-size: $main-font-size;
+  padding: $pad-mar-small $pad-mar-med;
+  text-align: center;
+  @include transition(all .3s ease);
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &.btn {
+    background-color: transparent;
+    border: 1px solid $dark-gray;
+    color: $dark-gray;
+    padding: $pad-mar-med;
+
+    &:focus,
+    &:hover {
+      background-color: $dark-gray;
+      color: $white;
+      outline: none;
+    }
+  }
+
+  &.btn-alt {
+    background-color: transparent;
+    border: 1px solid $dark-gray;
+    color: $dark-gray;
+
+    &.is-active,
+    &:active {
+      background-color: $dark-gray;
+      color: $white;
+    }
+
+    &:focus,
+    &:hover {
+      background-color: $dark-gray;
+      color: $white;
+      outline: none;
+    }
+  }
+
+  &.btn-white {
+    background-color: $white;
+    color: $dark-gray;
+    border: none;
+
+    &:focus,
+    &:hover {
+      background-color: $dark-gray;
+      color: $white;
+      outline: none;
+    }
+  }
+
+  &.btn-white-alt {
+    background-color: $white;
+    color: $dark-gray;
+    border: none;
+
+    &:focus,
+    &:hover {
+      background-color: $dark-gray;
+      color: $white;
+      outline: none;
+    }
+  }
+
+  &.btn--null { // no default styles
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  &.btn--full-width {
+    justify-content: center;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  &.btn--small {
+    font-size: $h5-font-size;
+    padding: $pad-mar-x-small $pad-mar-small;
+  }
+}

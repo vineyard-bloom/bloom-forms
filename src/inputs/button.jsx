@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Loading from './loading'
 
-// import 'styles/components/buttons.scss';
+import './styles/buttons.scss';
 
 const Button = (props) => {
   let { className, disabled, id, loading, loadingElement, onClick, text } = props;
