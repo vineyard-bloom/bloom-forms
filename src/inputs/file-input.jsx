@@ -41,7 +41,7 @@ class FileInput extends React.Component {
       fileText: fileNames.join(', ')
     }, () => {
       if (this.props.onChange) {
-        this.props.onChange(this.props.formId, this.props.name, [...fileElems.files], 'file')
+        this.props.onChange(this.props.formId, this.props.name, [...fileElem.files], 'file')
       }
     });
 
