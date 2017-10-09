@@ -64,7 +64,7 @@ class FileInput extends React.Component {
     return (
       <label htmlFor={ this.props.name } className="input__label input--file" onClick={ this.triggerInput }>
         { label }{ requiredString }
-        <div className='input__placeholder' role='presentation' aria-hidden>
+        <div className='input__placeholder input__placeholder--file' role='presentation' aria-hidden>
           <div className='input--file__text'>
             { this.state.fileText }
           </div>

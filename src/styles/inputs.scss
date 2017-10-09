@@ -6,6 +6,8 @@ INPUTS
 
 @import './variables';
 
+$input-border: 1px solid $dark-gray;
+
 .u-sr-only {
   height: 1px;
   left:-999em;
@@ -24,7 +26,7 @@ input[type='number'] {
 }
 
 .input {
-  border: 1px solid $dark-gray;
+  border: $input-border;
   color: $dark-gray;
   font-size: $main-font-size;
   margin: $pad-mar-small 0;
@@ -83,11 +85,18 @@ input[type='number'] {
 
   .btn {
     background-color: $green;
-    color: white;
+    color: $white;
+    display: inline-block;
     padding: $pad-mar-small;
   }
 }
 
+.input__placeholder--file {
+  border: $input-border;
+  min-width: 300px;
+}
+
 .input--file__text {
   display: inline-block;
+  padding: $pad-mar-small;
 }
