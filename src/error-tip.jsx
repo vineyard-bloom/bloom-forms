@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-// import 'styles/components/tooltip'
+import 'styles/components/error-tip'
 
 const ErrorTip = (props) => {
   return (
-    <div className={ `tooltip tooltip--error ${ props.className || '' }` }>
+    <div className={ `tooltip tooltip--error ${ props.className || '' }` } aria-live='polite'>
       <div className={ `tooltip__contents tooltip__contents--${ props.direction }` }>
         <div className='tooltip__contents__text'>{ props.contents }</div>
       </div>
