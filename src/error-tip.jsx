@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import 'styles/components/error-tip'
+import './styles/error-tip.scss'
 
 const ErrorTip = (props) => {
   return (
