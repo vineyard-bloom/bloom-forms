@@ -4,6 +4,10 @@ TOGGLE SWITCH
 aka a checkbox that looks like a switch
 */
 
+$active-color: #F2A900;
+$disabled-color: #ddd;
+$toggle-height: 20px;
+
 .toggle-switch {
   align-items: center;
   cursor: pointer;
@@ -12,18 +16,18 @@ aka a checkbox that looks like a switch
   outline: none;
   position: relative;
   user-select: none;
-}
 
-.toggle-switch > div {
-  height: 1em;
-}
+  & > div {
+    height: $toggle-height;
+  }
 
-.toggle-switch.disabled {
-  cursor: not-allowed;
-}
+  &.disabled {
+    cursor: not-allowed;
+  }
 
-.toggle-switch.active .toggle-switch-label {
-  background-color: #F2A900;
+  &.active .toggle-switch-label {
+    background-color: $active-color;
+  }
 }
 
 .toggle-switch-input {
@@ -34,13 +38,13 @@ aka a checkbox that looks like a switch
 }
 
 .toggle-switch-label {
-  background-color: #ddd;
+  background-color: $disabled-color;
   border-radius: 50px;
   display: inline-block;
-  height: calc(1em + 2px);
+  height: calc(#{$toggle-height} + 2px);
   margin-left: 5px;
   padding: 2px;
-  width: 40px;
+  width: calc(#{$toggle-height} * 2);
   z-index: 1;
 }
 
@@ -48,15 +52,14 @@ aka a checkbox that looks like a switch
   background-color: #fff;
   border-radius: 50%;
   display: inline-block;
-  height: 1em;
-  margin-left: -38px;
-  margin-top: 1px;
+  height: $toggle-height;
+  margin-left: calc(#{$toggle-height} * -1.5);
+  margin-top: 2px;
   position: absolute;
-  width: 1em;
-
   transition: margin ease 0.3s;
-}
+  width: $toggle-height;
 
-.toggle-switch-handle.active {
-  margin-left: -19px;
+  &.active {
+    margin-left: calc(-#{$toggle-height} - 2px);
+  }
 }
