@@ -1,9 +1,9 @@
 # Bloom Forms Inputs
 
 ## Contents:
-  * Button
-  * Checkbox
-  * CurrencyInput
+  * [Button](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#button)
+  * [Checkbox](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#checkbox)
+  * [CurrencyInput](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#currency-input)
   * Dropzone
   * FileInput
   * RadioGroup
@@ -14,3 +14,7 @@
   * ToggleSwitch
 
 ## Button
+
+## Checkbox
+
+## Currency Input
