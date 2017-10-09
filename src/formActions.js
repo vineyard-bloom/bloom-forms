@@ -48,8 +48,6 @@ export function updateForm(e, formId, fieldName, fieldValue, type, formData) {
       fieldValue = formData[fieldName] && formData[fieldName].value
         ? [...formData[fieldName].value, ...fieldValue && fieldValue[0] ? fieldValue[0].name : '']
         : fieldValue && fieldValue[0] ? fieldValue[0].name : ''
-      console.log(fieldValue)
-
       break
     case 'radio':
       if (e.target.checked) {

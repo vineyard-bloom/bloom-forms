@@ -174,7 +174,6 @@ export class Form extends React.Component {
   }
 
   manualFieldUpdate = (formId=this.props.id, fieldName, fieldValue, type='text') => {
-    console.log(type)
     this.props.updateForm(null, formId, fieldName, fieldValue, type)
   }
 

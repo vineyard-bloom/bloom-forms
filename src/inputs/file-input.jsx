@@ -37,6 +37,7 @@ class FileInput extends React.Component {
     e.persist();
     const fileElem = document.getElementById(this.props.id);
     let fileName = fileElem.value.split( '\\' ).pop();
+    console.log(Array.from(fileElem.files))
     this.setState({
       fileText: fileName
     }, () => {
