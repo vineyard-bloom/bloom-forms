@@ -47,6 +47,7 @@ Includes:
 
 ### Children
 - [Form Children Props](https://github.com/vineyard-bloom/bloom-forms#form-children-props)
+- [Specific Inputs](https://github.com/vineyard-bloom/bloom-forms/docs/inputs)
 
 ## Usage
 To use this package, you can install with either npm or yarn.
