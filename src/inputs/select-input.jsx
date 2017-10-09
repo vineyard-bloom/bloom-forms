@@ -6,17 +6,94 @@ import Loading from './loading'
 import '../styles/inputs.scss'
 import '../styles/select-input.scss'
 
+/* SUPPORTS:
+  - typeahead
+  - esc and arrow keys
+  - tabbing
+  - regular old onClick
+*/
+
+const compareLetters = (str1, str2) => {
+  // finding out if the first part of comparison string (str2) matches the typeahead (str1)
+  return str1
+    ? str2.toLowerCase().slice(0, str1.length).split('').reduce((total, curr, index) => total && (curr === str1.toLowerCase()[index]))
+    : true
+}
+
 class SelectInput extends React.Component {
   state = {
-    showList: false
+    showList: false,
+    sortBy: null,
+    sortedOpts: null
   };
 
   selectOpt = (val) => {
     this.props.onChange(this.props.formId, this.props.name, val);
     this.setState({
-      showList: false
+      showList: false,
+      sortBy: null,
+      sortedOpts: this.props.options
     });
   };
+
+  onKeyDown = (e) => {
+    const key = e.which || e.keyCode
+    const currValue = document.activeElement.id && document.activeElement.id.includes('input-placeholder')
+      ? document.activeElement.id.replace('input-placeholder-', '')
+      : null
+    const options = this.state.sortedOpts
+
+    // close if esc key
+    if (key === 27) {
+      this.setState({
+        showList: false,
+        sortBy: null,
+        sortedOpts: this.props.options
+      })
+    } else if (key === 40 || (key === 38)) { // arrow keys
+      let nextValue = currValue
+        ? (
+          options.find((opt, i) => opt.value
+            ? options[i-1] && (options[i-1].value === currValue)
+            : options[i-1] && (options[i-1] === currValue)
+          )
+        ) : (
+          options[0].value ? options[0].value : options[0]
+        )
+      let prevValue = currValue
+        ? (
+          options.find((opt, i) => opt.value
+            ? options[i+1] && (options[i+1].value === currValue)
+            : options[i+1] && (options[i+1] === currValue)
+          )
+        ) : (
+          options[0].value ? options[0].value : options[0]
+        )
+
+      nextValue = nextValue && nextValue.value ? nextValue.value : nextValue
+      prevValue = prevValue && prevValue.value ? prevValue.value : prevValue
+
+      if (key === 40) { // arrow down, open and go to next opt
+        this.setState({
+          showList: true
+        }, () => {
+          const elem = document.getElementById(`input-placeholder-${nextValue}`)
+          if (elem) {
+            elem.focus()
+          }
+        })
+      } else if (key === 38) { // arrow up, go to prev opt
+        this.setState({
+          showList: true
+        }, () => {
+          const elem = document.getElementById(`input-placeholder-${prevValue}`)
+          if (elem) {
+            elem.focus()
+          }
+        })
+      }
+    }
+  }
 
   closeOpts = (e) => {
     e.persist()
@@ -50,16 +127,41 @@ class SelectInput extends React.Component {
     }
   }
 
+  sortResults = (e) => {
+    this.setState({
+      showList: true,
+      sortBy: e.target.value,
+      sortedOpts: this.props.options.filter((opt) => compareLetters(e.target.value, (opt.label ? opt.label : opt)))
+    })
+  }
+
   toggleList = (e) => {
     e.preventDefault();
     this.setState({
+      focusedOpt: null,
       showList: !this.state.showList
     });
   };
 
+  componentWillReceiveProps = (newProps) => {
+    if (newProps.options.length != this.props.options.length) {
+      this.setState({
+        sortBy: null,
+        sortedOpts: this.props.options
+      })
+    }
+  }
+
+  componentDidMount() {
+    this.setState({
+      sortedOpts: this.props.options
+    })
+  }
+
   render() {
-    const { containerClass, label, name, onChange, loading, options, showLabel, validateAs, value, error, ...rest } = this.props;
-    let opts = options.map((opt, i) => {
+    const { containerClass, label, name, onChange, loading, options, typeAhead, showLabel, validateAs, value, error, ...rest } = this.props;
+    const sortedOpts = this.state.sortedOpts || this.props.options
+    let opts = sortedOpts.map((opt, i) => {
       return opt.label
         ? (
           <option key={ `${name}-opt-${i}` } value={ opt.value }>
@@ -70,17 +172,17 @@ class SelectInput extends React.Component {
         );
     });
 
-    let placeholderOpts = options.map((opt, i) => {
+    let placeholderOpts = sortedOpts.map((opt, i) => {
       return opt.label
         ? (
           <li key={ `${ name }-opt-${i}` } onClick={ (e) => this.selectOpt(opt.value) }>
-            <button>
+            <button id={ `input-placeholder-${opt.value}` }>
               { opt.label }
             </button>
           </li>
         ) : (
           <li key={ `${ name }-opt-${i}` } onClick={ (e) => this.selectOpt(opt) }>
-            <button>
+            <button id={ `input-placeholder-${opt}` }>
               { opt }
             </button>
           </li>
@@ -101,22 +203,41 @@ class SelectInput extends React.Component {
       activeOptLabel = activeOptLabel ? activeOptLabel.label : 'Select';
     }
 
+    const typeAheadDisplay = this.state.sortBy || (this.state.sortBy === '')
+      ? this.state.sortBy
+      : (this.props.placeholder && !value
+        ? this.props.placeholder
+        : (translateVal
+          ? activeOptLabel
+          : (value || 'Select')
+        )
+      )
+
     return (
-      <label className={ `input__label select-input ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.closeOpts }>
+      <label className={ `input__label select-input ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.closeOpts } onKeyDown={ this.onKeyDown }>
         <span className={ `input__label__text ${ !showLabel ? 'u-sr-only' : '' }` }>
           { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
             {loading ? <Loading/> : null}
         </span>
-        <button disabled={!options.length} className={ `${!options.length ? 'btn disabled' : 'btn'} input__placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
-          onClick={ this.toggleList }>
-          { this.props.placeholder && !value
-            ? <span className='u-grayed-out'>{ this.props.placeholder }</span>
-            :  (translateVal ? activeOptLabel : (value || 'Select'))
-          }
-        </button>
+        { options.length && typeAhead
+          ? (
+            <input type='text' className={ `btn input__placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
+              value={ typeAheadDisplay }
+              onChange={ this.sortResults }
+            />
+          ) : (
+            <button disabled={!options.length} className={ `${!options.length ? 'btn disabled' : 'btn'} input__placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
+              onClick={ this.toggleList }>
+              { this.props.placeholder && !value
+                ? <span className='u-grayed-out'>{ this.props.placeholder }</span>
+                :  (translateVal ? activeOptLabel : (value || 'Select'))
+              }
+            </button>
+          )
+        }
         { error && <ErrorTip contents={ error } className='tooltip--error--select' /> }
         { this.state.showList &&
-          <ul className='select-input__opts non-sr-only'>
+          <ul className='select-input__opts non-sr-only' aria-hidden role='presentation'>
             { placeholderOpts }
           </ul>
         }
@@ -139,16 +260,17 @@ SelectInput.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
-    PropTypes.oneOfType(
+    PropTypes.oneOfType([
       PropTypes.shape({
         label: PropTypes.string.isRequired,
         value: PropTypes.oneOfType(PropTypes.string, PropTypes.number)
       }),
       PropTypes.string
-    ).isRequired
+    ]).isRequired
   ).isRequired,
   required: PropTypes.bool,
   showLabel: PropTypes.bool,
+  typeAhead: PropTypes.bool,
   validateAs: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
@@ -157,6 +279,8 @@ SelectInput.propTypes = {
 }
 
 SelectInput.defaultProps = {
+  options: [],
+  typeAhead: true,
   value: ''
 }
 

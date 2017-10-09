@@ -1,11 +1,12 @@
 import Form from './form.jsx'
-import formActions from './formActions.js'
+import * as formActions from './formActions.js'
 import formReducer from './formReducer.js'
 
 import Button from './inputs/button.jsx'
 import Checkbox from './inputs/checkbox.jsx'
 import CurrencyInput from './inputs/currency-input.jsx'
 import Dropzone from './inputs/dropzone.jsx'
+import ErrorTip from './error-tip.jsx'
 import FileInput from './inputs/file-input.jsx'
 import RadioGroup from './inputs/radio-group.jsx'
 import RangeInput from './inputs/range-input.jsx'
@@ -21,6 +22,7 @@ export {
   Checkbox,
   CurrencyInput,
   Dropzone,
+  ErrorTip,
   FileInput,
   Form,
   formActions,
