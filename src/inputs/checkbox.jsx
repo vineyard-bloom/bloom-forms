@@ -7,7 +7,7 @@ import '../styles/checkbox.scss';
 const Checkbox = (props) => {
   let {
     checked, className, errors,
-    name, label, labelClass, placeholder,
+    name, label, labelClass,
     showLabel, validateAs, ...rest } = props;
   let labelTextClasses = `input__label__text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : ' u-sr-only' }`;
   let attr = {}
@@ -43,7 +43,6 @@ Checkbox.propTypes = {
       PropTypes.element
     ]).isRequired,
   labelClass: PropTypes.string,
-  placeholder: PropTypes.string,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   required: PropTypes.bool,

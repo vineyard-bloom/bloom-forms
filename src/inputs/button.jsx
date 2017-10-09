@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Loading from './loading'
+
 // import 'styles/components/buttons.scss';
 
 const Button = (props) => {
@@ -11,7 +13,7 @@ const Button = (props) => {
   return (
    <button className={ classes } onClick={ loading ? () => { return } : onClick } id={ id } disabled={ disabled || loading }>
       <span className='o-flex-container u-align-center'>
-        { loading && (loadingElement || 'Loading...') }
+        { loading && (loadingElement || <Loading /> ) }
         { text }
       </span>
    </button>
@@ -20,11 +22,11 @@ const Button = (props) => {
 
 Button.propTypes = {
   className: PropTypes.string,
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   loading: PropTypes.bool,
-  loadingComponent: PropTypes.element,
-  onClick: PropTypes.func,
-  text: PropTypes.string
+  loadingElement: PropTypes.element,
+  onClick: PropTypes.func.isRequired,
+  text: PropTypes.string.isRequired,
 }
 
 export default Button;
