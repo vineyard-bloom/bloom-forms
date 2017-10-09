@@ -30,7 +30,8 @@ const RangeInput = (props) => {
                    className={ `input input--range ${ className ? className : '' } ${ formErrors && formErrors[id] ? 'input--invalid' : '' }` }
                    data-validate={ validateAs } placeholder={ placeholder } value={ value } step='0.01'
                    onMouseOut={ props.onBlur }
-                   { ...attr } />
+                   { ...attr }
+            />
             { error ? <ErrorTip contents={ error } /> : '' }
         </label>
     )
