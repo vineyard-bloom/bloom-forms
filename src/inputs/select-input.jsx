@@ -51,6 +51,7 @@ class SelectInput extends React.Component {
         sortedOpts: this.props.options
       })
     } else if (key === 40 || (key === 38)) { // arrow keys
+      e.preventDefault();
       let nextValue = currValue
         ? (
           options.find((opt, i) => opt.value
