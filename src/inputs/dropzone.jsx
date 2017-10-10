@@ -85,7 +85,7 @@ class MyDropzone extends React.Component {
   }
 
   render() {
-    const { accept, files, imageStyle, label, loadingElement, name, onDrop, required } = this.props
+    const { accept, files, imageStyle, label, loadingElement, multiple, name, onDrop, required } = this.props
     const dropZoneStyle = {
       border: '2px dashed #ddd',
       borderRadius: '5px',
@@ -171,7 +171,7 @@ class MyDropzone extends React.Component {
               )
             }
             </div>
-          <input type='file' className='u-sr-only' id={ name } onChange={ this.onDrop } multiple accept={ accept } />
+          <input type='file' className='u-sr-only' id={ name } onChange={ this.onDrop } multiple={ multiple } accept={ accept } />
         </div>
         <button className='btn' id={ `dropzone-${name}-clear-btn` } onClick={ this.clearAll }>
           Clear All
@@ -190,6 +190,10 @@ MyDropzone.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool
+}
+
+MyDropzone.defaultProps = {
+  multiple: true
 }
 
 export default MyDropzone;
