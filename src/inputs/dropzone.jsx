@@ -70,7 +70,7 @@ class MyDropzone extends React.Component {
   }
 
   render() {
-    const { file, imageStyle, label, name, onDrop, required } = this.props
+    const { file, imageStyle, label, loadingElement, name, onDrop, required } = this.props
     const dropZoneStyle = {
       border: '2px dashed #ddd',
       borderRadius: '5px',

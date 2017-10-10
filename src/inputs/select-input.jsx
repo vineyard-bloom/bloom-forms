@@ -37,7 +37,6 @@ class SelectInput extends React.Component {
   };
 
   onKeyDown = (e) => {
-    e.preventDefault();
     const key = e.which || e.keyCode
     const currValue = document.activeElement.id && document.activeElement.id.includes('input-placeholder')
       ? document.activeElement.id.replace('input-placeholder-', '')
