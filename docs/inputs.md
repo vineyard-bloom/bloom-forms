@@ -119,7 +119,7 @@ A file input that supports drag and drop and multiple files. Forked and reworked
 - `loadingElement`:
   A React Element containing a spinner or other loading indicator in case you don't want to use the bloom-forms default spinner.
 - `multiple`:
-  A boolean allowing multiple files to be uploaded simultaneously.
+  A boolean allowing multiple files to be uploaded simultaneously. Defaults to `true`.
 - `required`:
   A boolean indicating if the input value can't be empty.
 
