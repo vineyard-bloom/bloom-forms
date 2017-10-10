@@ -47,7 +47,7 @@ export function updateForm(e, formId, fieldName, fieldValue, type) {
       fieldValue = fieldValue || (e ? e.target.checked : false)
       break
     case 'file':
-      fieldValue = fieldValue && fieldValue[0] ? fieldValue[0].name : ''
+      fieldValue = fieldValue || ''
       reducerType = 'UPDATE_FORM_FILE'
       break
     case 'radio':

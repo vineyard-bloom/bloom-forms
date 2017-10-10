@@ -16,6 +16,7 @@ class FileInput extends React.Component {
   static propTypes = {
     accept: PropTypes.string, /* file type */
     error: PropTypes.string,
+    formId: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
