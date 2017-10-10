@@ -19,6 +19,7 @@ class FileInput extends React.Component {
     formId: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
+    multiple: PropTypes.bool,
     name: PropTypes.string.isRequired,
     onBlur: PropTypes.func,
     onChange: PropTypes.func.isRequired,
@@ -52,7 +53,7 @@ class FileInput extends React.Component {
   }
 
   render = () => {
-    const { accept, error, id, label, name, required } = this.props
+    const { accept, error, id, label, multiple, name, required } = this.props
     let requiredString = ''
     let attr = {}
 
@@ -76,7 +77,7 @@ class FileInput extends React.Component {
         { error && <ErrorTip contents={ error } /> }
         <input name={ name } id={ id } { ...attr } type='file' data-validate={ required ? 'not-empty' : null }
           className='input' style={ {display: 'none'} } onChange={ this.updateText } accept={ accept }
-          data-multiple-caption="{count} files selected" multiple data-validate='file' />
+          data-multiple-caption="{count} files selected" multiple={ multiple } data-validate='file' />
       </label>
     )
   }
