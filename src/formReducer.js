@@ -59,12 +59,13 @@ export default function formReducer(state = {}, action) {
       ) {
         newForms[action.formId][action.fieldName] = {}
       }
-      if (action.fieldValue && action.fieldValue[0]) {
-        let val = [...action.fieldValue]
+      let val
+      if (action.fieldValue && Array.isArray(action.fieldValue)) {
+        val = [...action.fieldValue]
       } else {
-        let val = [ action.fieldValue ]
+        val = [ action.fieldValue ]
       }
-      newForms[action.formId][action.fieldName].value = [...newForms[action.formId][action.filedName].value, ...val]
+      newForms[action.formId][action.fieldName].value = [...(newForms[action.formId][action.fieldName].value || []), ...val]
       return { ...newForms }
 
     default:

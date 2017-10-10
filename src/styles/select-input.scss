@@ -12,6 +12,7 @@ SELECT INPUT
     display: flex;
     font-size: 1em;
     height: 2.5em;
+    justify-content: space-between;
     padding: $pad-mar-small $pad-mar-med;
 
     &::after {
@@ -24,10 +25,21 @@ SELECT INPUT
       transition: 300ms ease;
     }
 
+    &:active,
+    &:focus,
+    &:hover {
+      background-color: $white;
+      color: $dark-gray;
+    }
+
     &.is-open {
       &::after {
         transform: rotate(180deg);
       }
+    }
+
+    &[type='text'] {
+      padding: 0 $pad-mar-small;
     }
   }
 
