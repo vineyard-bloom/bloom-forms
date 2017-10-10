@@ -14,7 +14,6 @@ class MyDropzone extends React.Component {
   }
 
   clearAll = (e) => {
-    console.log('triggering clear all');
     if (e) {
       e.preventDefault();
     }
@@ -62,7 +61,6 @@ class MyDropzone extends React.Component {
   }
 
   triggerInput = (e) => {
-    console.log(e.target)
     if (e.target.id === `dropzone-${name}-clear-btn`) {
       e.preventDefault();
       this.clearAll();
@@ -121,12 +119,6 @@ class MyDropzone extends React.Component {
       overflow: 'hidden',
       width: `${ 1 / (files.length || 1) * 100 }%`
     }
-
-    // const imagePreview = this.state.previews && this.state.previews[0]
-    //   ? this.state.previews.map((img, i) => <img key={ `preview-image-${i}` } className='upload-img' src={ img } style={ imageStyle || defaultImageStyle } />)
-    //   : null
-
-    // console.log(files)
 
     const imagePreview = files && files[0]
       ? (
