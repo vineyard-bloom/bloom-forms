@@ -9,7 +9,6 @@ import Dropzone from './inputs/dropzone.jsx'
 import ErrorTip from './error-tip.jsx'
 import FileInput from './inputs/file-input.jsx'
 import RadioGroup from './inputs/radio-group.jsx'
-import RangeInput from './inputs/range-input.jsx'
 import SelectInput from './inputs/select-input.jsx'
 import TextArea from './inputs/text-area.jsx'
 import TextInput from './inputs/text-input.jsx'
@@ -28,7 +27,6 @@ export {
   formActions,
   formReducer,
   RadioGroup,
-  RangeInput,
   SelectInput,
   TextArea,
   TextInput,

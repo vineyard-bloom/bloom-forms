@@ -24,7 +24,6 @@ Includes:
       * Dropzone
       * FileInput
       * RadioGroup
-      * RangeInput
       * SelectInput
       * TextArea (bigger, multi-line, like `<textarea>`)
       * TextInput

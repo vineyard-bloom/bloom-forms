@@ -29,7 +29,7 @@ class MyDropzone extends React.Component {
       })
     }
 
-    this.props.onChange(this.props.formId, items, this.props.name);
+    this.props.onChange(this.props.formId, items, this.props.name, 'file');
   }
 
   getDataTransferItems(event) {
@@ -70,7 +70,7 @@ class MyDropzone extends React.Component {
   }
 
   render() {
-    const { file, label, name, onDrop, required } = this.props
+    const { file, imageStyle, label, name, onDrop, required } = this.props
     const dropZoneStyle = {
       border: '2px dashed #ddd',
       borderRadius: '5px',
@@ -99,7 +99,7 @@ class MyDropzone extends React.Component {
         <div onDragOver={ this.onDrop } multiple={ false } style={ dropZoneStyle } className='drop-zone__box'>
           <div aria-hidden role='presentation'>
             { this.state.preview
-              ? <img className='upload-img' src={ this.state.preview } style={ { margin: '0 auto', width: '90%' } } />
+              ? <img className='upload-img' src={ this.state.preview } style={ imageStyle || { margin: '0 auto', width: '90%' } } />
               : (
                 <p className='u-text-center'>
                   Drag image or click here to select
@@ -108,7 +108,7 @@ class MyDropzone extends React.Component {
               )
             }
             </div>
-          <input type='file' className='u-sr-only' id={ name } onChange={ this.onDrop } />
+          <input type='file' className='u-sr-only' id={ name } onChange={ this.onDrop } multiple />
         </div>
       </label>
     )
@@ -117,6 +117,7 @@ class MyDropzone extends React.Component {
 
 MyDropzone.propTypes = {
   file: PropTypes.object,
+  imageStyle: PropTypes.object,
   label: PropTypes.string.isRequired,
   loadingElement: PropTypes.element,
   name: PropTypes.string.isRequired,

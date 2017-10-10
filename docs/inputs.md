@@ -7,7 +7,6 @@
   * [Dropzone](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#dropzone)
   * [FileInput](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#fileinput)
   * [RadioGroup](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#radiogroup)
-  * [RangeInput](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#rangeinput)
   * [SelectInput](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#selectinput)
   * [TextArea](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#textarea)
   * [TextInput](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#textinput)
@@ -168,16 +167,6 @@ Inline file input that does not support drag and drop.
   A boolean indicating if the input value can't be empty.
 - `validateAs`:
   A string tying into the validation help passed in to the wrapper `<Form>`. Examples include 'not-empty', 'zip', and 'number'.
-
-[Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
-
-## RangeInput
-### Notes:
-WIP
-
-### Required Props
-
-### Optional Props
 
 [Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
