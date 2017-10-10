@@ -1,0 +1,40 @@
+/*
+DROPZONE
+*/
+
+@import '../variables';
+
+.drop-zone {
+  margin-bottom: $pad-mar-med;
+
+  .btn {
+    background-color: $green;
+    border: 0;
+    bottom: $pad-mar-small;
+    color: $white;
+    margin-top: $pad-mar-small;;
+    position: absolute;
+    right: $pad-mar-small;
+  }
+
+  .preview-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    .preview {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .upload-name {
+        color: $dark-gray;
+        display: block;
+        margin-top: $pad-mar-x-small;
+        overflow: hidden;
+        text-align: center;
+        text-overflow: ellipsis;
+        width: 100%;
+      }
+    }
+  }
+}
