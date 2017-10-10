@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import '../styles/dropzone'
+import docImage from '../images/file.svg'
 
 const docDrop = (e) => {
   e.preventDefault();
@@ -128,7 +129,7 @@ class MyDropzone extends React.Component {
             return (
               <li key={ `preview-image-${name}-${i}` } className={ `preview upload-file upload-file--${ item.type }` }
                 style={ { maxWidth: defaultImageStyle.width, minWidth: '150px' } }>
-                <img className='upload-img' src={ src }
+                <img className='upload-img' src={ src } role='presentation' aria-hidden
                   style={ imageStyle || defaultImageStyle } alt={ item.name }
                 />
                 <span className='upload-name'>
@@ -140,7 +141,7 @@ class MyDropzone extends React.Component {
             return (
               <li className={ `preview upload-file upload-file--${ item.type }` } key={ `preview-image-${name}-${i}` }
                 style={ { maxWidth: defaultImageStyle.width } }>
-                <img role='presentation' aria-hidden style={ imageStyle || defaultImageStyle } />
+                <img role='presentation' aria-hidden style={ imageStyle || defaultImageStyle } src={ docImage } />
                 <span className='upload-name'>
                   { item.name }
                 </span>

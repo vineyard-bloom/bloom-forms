@@ -65,7 +65,9 @@ export default function formReducer(state = {}, action) {
       } else {
         val = [ action.fieldValue ]
       }
-      newForms[action.formId][action.fieldName].value = [...(newForms[action.formId][action.fieldName].value || []), ...val]
+      newForms[action.formId][action.fieldName].value = val.length
+        ? [...(newForms[action.formId][action.fieldName].value || []), ...val]
+        : []
       return { ...newForms }
 
     default:
