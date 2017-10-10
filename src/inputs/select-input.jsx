@@ -37,6 +37,7 @@ class SelectInput extends React.Component {
   };
 
   onKeyDown = (e) => {
+    e.preventDefault();
     const key = e.which || e.keyCode
     const currValue = document.activeElement.id && document.activeElement.id.includes('input-placeholder')
       ? document.activeElement.id.replace('input-placeholder-', '')
@@ -222,12 +223,12 @@ class SelectInput extends React.Component {
         { options.length && typeAhead
           ? (
             <input type='text' className={ `btn input__placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
-              value={ typeAheadDisplay }
+              value={ typeAheadDisplay } aria-hidden role='presentation'
               onChange={ this.sortResults }
             />
           ) : (
             <button disabled={!options.length} className={ `${!options.length ? 'btn disabled' : 'btn'} input__placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
-              onClick={ this.toggleList }>
+              onClick={ this.toggleList } aria-hidden role='presentation'>
               { this.props.placeholder && !value
                 ? <span className='u-grayed-out'>{ this.props.placeholder }</span>
                 :  (translateVal ? activeOptLabel : (value || 'Select'))
