@@ -4,9 +4,11 @@ TOGGLE SWITCH
 aka a checkbox that looks like a switch
 */
 
+@import './variables';
+
 $active-color: #F2A900;
 $disabled-color: #ddd;
-$toggle-height: 20px;
+$toggle-height: 25px;
 
 .toggle-switch {
   align-items: center;
@@ -25,8 +27,12 @@ $toggle-height: 20px;
     cursor: not-allowed;
   }
 
-  &.active .toggle-switch-label {
-    background-color: $active-color;
+  &.active {
+    .toggle-switch-label {
+      background-color: $active-color;
+      color: $white;
+      justify-content: flex-start;
+    }
   }
 }
 
@@ -38,13 +44,16 @@ $toggle-height: 20px;
 }
 
 .toggle-switch-label {
+  align-items: center;
   background-color: $disabled-color;
   border-radius: 50px;
-  display: inline-block;
+  display: inline-flex;
+  font-size: 0.8em;
   height: calc(#{$toggle-height} + 2px);
+  justify-content: flex-end;
   margin-left: 5px;
   padding: 2px;
-  width: calc(#{$toggle-height} * 2);
+  width: calc(#{$toggle-height} * 2.5);
   z-index: 1;
 }
 
@@ -53,7 +62,7 @@ $toggle-height: 20px;
   border-radius: 50%;
   display: inline-block;
   height: $toggle-height;
-  margin-left: calc(#{$toggle-height} * -2);
+  margin-left: calc(#{$toggle-height} * -2.5);
   margin-top: 2px;
   position: absolute;
   transition: margin ease 0.3s;

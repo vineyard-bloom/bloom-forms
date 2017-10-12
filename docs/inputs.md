@@ -314,6 +314,11 @@ The ToggleSwitch is a hidden checkbox that appears in the UI like a sideways lig
   A string that styles the toggle switch.
 - `disabled`:
   A boolean that, when true, prevents the onClick event from firing and leaves the `ToggleSwitch` in 'off' position.
+- `innerLabels`:
+  An object that allows you to display text for 'on' and 'off' inside the `ToggleSwitch`. An example object might look like:
+  ```
+  { on: 'true', off: 'false' }
+  ```
 - `required`:
   A boolean indicating if the input value can't be empty. HTML checkboxes don't support this fully, so it's only used for UX display purposes.
 

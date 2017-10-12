@@ -5,7 +5,7 @@ import '../styles/inputs.scss';
 import '../styles/toggle-switch.scss';
 
 const ToggleSwitch = (props) => {
-  let { className, disabled, name, isActive, labelText, onClick, required } = props;
+  let { className, disabled, innerLabels, isActive, labelText, name, onClick, required } = props;
 
   let attr = {};
 
@@ -21,7 +21,14 @@ const ToggleSwitch = (props) => {
       <input type='checkbox' className='toggle-switch-input u-sr-only' checked={ isActive } id={ name } name={ name } />
       <div>
         <span className='u-sr-only'>{ isActive ? 'on' : 'off' }</span>
-        <span className="toggle-switch-label" data-on="On" data-off="Off"></span>
+        <span className='toggle-switch-label' data-on={ innerLabels && innerLabels.on || 'On' }
+          data-off={ innerLabels && innerLabels.off || 'Off' }>
+          { innerLabels && innerLabels.on && innerLabels.off &&
+            <span className='toggle-switch-label__text'>
+              { isActive ? innerLabels.on : innerLabels.off }
+            </span>
+          }
+        </span>
         <span role='presentation' aria-hidden className={ `toggle-switch-handle ${ isActive ? 'active' : '' }` }></span>
       </div>
     </label>
@@ -31,9 +38,13 @@ const ToggleSwitch = (props) => {
 ToggleSwitch.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  name: PropTypes.string.isRequired,
+  innerLabels: PropTypes.shape({
+    on: PropTypes.string.isRequired,
+    off: PropTypes.string.isRequired
+  }),
   isActive: PropTypes.bool.isRequired,
   labelText: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   required: PropTypes.bool
 }
