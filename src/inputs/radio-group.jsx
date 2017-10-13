@@ -22,9 +22,15 @@ const RadioGroup = (props) => {
   return (
     <radiogroup className={ containerClass }>
       { options.map((opt) => {
-        let { label, id } = opt
+        const { label, id } = opt
+        const clickForward = (e) => {
+          e.preventDefault();
+          document.getElementById(id).click()
+        }
+
         return (
-          <label className='input__label input__label--radio input__label--inline' htmlFor={ name } onBlur={ props.onBlur }>
+          <label className='input__label input__label--radio input__label--inline' htmlFor={ name } onBlur={ props.onBlur }
+            onClick={ clickForward }>
             <input type='radio' value={ value } name={ name } id={ id } onChange={ props.onChange }
               checked={ value === id } data-validate={ validateAs } { ...attr }
               className={ `input input--radio u-sr-only ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
