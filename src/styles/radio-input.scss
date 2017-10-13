@@ -3,6 +3,26 @@ RADIO INPUTS
 ============
 */
 
+@import './variables';
+
+$radio-dim: 15px;
+
 .input--radio {
   max-width: 30px;
+}
+
+.input--radio__placeholder {
+  border: 1px solid $med-gray;
+  border-radius: 50%;
+  box-shadow: $inset-shadow;
+  cursor: pointer;
+  height: $radio-dim;
+  width: $radio-dim;
+
+  &.is-checked {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/26/5fd35f_dot.svg');
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: calc($radio-dim * .75);
+  }
 }
