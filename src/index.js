@@ -5,6 +5,7 @@ import formReducer from './formReducer.js'
 import Button from './inputs/button.jsx'
 import Checkbox from './inputs/checkbox.jsx'
 import CurrencyInput from './inputs/currency-input.jsx'
+import DateInput from './inputs/date-input.jsx'
 import Dropzone from './inputs/dropzone.jsx'
 import ErrorTip from './error-tip.jsx'
 import FileInput from './inputs/file-input.jsx'
@@ -20,6 +21,7 @@ export {
   Button,
   Checkbox,
   CurrencyInput,
+  DateInput,
   Dropzone,
   ErrorTip,
   FileInput,

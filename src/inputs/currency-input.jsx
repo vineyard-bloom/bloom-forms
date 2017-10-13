@@ -19,10 +19,6 @@ const CurrencyInput = (props) => {
 
   const labelElem = document.getElementById(`${id}__label`)
 
-  let afterPosition = labelElem
-    ? labelElem.getBoundingClientRect().width - 35
-    : null;
-
   return (
     <div>
       <label className='input__label' id={ `${id}__label` }>
@@ -33,7 +29,7 @@ const CurrencyInput = (props) => {
           className={ `input input--currency ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
           data-validate='number' placeholder={ placeholder } { ...attr } />
         { afterPosition && currency ?
-          <div className='input__after' style={ { marginLeft: afterPosition, marginTop: '25px' } }>{ currency }</div>
+          <div className='input__after' style={ { right: '5px', marginTop: '25px' } }>{ currency }</div>
           : '' }
       </label>
       { error ? <ErrorTip contents={ error } /> : '' }

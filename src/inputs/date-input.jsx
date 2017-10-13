@@ -1,13 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ErrorTip from '../error-tip'
-
-import '../styles/inputs.scss'
-
-const TextInput = (props) => {
+/* just the basic input[type='date'] -- no customized dropdown styles or anything */
+const DateInput = (props) => {
   const {
-    className, error, isPassword,
+    className, error,
     name, label, labelClass, placeholder,
     showLabel, validateAs, containerClass, ...rest } = props;
   const labelTextClasses = `input__label__text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : ' u-sr-only' }`;
@@ -24,7 +21,7 @@ const TextInput = (props) => {
       <span className={ labelTextClasses }>
         { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
       </span>
-      <input type={ isPassword ? 'password' : 'text' } value={ props.value } name={ name } id={ name }
+      <input type='date' value={ props.value } name={ name } id={ name }
         onChange={ props.onChange } onKeyDown={ props.onKeyDown }
         className={ `input input--text ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
         data-validate={ validateAs }  placeholder={ placeholder } { ...attr } />
@@ -33,10 +30,9 @@ const TextInput = (props) => {
   )
 }
 
-TextInput.propTypes = {
+DateInput.propTypes = {
   className: PropTypes.string,
   error: PropTypes.string,
-  isPassword: PropTypes.bool,
   label: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.element
@@ -53,8 +49,8 @@ TextInput.propTypes = {
   value: PropTypes.string.isRequired
 };
 
-TextInput.defaultProps = {
+DateInput.defaultProps = {
   value: ''
 }
 
-export default TextInput;
+export default DateInput
