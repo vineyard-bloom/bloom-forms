@@ -126,9 +126,9 @@ export class Form extends React.Component {
         } else if (thisForm[field].value[0] && thisForm[field].value[0].type && thisForm[field].value[0].name) {
           // contains files
           files = files || new FormData()
-          thisForm[field].value.forEach((elem) => {
-            files.append(field, elem, elem.name)
-          })
+          thisForm[field].value.forEach((elem) =>
+            files.append(`${field}[]`, elem, elem.name)
+          )
           delete thisForm[field]
         } else if (field != 'isValid') {
           thisForm[field] = thisForm[field].value
