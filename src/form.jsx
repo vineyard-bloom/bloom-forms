@@ -119,27 +119,26 @@ export class Form extends React.Component {
         this.checkField(null, document.getElementById(field))
       }
 
-      if (thisForm[field].value) {
+      if (thisForm[field].value || (thisForm[field].value === '')) {
         if (field.indexOf('confirm') > -1) {
           // don't send two of the same field (confirm is for front end)
           delete thisForm[field]
         } else if (thisForm[field].value[0] && thisForm[field].value[0].type && thisForm[field].value[0].name) {
           // contains files
-          files = files || new FormData()
-          thisForm[field].value.forEach((elem) =>
-            files.append(`${field}[]`, elem, elem.name)
-          )
+          files = files && files.length ? files : new FormData()
+          thisForm[field].value.forEach((elem, i) => {
+            console.log(`file ${i}: `, elem)
+            files.append(`${field}[${i}]`, elem)
+          })
           delete thisForm[field]
         } else if (field != 'isValid') {
           thisForm[field] = thisForm[field].value
         }
-      } else if (field != 'isValid') {
-        delete thisForm[field]
       }
     } 
 
     // make sure we've got an updated version in case we got invalid fields from that last checkField
-    thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
+    thisForm = { ...thisForm, isValid: this.props.forms[this.props.id].isValid }
 
     if (thisForm && thisForm.isValid) {
       delete thisForm.isValid
