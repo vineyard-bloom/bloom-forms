@@ -92,7 +92,9 @@ export class Form extends React.Component {
     const allowNull = !isRequired || (fieldValue && isRequired)
 
     if (fieldStatus.isValid && allowNull) {
-      this.props.deleteFormError(this.props.id, fieldName)
+      if (thisForm[fieldName] && thisForm[fieldName].error) {
+        this.props.deleteFormError(this.props.id, fieldName)
+      }
     } else {
       this.props.addFormError(this.props.id, fieldName, fieldStatus.warnings[fieldName])
     }
@@ -112,18 +114,21 @@ export class Form extends React.Component {
     let files
 
     for (let field in thisForm) {
-      if (field != 'isValid' && (!/(\.|\/)(gif|jpe?g|png|txt|pdf|doc?x)$/.test(thisForm[field].value)) && (document.getElementById(field))) {
+      if (field != 'isValid' && (thisForm[field].value && !thisForm[field].value.type /* don't check files */) && (document.getElementById(field))) {
         // validate each field in case onBlur on that field never triggered
         this.checkField(null, document.getElementById(field))
       }
 
       if (thisForm[field].value) {
         if (field.indexOf('confirm') > -1) {
+          // don't send two of the same field (confirm is for front end)
           delete thisForm[field]
-        } else if (/(\.|\/)(gif|jpe?g|png|txt|pdf|doc?x)$/.test(thisForm[field].value)) {
-          // file placeholder
+        } else if (thisForm[field].value[0] && thisForm[field].value[0].type && thisForm[field].value[0].name) {
+          // contains files
           files = files || new FormData()
-          files.append(field, document.getElementById(field).files[0], thisForm[field].value)
+          thisForm[field].value.forEach((elem) => {
+            files.append(field, elem, elem.name)
+          })
           delete thisForm[field]
         } else if (field != 'isValid') {
           thisForm[field] = thisForm[field].value
@@ -132,6 +137,9 @@ export class Form extends React.Component {
         delete thisForm[field]
       }
     } 
+
+    // make sure we've got an updated version in case we got invalid fields from that last checkField
+    thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
 
     if (thisForm && thisForm.isValid) {
       delete thisForm.isValid
