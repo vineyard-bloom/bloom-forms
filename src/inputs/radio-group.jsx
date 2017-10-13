@@ -25,13 +25,13 @@ const RadioGroup = (props) => {
         let { label, id } = opt
         return (
           <label className='input__label input__label--radio input__label--inline' htmlFor={ name } onBlur={ props.onBlur }>
-            <span className={ labelTextClasses }>
-              { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
-            </span>
             <input type='radio' value={ value } name={ name } id={ id } onChange={ props.onChange }
               checked={ value === id } data-validate={ validateAs } { ...attr }
               className={ `input input--radio ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
             />
+            <span className={ labelTextClasses }>
+              { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
+            </span>
             { error ? <ErrorTip contents={ error } /> : '' }
           </label>
         )

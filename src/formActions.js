@@ -59,7 +59,7 @@ export function updateForm(e, formId, fieldName, fieldValue, type) {
         break
       }
     default:
-      fieldValue = fieldValue || (e ? e.target.value : '')
+      fieldValue = fieldValue || (fieldValue === 0 ? fieldValue : (e ? e.target.value : ''))
   }
 
   return {
