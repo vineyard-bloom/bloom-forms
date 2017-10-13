@@ -7,6 +7,11 @@ RADIO INPUTS
 
 $radio-dim: 15px;
 
+.input__label--radio {
+  padding-bottom: $pad-mar-x-small;
+  padding-top: $pad-mar-x-small;
+}
+
 .input--radio {
   max-width: 30px;
 }
@@ -17,11 +22,12 @@ $radio-dim: 15px;
   box-shadow: $inset-shadow;
   cursor: pointer;
   height: $radio-dim;
+  margin-right: $pad-mar-x-small;
   width: $radio-dim;
 
   &.is-checked {
     background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/26/5fd35f_dot.svg');
-    background-position: calc(50% - 1px) 50%;
+    background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: calc(#{$radio-dim} * .65);
   }
