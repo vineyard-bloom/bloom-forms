@@ -57,6 +57,11 @@ $toggle-height: 25px;
   z-index: 1;
 }
 
+.toggle-switch-label__text {
+  display: inline-block;
+  padding: 0 $pad-mar-x-small;
+}
+
 .toggle-switch-handle {
   background-color: #fff;
   border-radius: 50%;

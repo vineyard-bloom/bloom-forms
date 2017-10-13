@@ -114,7 +114,8 @@ export class Form extends React.Component {
     let files
 
     for (let field in thisForm) {
-      if (field != 'isValid' && (thisForm[field].value && !thisForm[field].value.type /* don't check files */) && (document.getElementById(field))) {
+      if (field != 'isValid' && ((thisForm[field].value || (thisForm[field].value === ''))
+        && !thisForm[field].value.type /* don't check files */) && (document.getElementById(field))) {
         // validate each field in case onBlur on that field never triggered
         this.checkField(null, document.getElementById(field))
       }
@@ -135,7 +136,7 @@ export class Form extends React.Component {
           thisForm[field] = thisForm[field].value
         }
       }
-    } 
+    }
 
     // make sure we've got an updated version in case we got invalid fields from that last checkField
     thisForm = { ...thisForm, isValid: this.props.forms[this.props.id].isValid }
