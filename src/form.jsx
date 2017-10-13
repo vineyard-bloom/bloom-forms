@@ -82,7 +82,6 @@ export class Form extends React.Component {
     const fieldValue = field.value
     const isRequired = field.getAttribute('aria-required') || field.getAttribute('required')
 
-    const thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
     const fieldStatus =
       validator(
         { [fieldName]: { value: fieldValue, validateAs: field.getAttribute('data-validate'), name: fieldName} },
@@ -90,11 +89,12 @@ export class Form extends React.Component {
         this.props.validationHelp ? this.props.validationHelp.dictionary : null
       )
     const allowNull = !isRequired || (fieldValue && isRequired)
+    const thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
 
     if (fieldStatus.isValid && allowNull) {
-      if (thisForm[fieldName] && thisForm[fieldName].error) {
+      // if (thisForm[fieldName] && thisForm[fieldName].error) {
         this.props.deleteFormError(this.props.id, fieldName)
-      }
+      // } // tests needed this to run always, since the wrapper instance doesn't talk to the same props
     } else {
       this.props.addFormError(this.props.id, fieldName, fieldStatus.warnings[fieldName])
     }

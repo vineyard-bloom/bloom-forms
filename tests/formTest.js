@@ -128,7 +128,7 @@ describe('<Form/>', function() {
     wrapper.instance().checkField(null, fakeElem);
 
     const thatForm = store.getState().forms['example-form']
-    assert.ok(thatForm.name);
+    assert.ok(thatForm.name)
     assert.ok(!thatForm.name.error);
   })
 })
