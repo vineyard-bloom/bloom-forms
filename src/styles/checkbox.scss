@@ -5,6 +5,8 @@ CHECKBOXES
 
 @import './variables';
 
+$checkbox-dim: 15px;
+
 .input[type='checkbox'] {
   display: inline-block;
   margin-left: -12px;
@@ -17,14 +19,14 @@ CHECKBOXES
   background-color: $white;
   border: 1px solid $dark-gray;
   cursor: pointer;
-  height: 10px;
-  width: 10px;
+  height: $checkbox-dim;
+  width: $checkbox-dim;
   z-index: 1;
 
   &.is-checked {
     background-image: url('https://upload.wikimedia.org/wikipedia/commons/e/e9/Echo_curation_alt_check_mark.svg');
-    background-position: -1px 1px;
+    background-position: 25% 50%;
     background-repeat: no-repeat;
-    background-size: 10px;
+    background-size: $checkbox-dim;
   }
 }
