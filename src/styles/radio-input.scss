@@ -21,8 +21,8 @@ $radio-dim: 15px;
 
   &.is-checked {
     background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/26/5fd35f_dot.svg');
-    background-position: 50% 50%;
+    background-position: calc(50% - 1px) 50%;
     background-repeat: no-repeat;
-    background-size: calc($radio-dim * .75);
+    background-size: calc(#{$radio-dim} * .65);
   }
 }
