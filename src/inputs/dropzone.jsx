@@ -127,22 +127,22 @@ class MyDropzone extends React.Component {
           if (item.type && item.type.includes('image')) {
             let src = URL.createObjectURL(item)
             return (
-              <li key={ `preview-image-${name}-${i}` } className={ `preview upload-file upload-file--${ item.type }` }
+              <li key={ `preview-image-${name}-${i}` } className={ `DropZone-preview DropZone-upload-file DropZone-upload-file--${ item.type }` }
                 style={ { maxWidth: defaultImageStyle.width, minWidth: '150px' } }>
-                <img className='upload-img' src={ src } role='presentation' aria-hidden
+                <img className='DropZone-upload-img' src={ src } role='presentation' aria-hidden
                   style={ imageStyle || defaultImageStyle } alt={ item.name }
                 />
-                <span className='upload-name'>
+                <span className='DropZone-upload-name'>
                   { item.name }
                 </span>
               </li>
             )
           } else {
             return (
-              <li className={ `preview upload-file upload-file--${ item.type }` } key={ `preview-image-${name}-${i}` }
+              <li className={ `DropZone-preview DropZone-upload-file DropZone-upload-file--${ item.type }` } key={ `preview-image-${name}-${i}` }
                 style={ { maxWidth: defaultImageStyle.width } }>
                 <img role='presentation' aria-hidden style={ imageStyle || defaultImageStyle } src={ docImage } />
-                <span className='upload-name'>
+                <span className='Dropzone-upload-name'>
                   { item.name }
                 </span>
               </li>
@@ -152,13 +152,13 @@ class MyDropzone extends React.Component {
       ) : null
 
     return (
-      <label className='input__label drop-zone'>
+      <label className='Input-label DropZone'>
         { label }{ requiredString }
-        <div onDragOver={ this.onDrop } multiple={ false } onClick={ this.triggerInput } style={ dropZoneStyle } className='drop-zone__box input--file'>
+        <div onDragOver={ this.onDrop } multiple={ false } onClick={ this.triggerInput } style={ dropZoneStyle } className='DropZone-box Input--file'>
           <div aria-hidden role='presentation'>
 
             { imagePreview
-              ? <ul className='preview-container'>
+              ? <ul className='DropZone-preview-container'>
                   { imagePreview }
                 </ul>
               : (
@@ -174,7 +174,7 @@ class MyDropzone extends React.Component {
             </div>
           <input type='file' className='u-sr-only' id={ name } onChange={ this.onDrop } multiple={ multiple } accept={ accept } />
         </div>
-        <button className='btn' id={ `dropzone-${name}-clear-btn` } onClick={ this.clearAll }>
+        <button className='Btn' id={ `dropzone-${name}-clear-btn` } onClick={ this.clearAll }>
           Clear All
         </button>
       </label>
