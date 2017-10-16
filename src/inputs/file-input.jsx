@@ -70,7 +70,7 @@ class FileInput extends React.Component {
           <div className='Input--file-text'>
             { this.state.fileText }
           </div>
-          <div className='btn'>
+          <div className='Btn'>
             Browse <span className="u-sr-only">local file system</span>
           </div>
         </div>

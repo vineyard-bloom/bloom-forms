@@ -142,7 +142,7 @@ class MyDropzone extends React.Component {
               <li className={ `DropZone-preview DropZone-upload-file DropZone-upload-file--${ item.type }` } key={ `preview-image-${name}-${i}` }
                 style={ { maxWidth: defaultImageStyle.width } }>
                 <img role='presentation' aria-hidden style={ imageStyle || defaultImageStyle } src={ docImage } />
-                <span className='Dropzone-upload-name'>
+                <span className='DropZone-upload-name'>
                   { item.name }
                 </span>
               </li>
