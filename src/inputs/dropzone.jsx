@@ -104,7 +104,7 @@ class MyDropzone extends React.Component {
     let attr = {}
 
     if (required) {
-      requiredString = (<span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span>)
+      requiredString = (<span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span>)
       attr['required'] = true
       attr['aria-required'] = 'true'
     }

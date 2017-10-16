@@ -11,7 +11,7 @@ const RadioGroup = (props) => {
     className, containerClass, error,
     name, labelClass, options, value,
     validateAs, ...rest } = props;
-  let labelTextClasses = `input__label__text ${ labelClass ? labelClass : '' }`;
+  let labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' }`;
 
   let attr = {};
 
@@ -29,15 +29,15 @@ const RadioGroup = (props) => {
         }
 
         return (
-          <label className='input__label input__label--radio input__label--inline' htmlFor={ name } onBlur={ props.onBlur }
+          <label className='Input-label Input--radio-label Input-label--inline' htmlFor={ name } onBlur={ props.onBlur }
             onClick={ clickForward }>
             <input type='radio' value={ value } name={ name } id={ id } onChange={ props.onChange }
               checked={ value === id } data-validate={ validateAs } { ...attr }
-              className={ `input input--radio u-sr-only ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
+              className={ `Input Input--radio u-sr-only ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
             />
-            <div className={ `input--radio__placeholder non-sr-only ${ value === id ? 'is-checked' : '' }` }></div>
+            <div className={ `Input--radio-placeholder non-sr-only ${ value === id ? 'is-checked' : '' }` }></div>
             <span className={ labelTextClasses }>
-              { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
+              { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
             </span>
             { error ? <ErrorTip contents={ error } /> : '' }
           </label>

@@ -3,26 +3,14 @@ FORMS
 =====
 */
 
-.form {
+.Form {
   margin: 0 auto;
 }
 
-.form__row {
+.Form-row {
   display: flex-inline;
   justify-content: space-between;
   position: relative;
   width: 100%;
-
-  .form__col-30 {
-    width: 30%;
-  }
-
-  .form__col-50 {
-    width: 50%;
-  }
-
-  .form__col-60 {
-    width: 60%;
-  }
 }
 

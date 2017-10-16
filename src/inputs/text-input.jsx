@@ -10,7 +10,7 @@ const TextInput = (props) => {
     className, error, isPassword,
     name, label, labelClass, placeholder,
     showLabel, validateAs, containerClass, ...rest } = props;
-  const labelTextClasses = `input__label__text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : ' u-sr-only' }`;
+  const labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' }${ showLabel ? '' : ' u-sr-only' }`;
 
   let attr = {};
 
@@ -20,13 +20,13 @@ const TextInput = (props) => {
   }
 
   return (
-    <label className={ `input__label ${ containerClass || '' }` } htmlFor={ name } onBlur={ props.onBlur }>
+    <label className={ `Input-label ${ containerClass || '' }` } htmlFor={ name } onBlur={ props.onBlur }>
       <span className={ labelTextClasses }>
-        { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
+        { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
       </span>
       <input type={ isPassword ? 'password' : 'text' } value={ props.value } name={ name } id={ name }
         onChange={ props.onChange } onKeyDown={ props.onKeyDown }
-        className={ `input input--text ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
+        className={ `Input Input--text ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
         data-validate={ validateAs }  placeholder={ placeholder } { ...attr } />
       { error ? <ErrorTip contents={ error } /> : '' }
     </label>

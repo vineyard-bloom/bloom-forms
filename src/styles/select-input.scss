@@ -4,8 +4,8 @@ SELECT INPUT
 
 @import './variables';
 
-.select-input {
-  .input__placeholder {
+.SelectInput {
+  .Input-placeholder {
     align-items: center;
     background-color: $white;
     border: 1px solid $med-gray;
@@ -43,13 +43,13 @@ SELECT INPUT
     }
   }
 
-  .input__label__text {
+  .Input-label-text {
     display: block;
     width: 100%;
   }
 }
 
-.select-input__opts {
+.SelectInput-opts {
   background-color: $white;
   box-shadow: $box-shadow-no-top;
   margin-top: 75px;

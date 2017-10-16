@@ -7,9 +7,9 @@ import '../styles/buttons.scss';
 
 const Button = (props) => {
   let { className, disabled, id, loading, loadingElement, onClick, text } = props;
-  let classes = className && className.indexOf('btn') > -1
+  let classes = className && className.indexOf('Btn') > -1
     ? `o-flex-container ${className || ''}${ loading ? ' is-loading' : '' }`
-    : `o-flex-container btn ${className || ''}${ loading ? ' is-loading' : '' }`;
+    : `o-flex-container Btn ${className || ''}${ loading ? ' is-loading' : '' }`;
   return (
    <button className={ classes } onClick={ loading ? () => { return } : onClick } id={ id } disabled={ disabled || loading }>
       <span className='o-flex-container u-align-center'>

@@ -10,7 +10,7 @@ const TextArea = (props) => {
     className, error, isPassword,
     name, label, labelClass, placeholder,
     showLabel, validateAs, value, containerClass, ...rest } = props;
-  let labelTextClasses = `input__label__text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : ' u-sr-only' }`;
+  let labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' }${ showLabel ? '' : ' u-sr-only' }`;
 
   let attr = {};
 
@@ -20,13 +20,13 @@ const TextArea = (props) => {
   }
 
   return (
-    <label className={ `input__label ${ containerClass || '' }` } htmlFor={ name } onBlur={ props.onBlur }>
+    <label className={ `Input-label ${ containerClass || '' }` } htmlFor={ name } onBlur={ props.onBlur }>
       <span className={ labelTextClasses }>
-        { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
+        { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
       </span>
       <textarea style={ {minHeight: '100px', resize: 'none', width: '100%'} } value={ value } data-validate={ validateAs }
         onChange={ props.onChange } onBlur={ props.onBlur } name={ name } id={ name }
-        className={ `input input--text ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
+        className={ `Input Input--text ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
       />
       { error ? <ErrorTip contents={ error } /> : '' }
     </label>

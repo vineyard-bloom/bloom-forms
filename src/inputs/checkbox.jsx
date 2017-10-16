@@ -9,7 +9,7 @@ const Checkbox = (props) => {
     checked, className, errors,
     name, label, labelClass,
     showLabel, validateAs, ...rest } = props;
-  let labelTextClasses = `input__label__text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : ' u-sr-only' }`;
+  let labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : ' u-sr-only' }`;
   let attr = {}
 
   if (rest.required) {
@@ -18,16 +18,16 @@ const Checkbox = (props) => {
   }
 
   return (
-    <label style={{paddingBottom: '2px'}} className='input__label input__label--inline'>
-      <div className={ `non-sr-only input--checkbox__placeholder ${ checked ? 'glyphicon glyphicon-ok is-checked' : '' }` }></div>
+    <label style={{paddingBottom: '2px'}} className='Input-label Input-label--inline'>
+      <div className={ `non-sr-only Input--checkbox-placeholder ${ checked ? 'glyphicon glyphicon-ok is-checked' : '' }` }></div>
       <input type='checkbox' checked={ checked } name={ name } id={ name } onChange={ props.onChange }
-        className={ `u-sr-only input input--text ${ className ? className : '' } ${ errors ? 'input--invalid' : '' }` }
+        className={ `u-sr-only Input Input--text ${ className ? className : '' } ${ errors ? 'Input--invalid' : '' }` }
         data-validate={ validateAs } { ...attr } />
       <span className={ labelTextClasses }>
-        { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
+        { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
       </span>
       { errors &&
-        <div className='input__error'>{ errors }</div>
+        <div className='Input-error'>{ errors }</div>
       }
     </label>
   )

@@ -58,16 +58,16 @@ class FileInput extends React.Component {
     let attr = {}
 
     if (required) {
-      requiredString = (<span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span>)
+      requiredString = (<span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span>)
       attr['required'] = true
       attr['aria-required'] = 'true'
     }
 
     return (
-      <label htmlFor={ this.props.name } className="input__label input--file" onClick={ this.triggerInput }>
-        <span className='input--file__label-text'>{ label }{ requiredString }</span>
-        <div className='input__placeholder input__placeholder--file' role='presentation' aria-hidden>
-          <div className='input--file__text'>
+      <label htmlFor={ this.props.name } className='Input-label Input--file' onClick={ this.triggerInput }>
+        <span className='Input--file-label-text'>{ label }{ requiredString }</span>
+        <div className='Input-placeholder Input-placeholder--file' role='presentation' aria-hidden>
+          <div className='Input--file-text'>
             { this.state.fileText }
           </div>
           <div className='btn'>
@@ -76,7 +76,7 @@ class FileInput extends React.Component {
         </div>
         { error && <ErrorTip contents={ error } /> }
         <input name={ name } id={ id } { ...attr } type='file' data-validate={ required ? 'not-empty' : null }
-          className='input' style={ {display: 'none'} } onChange={ this.updateText } accept={ accept }
+          className='input u-sr-only' style={ {display: 'none'} } onChange={ this.updateText } accept={ accept }
           data-multiple-caption="{count} files selected" multiple={ multiple } data-validate='file' />
       </label>
     )

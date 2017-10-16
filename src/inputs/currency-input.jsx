@@ -8,7 +8,7 @@ const CurrencyInput = (props) => {
     className, currency, error,
     id, label, labelClass, name, onBlur, onChange, placeholder,
     showLabel, validateAs, value, ...rest } = props;
-  let labelTextClasses = `input__label__text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : ' u-sr-only' }`;
+  let labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : 'u-sr-only' }`;
 
   let attr = {};
 
@@ -17,19 +17,19 @@ const CurrencyInput = (props) => {
     attr.required = true;
   }
 
-  const labelElem = document.getElementById(`${id}__label`)
+  const labelElem = document.getElementById(`${id}-label`)
 
   return (
     <div>
-      <label className='input__label' id={ `${id}__label` }>
+      <label className='Input-label' id={ `${id}-label` }>
         <span className={ labelTextClasses }>
-          { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
+          { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
         </span>
         <input type='number' min='0' step='any' value={ value } name={ name } id={ id } onChange={ onChange } onBlur={ onBlur }
-          className={ `input input--currency ${ className ? className : '' } ${ error ? 'input--invalid' : '' }` }
+          className={ `Input Input--currency ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
           data-validate='number' placeholder={ placeholder } { ...attr } />
         { currency ?
-          <div className='input__after' style={ { right: '5px', marginTop: '25px' } }>{ currency }</div>
+          <div className='Input-after' style={ { right: '5px', marginTop: '25px' } }>{ currency }</div>
           : '' }
       </label>
       { error ? <ErrorTip contents={ error } /> : '' }

@@ -10,7 +10,7 @@ $active-color: $green;
 $disabled-color: #ddd;
 $toggle-height: 25px;
 
-.toggle-switch {
+.ToggleSwitch {
   align-items: center;
   cursor: pointer;
   display: inline-flex;
@@ -28,52 +28,52 @@ $toggle-height: 25px;
   }
 
   &.active {
-    .toggle-switch-label {
+    .ToggleSwitch-label {
       background-color: $active-color;
       color: $white;
       justify-content: flex-start;
     }
   }
-}
 
-.toggle-switch-input {
-  position: absolute;
-  right: 10px;
-  top: 2px;
-  z-index: -1;
-}
+  &-input {
+    position: absolute;
+    right: 10px;
+    top: 2px;
+    z-index: -1;
+  }
 
-.toggle-switch-label {
-  align-items: center;
-  background-color: $disabled-color;
-  border-radius: 50px;
-  display: inline-flex;
-  font-size: 0.8em;
-  height: calc(#{$toggle-height} + 2px);
-  justify-content: flex-end;
-  margin-left: 5px;
-  padding: 2px;
-  width: calc(#{$toggle-height} * 2.5);
-  z-index: 1;
-}
+  &-label {
+    align-items: center;
+    background-color: $disabled-color;
+    border-radius: 50px;
+    display: inline-flex;
+    font-size: 0.8em;
+    height: calc(#{$toggle-height} + 2px);
+    justify-content: flex-end;
+    margin-left: 5px;
+    padding: 2px;
+    width: calc(#{$toggle-height} * 2.5);
+    z-index: 1;
 
-.toggle-switch-label__text {
-  display: inline-block;
-  padding: 0 $pad-mar-x-small;
-}
+    &-text {
+      display: inline-block;
+      padding: 0 $pad-mar-x-small;
+    }
+  }
 
-.toggle-switch-handle {
-  background-color: #fff;
-  border-radius: 50%;
-  display: inline-block;
-  height: $toggle-height;
-  margin-left: calc(#{$toggle-height} * -2.5);
-  margin-top: 2px;
-  position: absolute;
-  transition: margin ease 0.3s;
-  width: $toggle-height;
+  &-handle {
+    background-color: #fff;
+    border-radius: 50%;
+    display: inline-block;
+    height: $toggle-height;
+    margin-left: calc(#{$toggle-height} * -2.5);
+    margin-top: 2px;
+    position: absolute;
+    transition: margin ease 0.3s;
+    width: $toggle-height;
 
-  &.active {
-    margin-left: calc(-#{$toggle-height} - 2px);
+    &.active {
+      margin-left: calc(-#{$toggle-height} - 2px);
+    }
   }
 }

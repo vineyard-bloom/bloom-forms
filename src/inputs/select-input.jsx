@@ -215,19 +215,19 @@ class SelectInput extends React.Component {
       )
 
     return (
-      <label className={ `input__label select-input ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.closeOpts } onKeyDown={ this.onKeyDown }>
-        <span className={ `input__label__text ${ !showLabel ? 'u-sr-only' : '' }` }>
-          { label }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
+      <label className={ `Input-label SelectInput ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.closeOpts } onKeyDown={ this.onKeyDown }>
+        <span className={ `Input-label-text ${ !showLabel ? 'u-sr-only' : '' }` }>
+          { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
             {loading ? <Loading/> : null}
         </span>
         { options.length && typeAhead
           ? (
-            <input type='text' className={ `btn input__placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
+            <input type='text' className={ `Btn Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
               value={ typeAheadDisplay } aria-hidden role='presentation'
               onChange={ this.sortResults }
             />
           ) : (
-            <button disabled={!options.length} className={ `${!options.length ? 'btn disabled' : 'btn'} input__placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
+            <button disabled={!options.length} className={ `${!options.length ? 'Btn is-disabled' : 'Btn'} Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
               onClick={ this.toggleList } aria-hidden role='presentation'>
               { this.props.placeholder && !value
                 ? <span className='u-grayed-out'>{ this.props.placeholder }</span>
@@ -236,9 +236,9 @@ class SelectInput extends React.Component {
             </button>
           )
         }
-        { error && <ErrorTip contents={ error } className='tooltip--error--select' /> }
+        { error && <ErrorTip contents={ error } className='Tooltip--error--select' /> }
         { this.state.showList &&
-          <ul className='select-input__opts non-sr-only' aria-hidden role='presentation'>
+          <ul className='SelectInput-opts non-sr-only' aria-hidden role='presentation'>
             { placeholderOpts }
           </ul>
         }

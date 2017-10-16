@@ -25,87 +25,90 @@ input[type='number'] {
   }
 }
 
-.input {
+.Input {
   border: $input-border;
   color: $dark-gray;
   font-size: $main-font-size;
   margin: $pad-mar-small 0;
   padding: $pad-mar-small $pad-mar-med;
   width: 100%;
-}
 
-.input__error {
-  display: block;
-  color: $red;
-  font-size: $h5-font-size;
-  margin: 0 0 $pad-mar-med;
-  padding: 0;
-  width: 100%;
-}
+  &-error {
+    display: block;
+    color: $red;
+    font-size: $h5-font-size;
+    margin: 0 0 $pad-mar-med;
+    padding: 0;
+    width: 100%;
+  }
 
-.input__label {
-  display: inline-flex;
-  flex-wrap: wrap;
-  position: relative;
-  width: 100%;
+  &-label {
+    display: inline-flex;
+    flex-wrap: wrap;
+    position: relative;
+    width: 100%;
 
-  &--small {
-    margin: $pad-mar-small 0 $pad-mar-small $pad-mar-small;
-    width: 40%;
+    &--small {
+      margin: $pad-mar-small 0 $pad-mar-small $pad-mar-small;
+      width: 40%;
 
-    &:last-of-type {
-      margin-right: $pad-mar-small;
+      &:last-of-type {
+        margin-right: $pad-mar-small;
+      }
+    }
+
+    &--inline {
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    &--wrap {
+      flex-wrap: wrap;
     }
   }
 
-  &--inline {
-    align-items: center;
-    flex-wrap: nowrap;
+  &-placeholder{
+    &--file {
+      border: $input-border;
+      display: flex;
+      justify-content: space-between;
+      min-width: 300px;
+    }
   }
 
-  &--wrap {
-    flex-wrap: wrap;
+  &--currency {
+    & ~ .Input-after {
+      color: $light-gray;
+      margin-top: 1.5em;
+      position: absolute;
+    }
+  }
+
+  &--invalid {
+    box-shadow: 0 0 5px $red;
+  }
+
+  &--file {
+    cursor: pointer;
+
+    .Btn {
+      background-color: $green;
+      color: $white;
+      display: inline-block;
+      padding: $pad-mar-small;
+    }
+
+    &-label-text {
+      width: 100%;
+    }
+
+    &-text {
+      display: inline-block;
+      padding: $pad-mar-small;
+    }
   }
 }
 
-.input--currency {
-  & ~ .input__after {
-    color: $light-gray;
-    margin-top: 1.5em;
-    position: absolute;
-  }
-}
-
-.input--invalid {
-  box-shadow: 0 0 5px $red;
-}
-
-.input--file {
-  cursor: pointer;
-
-  .btn {
-    background-color: $green;
-    color: $white;
-    display: inline-block;
-    padding: $pad-mar-small;
-  }
-}
-
-.input--file__label-text {
-  width: 100%;
-}
-
-.input__placeholder--file {
-  border: $input-border;
-  display: flex;
-  justify-content: space-between;
-  min-width: 300px;
-}
-
-.input--file__text {
-  display: inline-block;
-  padding: $pad-mar-small;
-}
 
 /* RANGE / SLIDERS */
 // keep me in case we want our own custom range later

@@ -7,28 +7,28 @@ RADIO INPUTS
 
 $radio-dim: 15px;
 
-.input__label--radio {
-  padding-bottom: $pad-mar-x-small;
-  padding-top: $pad-mar-x-small;
-}
-
-.input--radio {
+.Input--radio {
   max-width: 30px;
-}
 
-.input--radio__placeholder {
-  border: 1px solid $med-gray;
-  border-radius: 50%;
-  box-shadow: $inset-shadow;
-  cursor: pointer;
-  height: $radio-dim;
-  margin-right: $pad-mar-x-small;
-  width: $radio-dim;
+  &-label {
+    padding-bottom: $pad-mar-x-small;
+    padding-top: $pad-mar-x-small;
+  }
 
-  &.is-checked {
-    background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/26/5fd35f_dot.svg');
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: calc(#{$radio-dim} * .65);
+  &-placeholder {
+    border: 1px solid $med-gray;
+    border-radius: 50%;
+    box-shadow: $inset-shadow;
+    cursor: pointer;
+    height: $radio-dim;
+    margin-right: $pad-mar-x-small;
+    width: $radio-dim;
+
+    &.is-checked {
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/26/5fd35f_dot.svg');
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: calc(#{$radio-dim} * .65);
+    }
   }
 }

@@ -15,21 +15,21 @@ const ToggleSwitch = (props) => {
   }
 
   return (
-    <label className={ `toggle-switch ${ isActive ? 'active' : '' } ${ disabled ? 'disabled' : '' }
+    <label className={ `ToggleSwitch ${ isActive ? 'active' : '' } ${ disabled ? 'disabled' : '' }
       ${ className || '' }` } onClick={ !disabled ? onClick : () => '' }>
-      { labelText }{ attr.required && <span>{ '\u00A0' }*<span className="u-sr-only"> required field</span></span> }
-      <input type='checkbox' className='toggle-switch-input u-sr-only' checked={ isActive } id={ name } name={ name } />
+      { labelText }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
+      <input type='checkbox' className='ToggleSwitch-input u-sr-only' checked={ isActive } id={ name } name={ name } />
       <div>
         <span className='u-sr-only'>{ isActive ? 'on' : 'off' }</span>
-        <span className='toggle-switch-label' data-on={ innerLabels && innerLabels.on || 'On' }
+        <span className='ToggleSwitch-label' data-on={ innerLabels && innerLabels.on || 'On' }
           data-off={ innerLabels && innerLabels.off || 'Off' }>
           { innerLabels && innerLabels.on && innerLabels.off &&
-            <span className='toggle-switch-label__text'>
+            <span className='ToggleSwitch-label-text'>
               { isActive ? innerLabels.on : innerLabels.off }
             </span>
           }
         </span>
-        <span role='presentation' aria-hidden className={ `toggle-switch-handle ${ isActive ? 'active' : '' }` }></span>
+        <span role='presentation' aria-hidden className={ `ToggleSwitch-handle ${ isActive ? 'active' : '' }` }></span>
       </div>
     </label>
   )
