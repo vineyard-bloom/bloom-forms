@@ -6,7 +6,7 @@ import Loading from './loading'
 import '../styles/buttons.scss';
 
 const Button = (props) => {
-  let { className, disabled, id, loading, loadingElement, onClick, text } = props;
+  let { className, contents, disabled, id, loading, loadingElement, onClick } = props;
   let classes = className && className.indexOf('Btn') > -1
     ? `o-flex-container ${className || ''}${ loading ? ' is-loading' : '' }`
     : `o-flex-container Btn ${className || ''}${ loading ? ' is-loading' : '' }`;
@@ -14,7 +14,7 @@ const Button = (props) => {
    <button className={ classes } onClick={ loading ? () => { return } : onClick } id={ id } disabled={ disabled || loading }>
       <span className='o-flex-container u-align-center'>
         { loading && (loadingElement || <Loading /> ) }
-        { text }
+        { contents }
       </span>
    </button>
   )
@@ -22,11 +22,14 @@ const Button = (props) => {
 
 Button.propTypes = {
   className: PropTypes.string,
+  contents: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]).isRequired,
   id: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   loadingElement: PropTypes.element,
-  onClick: PropTypes.func.isRequired,
-  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 export default Button;

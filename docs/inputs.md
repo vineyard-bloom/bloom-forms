@@ -15,12 +15,12 @@
 
 ## Button
 ### Required Props
+- `contents`:
+  A string or an element; displays on the inside of the `Button`.
 - `id`:
   A unique string to give the Button an ID. Especially important if the `Button` triggers a modal or other elements where it's needed for accessibility.
 - `onClick`:
   A function to be triggered when the `Button` is clicked.
-- `text`:
-  A string; displays on the inside of the `Button`.
 
 ### Optional Props
 - `className`:
@@ -29,6 +29,11 @@
   A boolean indicating if something on the page is loading that should prevent `Button` click events.
 - `loadingElement`:
   A React Element containing a spinner or other loading indicator in case you don't want to use the bloom-forms default spinner.
+
+### Example Usage
+```
+<Button contents='Click me' onClick={ this.renderStuff } id='example-button' className='Btn--small' />
+```
 
 [Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
