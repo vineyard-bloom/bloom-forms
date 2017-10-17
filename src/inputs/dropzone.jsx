@@ -194,6 +194,7 @@ MyDropzone.propTypes = {
 }
 
 MyDropzone.defaultProps = {
+  files: [],
   multiple: true
 }
 

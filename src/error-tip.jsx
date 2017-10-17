@@ -5,9 +5,9 @@ import './styles/error-tip.scss'
 
 const ErrorTip = (props) => {
   return (
-    <div className={ `tooltip tooltip--error ${ props.className || '' }` } aria-live='polite'>
-      <div className={ `tooltip__contents tooltip__contents--${ props.direction }` }>
-        <div className='tooltip__contents__text'>{ props.contents }</div>
+    <div className={ `Tooltip Tooltip--error ${ props.className || '' }` } aria-live='polite'>
+      <div className={ `Tooltip-contents Tooltip-contents--${ props.direction }` }>
+        <div className='Tooltip-contents-text'>{ props.contents }</div>
       </div>
     </div>
   )
