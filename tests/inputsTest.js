@@ -24,7 +24,7 @@ function exampleClick() {
 describe('<Button />', function() {
   it ('renders without breaking', function() {
     const exampleText = 'example button';
-    const button = mount(<Button text={ exampleText } onClick={ exampleClick } />);
+    const button = mount(<Button contents={ exampleText } onClick={ exampleClick } />);
 
     assert.ok((button).text().indexOf(exampleText) >= 0);
   })
