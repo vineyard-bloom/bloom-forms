@@ -115,4 +115,15 @@ button {
     font-size: $h5-font-size;
     padding: $pad-mar-x-small $pad-mar-small;
   }
+
+  &--danger,
+  &--info,
+  &--lg,
+  &--md,
+  &--primary,
+  &--sm,
+  &--success,
+  &--warning {
+    @extend .Btn;
+  }
 }
