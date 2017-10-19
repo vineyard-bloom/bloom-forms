@@ -12,7 +12,7 @@ const Button = (props) => {
     : `o-flex-container Btn ${className || ''}${ loading ? ' is-loading' : '' }`;
   return (
    <button className={ classes } onClick={ loading ? () => { return } : onClick } id={ id } disabled={ disabled || loading }>
-      <span className='o-flex-container u-align-center'>
+      <span className='o-flex-container u-align-center Btn-contents'>
         { loading && (loadingElement || <Loading /> ) }
         { contents }
       </span>

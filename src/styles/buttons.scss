@@ -30,6 +30,15 @@ button {
     color: $dark-gray;
     padding: $pad-mar-med;
 
+    .Btn-contents {
+      align-items: center;
+      display: inline-flex;
+
+      .Loading {
+        height: .9em;
+      }
+    }
+
     &:focus,
     &:hover {
       background-color: $dark-gray;
