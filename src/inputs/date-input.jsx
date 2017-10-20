@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import ErrorTip from '../error-tip'
+
 /* just the basic input[type='date'] -- no customized dropdown styles or anything */
 const DateInput = (props) => {
   const {
