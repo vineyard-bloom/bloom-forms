@@ -76,14 +76,14 @@ export class Form extends React.Component {
     }
   }
 
-  checkField = (e, elem=null) => {
+  checkField = async (e, elem=null) => {
     const field = elem && elem.getAttribute ? elem : e.target
     const fieldName = field.getAttribute('name')
     const fieldValue = field.value
     const isRequired = field.getAttribute('aria-required') || field.getAttribute('required')
 
     const fieldStatus =
-      validator(
+      await validator(
         { [fieldName]: { value: fieldValue, validateAs: field.getAttribute('data-validate'), name: fieldName} },
         this.props.validationHelp ? this.props.validationHelp.errorLanguage : null,
         this.props.validationHelp ? this.props.validationHelp.dictionary : null

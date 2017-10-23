@@ -19,7 +19,7 @@
 */
 // and now you can use validateAs='cat' and validateAs='biggerThan2'
 
-export function validatorAggregator(testDataObject = {}, errorLanguage=null, optDict=null) {
+export async function validatorAggregator (testDataObject = {}, errorLanguage=null, optDict=null) {
   let status = { isValid: true, warnings: {}}
 
   const dict = {
@@ -45,20 +45,21 @@ export function validatorAggregator(testDataObject = {}, errorLanguage=null, opt
   return status
 }
 
-const validate = (prevStatus, testData, validateAs, fieldName, dict, errorLanguage) => {
-  if (fieldName.indexOf('confirm') > -1) {
-    // find its partner and test against it
-    const partnerName = fieldName.replace('confirm', '')
-    const partner = document.getElementById(partnerName[0].toLowerCase().concat(partnerName.slice(1)))
-    if (partner.value != testData) {
-      prevStatus.isValid = prevStatus.isValid && false
-      prevStatus.warnings[fieldName] = errorLanguage ? errorLanguage['dont-match'].replace('<FIELD>', partnerName) : `${partnerName}s must match.`
-    } else {
-      isValid = prevStatus.isValid && true
-    }
-  }
+const validate = async (prevStatus, testData, validateAs, fieldName, dict, errorLanguage) => {
+  // maybe this is too much magic
+  // if (fieldName.indexOf('confirm') > -1) {
+  //   // find its partner and test against it
+  //   const partnerName = fieldName.replace('confirm', '')
+  //   const partner = document.getElementById(partnerName[0].toLowerCase().concat(partnerName.slice(1)))
+  //   if (partner.value != testData) {
+  //     prevStatus.isValid = prevStatus.isValid && false
+  //     prevStatus.warnings[fieldName] = errorLanguage ? errorLanguage['dont-match'].replace('<FIELD>', partnerName) : `${partnerName}s must match.`
+  //   } else {
+  //     isValid = prevStatus.isValid && true
+  //   }
+  // }
 
-  let error = dict[validateAs](testData, fieldName, errorLanguage)
+  let error = await dict[validateAs](testData, fieldName, errorLanguage)
   prevStatus.warnings[fieldName] = error
 
   // if (!error) {
