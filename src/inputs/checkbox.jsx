@@ -18,7 +18,8 @@ const Checkbox = (props) => {
   }
 
   return (
-    <label style={{paddingBottom: '2px'}} className='Input-label Input-label--inline'>
+    <label style={{paddingBottom: '2px'}} className='Input-label Input-label--inline'
+      id={ `${name}-label` }>
       <div className={ `non-sr-only Input--checkbox-placeholder ${ checked ? 'glyphicon glyphicon-ok is-checked' : '' }` }></div>
       <input type='checkbox' checked={ checked } name={ name } id={ name } onChange={ props.onChange }
         className={ `u-sr-only Input Input--text ${ className ? className : '' } ${ errors ? 'Input--invalid' : '' }` }
