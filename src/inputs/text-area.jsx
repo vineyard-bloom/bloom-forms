@@ -20,7 +20,8 @@ const TextArea = (props) => {
   }
 
   return (
-    <label className={ `Input-label ${ containerClass || '' }` } htmlFor={ name } onBlur={ props.onBlur }>
+    <label className={ `Input-label ${ containerClass || '' }` } htmlFor={ name } onBlur={ props.onBlur }
+      id={ `${ name }-label` }>
       <span className={ labelTextClasses }>
         { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
       </span>

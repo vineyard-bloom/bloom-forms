@@ -16,7 +16,7 @@ const ToggleSwitch = (props) => {
 
   return (
     <label className={ `ToggleSwitch ${ isActive ? 'active' : '' } ${ disabled ? 'disabled' : '' }
-      ${ className || '' }` } onClick={ !disabled ? onClick : () => '' }>
+      ${ className || '' }` } onClick={ !disabled ? onClick : () => '' } id={ `${ name }-label` }>
       { labelText }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
       <input type='checkbox' className='ToggleSwitch-input u-sr-only' checked={ isActive } id={ name } name={ name } />
       <div>

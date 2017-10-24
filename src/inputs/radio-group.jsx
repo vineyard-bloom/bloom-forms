@@ -30,7 +30,7 @@ const RadioGroup = (props) => {
 
         return (
           <label className='Input-label Input--radio-label Input-label--inline' htmlFor={ name } onBlur={ props.onBlur }
-            onClick={ clickForward }>
+            onClick={ clickForward } id={ `${ name }-label` }>
             <input type='radio' value={ value } name={ name } id={ id } onChange={ props.onChange }
               checked={ value === id } data-validate={ validateAs } { ...attr }
               className={ `Input Input--radio u-sr-only ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }

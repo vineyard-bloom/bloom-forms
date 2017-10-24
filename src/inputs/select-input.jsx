@@ -215,7 +215,8 @@ class SelectInput extends React.Component {
       )
 
     return (
-      <label className={ `Input-label SelectInput ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.closeOpts } onKeyDown={ this.onKeyDown }>
+      <label className={ `Input-label SelectInput ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.closeOpts }
+        onKeyDown={ this.onKeyDown } id={ `${ name }-label` }>
         <span className={ `Input-label-text ${ !showLabel ? 'u-sr-only' : '' }` }>
           { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
             {loading ? <Loading/> : null}
