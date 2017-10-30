@@ -85,11 +85,21 @@ const LoginForm = (props) => {
 And its container would look like this:
 ```
 class LoginFormContainer extends React.Component {
+  submitForm = (formData, files, successCallback, failCallback) => {
+    WebService.login(formData)
+      .then(res => {
+        successCallback()
+      })
+      .catch(err => {
+        failCallback()
+      })
+  }
+
   render() {
     let fieldNames = ['username', 'password']
   
     return (
-      <Form id='login-form' fieldNames={ fieldNames } submitRoute='/login'>
+      <Form id='login-form' fieldNames={ fieldNames } submitForm={ this.submitForm }>
         <LoginForm />
       </Form>
     )

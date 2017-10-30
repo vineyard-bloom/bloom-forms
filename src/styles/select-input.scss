@@ -28,7 +28,7 @@ SELECT INPUT
     &:active,
     &:focus,
     &:hover {
-      background-color: $white;
+      background: $white;
       color: $dark-gray;
     }
 
