@@ -194,9 +194,15 @@ export class Form extends React.Component {
 
         switch(fieldName.type) {
           case 'checkbox':
+            if (!formData[fieldName.name]) {
+              formData[fieldName.name] = {}
+            }
             formData[fieldName.name].value = false
             break
           case 'radio':
+            if (!formData[fieldName.name]) {
+              formData[fieldName.name] = {}
+            }
             formData[fieldName.name].value = false
             break
           default:
