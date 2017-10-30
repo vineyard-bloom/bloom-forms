@@ -190,19 +190,13 @@ export class Form extends React.Component {
     // initialize the form with all fields inside
     props.fieldNames.forEach((fieldName) => {
       if (fieldName.type) {
-        formData[fieldName] = {}
+        formData[fieldName.name] = {}
 
         switch(fieldName.type) {
           case 'checkbox':
-            if (!formData[fieldName.name]) {
-              formData[fieldName.name] = {}
-            }
             formData[fieldName.name].value = false
             break
           case 'radio':
-            if (!formData[fieldName.name]) {
-              formData[fieldName.name] = {}
-            }
             formData[fieldName.name].value = false
             break
           default:
