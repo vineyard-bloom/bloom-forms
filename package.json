@@ -23,7 +23,7 @@
     "forms"
   ],
   "author": "inkblotty (http://inkblotty.github.io)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/vineyard-bloom/bloom-forms/issues"
   },
