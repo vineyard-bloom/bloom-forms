@@ -24,7 +24,7 @@ const ToggleSwitch = (props) => {
         <span className='ToggleSwitch-label' data-on={ innerLabels && innerLabels.on || 'On' }
           data-off={ innerLabels && innerLabels.off || 'Off' }>
           { innerLabels && innerLabels.on && innerLabels.off &&
-            <span className='ToggleSwitch-label-text'>
+            <span className='ToggleSwitch-label-text' aria-hidden role='presentation'>
               { isActive ? innerLabels.on : innerLabels.off }
             </span>
           }
