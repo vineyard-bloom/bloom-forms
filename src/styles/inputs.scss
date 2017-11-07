@@ -79,7 +79,7 @@ input[type='number'] {
   &--currency {
     & ~ .Input-after {
       color: $light-gray;
-      margin-top: 1.5em;
+      margin-top: 25px;
       position: absolute;
     }
   }
