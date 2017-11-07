@@ -39,7 +39,10 @@ const CurrencyInput = (props) => {
 
 CurrencyInput.propTypes = {
   className: PropTypes.string,
-  currency: PropTypes.string,
+  currency: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
   error: PropTypes.string,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
