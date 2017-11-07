@@ -27,7 +27,7 @@ const CurrencyInput = (props) => {
         </span>
         <input type='number' min='0' step='any' value={ value } name={ name } id={ id } onChange={ onChange } onBlur={ onBlur }
           className={ `Input Input--currency ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
-          data-validate='number' placeholder={ placeholder } { ...attr } />
+          data-validate='number' placeholder={ placeholder } maxlength='150' { ...attr } />
         { currency ?
           <div className='Input-after' style={ { right: '5px', marginTop: '25px' } }>{ currency }</div>
           : '' }
