@@ -7,7 +7,7 @@ import '../styles/inputs.scss'
 
 const TextInput = (props) => {
   const {
-    className, error, isPassword,
+    className, disabled, error, isPassword,
     name, label, labelClass, placeholder,
     showLabel, validateAs, containerClass, ...rest } = props;
   const labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' }${ showLabel ? '' : ' u-sr-only' }`;
@@ -26,7 +26,7 @@ const TextInput = (props) => {
         { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
       </span>
       <input type={ isPassword ? 'password' : 'text' } value={ props.value } name={ name } id={ name }
-        onChange={ props.onChange } onKeyDown={ props.onKeyDown }
+        onChange={ props.onChange } onKeyDown={ props.onKeyDown } disabled={ disabled }
         className={ `Input Input--text ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
         data-validate={ validateAs }  placeholder={ placeholder } maxLength='150' { ...attr } />
       { error ? <ErrorTip contents={ error } /> : '' }
@@ -36,6 +36,7 @@ const TextInput = (props) => {
 
 TextInput.propTypes = {
   className: PropTypes.string,
+  disabled: PropTypes.bool,
   error: PropTypes.string,
   isPassword: PropTypes.bool,
   label: PropTypes.oneOfType([
