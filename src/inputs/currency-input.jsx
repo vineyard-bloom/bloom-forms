@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ErrorTip from '../error-tip'
+
 import '../styles/inputs.scss';
 
 const CurrencyInput = (props) => {
