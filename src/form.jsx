@@ -79,7 +79,7 @@ export class Form extends React.Component {
   checkField = async (e, elem=null) => {
     const field = elem && elem.getAttribute ? elem : e.target
     const fieldName = field.getAttribute('name')
-    const fieldValue = field.value
+    const fieldValue = field.value.trim()
     const isRequired = field.getAttribute('aria-required') || field.getAttribute('required')
 
     const fieldStatus =
