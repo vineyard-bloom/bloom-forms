@@ -245,7 +245,7 @@ export class Form extends React.Component {
       this.populateFields(this.props)
     }
 
-    if (this.props.ignoreFocusOnFirstElement) {
+    if (!this.props.ignoreFocusOnFirstElement) {
       return this.focusOnFirst();
     }
   }
