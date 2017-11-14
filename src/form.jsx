@@ -24,6 +24,7 @@ export class Form extends React.Component {
 
   static propTypes = {
     addFormError: PropTypes.func,
+    ignoreFocusOnFirstElement: PropTypes.func,
     clearForm: PropTypes.func,
     createForm: PropTypes.func,
     deleteFormError: PropTypes.func,
@@ -231,6 +232,15 @@ export class Form extends React.Component {
     props.createForm(props.id, formData)
   }
 
+  handleFocusFirstElement() {
+    if (this.props.ignoreFocusOnFirstElement) {
+      return;
+    }
+    else {
+      this.focusOnFirst()
+    }
+  }
+
   componentWillUnmount = () => {
     if (!this.props.preserveAfterUnmount) {
       this.props.clearForm()
@@ -244,7 +254,7 @@ export class Form extends React.Component {
       this.populateFields(this.props)
     }
 
-    this.focusOnFirst()
+    this.handleFocusFirstElement();
   }
 
   componentWillReceiveProps = (newProps) => {
@@ -263,7 +273,7 @@ export class Form extends React.Component {
 
   render() {
     let { submitForm, prepopulateData, ...props } = this.props
-    
+
     // make sure this works if the form has one child or many
     let children = props.children
       ? (Array.isArray(this.props.children) ? this.props.children : [this.props.children])
