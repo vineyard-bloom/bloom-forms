@@ -232,15 +232,6 @@ export class Form extends React.Component {
     props.createForm(props.id, formData)
   }
 
-  handleFocusFirstElement() {
-    if (this.props.ignoreFocusOnFirstElement) {
-      return;
-    }
-    else {
-      this.focusOnFirst()
-    }
-  }
-
   componentWillUnmount = () => {
     if (!this.props.preserveAfterUnmount) {
       this.props.clearForm()
@@ -254,7 +245,9 @@ export class Form extends React.Component {
       this.populateFields(this.props)
     }
 
-    this.handleFocusFirstElement();
+    if (this.props.ignoreFocusOnFirstElement) {
+      return this.focusOnFirst();
+    }
   }
 
   componentWillReceiveProps = (newProps) => {
