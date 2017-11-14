@@ -246,7 +246,7 @@ export class Form extends React.Component {
     }
 
     if (!this.props.ignoreFocusOnFirstElement) {
-      return this.focusOnFirst();
+      this.focusOnFirst();
     }
   }
 
