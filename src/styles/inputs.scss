@@ -52,6 +52,11 @@ input[type='number'] {
     position: relative;
     width: 100%;
 
+    &-text {
+      display: inline-block;
+      width: 100%;
+    }
+
     &--small {
       margin: $pad-mar-small 0 $pad-mar-small $pad-mar-small;
       width: 40%;
@@ -77,10 +82,32 @@ input[type='number'] {
       display: flex;
       justify-content: space-between;
       min-width: 300px;
+
+      .Btn {
+        border: 0;
+      }
     }
   }
 
   &--currency {
+    &-before {
+      height: 1.5em;
+      left: 10px;
+      overflow: hidden;
+      position: absolute;
+      top: 38px;
+      width: 1.5em;
+
+      & ~ .Input--currency {
+        padding-left: 2.5em;
+      }
+
+      svg,
+      img {
+        height: 100%;
+      }
+    }
+
     & ~ .Input-after {
       color: $light-gray;
       margin-top: 25px;

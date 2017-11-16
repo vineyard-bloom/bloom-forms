@@ -7,7 +7,7 @@ import '../styles/inputs.scss';
 
 const CurrencyInput = (props) => {
   let {
-    className, currency, error,
+    className, coinIcon, currency, disabled, error,
     id, label, labelClass, name, onBlur, onChange, placeholder,
     showLabel, validateAs, value, ...rest } = props;
   let labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : 'u-sr-only' }`;
@@ -27,7 +27,11 @@ const CurrencyInput = (props) => {
         <span className={ labelTextClasses }>
           { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
         </span>
-        <input type='number' min='0' step='any' value={ value } name={ name } id={ id } onChange={ onChange } onBlur={ onBlur }
+        { coinIcon &&
+          <div className='Input-before Input--currency-before'>{ coinIcon }</div>
+        }
+        <input type='number' min={ rest.minimumValue } step='any' value={ value.replace(/^0+(?!\.|$)/, '') } name={ name }
+          id={ id } onChange={ onChange } onBlur={ onBlur } disabled={ disabled } max={ rest.maximumValue }
           className={ `Input Input--currency ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
           data-validate={ validateAs || 'number' } placeholder={ placeholder } maxLength='150' { ...attr } />
         { currency ?
@@ -39,16 +43,30 @@ const CurrencyInput = (props) => {
   )
 }
 
+CurrencyInput.defaultProps = {
+  minimumValue: 0
+}
+
 CurrencyInput.propTypes = {
   className: PropTypes.string,
+  coinIcon: PropTypes.element,
   currency: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.element
   ]),
+  disabled: PropTypes.bool,
   error: PropTypes.string,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   labelClass: PropTypes.string,
+  maximumValue: PropTypes.oneOfType([
+    PropTypes.number.isRequired,
+    PropTypes.string.isRequired
+  ]),
+  minimumValue: PropTypes.oneOfType([
+    PropTypes.number.isRequired,
+    PropTypes.string.isRequired
+  ]),
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   onBlur: PropTypes.func,

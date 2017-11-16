@@ -30,8 +30,13 @@ $toggle-height: 25px;
   &.active {
     .ToggleSwitch-label {
       background-color: $active-color;
+      box-shadow: none;
       color: $white;
       justify-content: flex-start;
+    }
+
+    .ToggleSwitch-handle {
+      box-shadow: none;
     }
   }
 
@@ -46,6 +51,7 @@ $toggle-height: 25px;
     align-items: center;
     background-color: $disabled-color;
     border-radius: 50px;
+    box-shadow: inset 0 0 5px rgba(darken($disabled-color, 15%), 0.4);
     display: inline-flex;
     font-size: 0.8em;
     height: calc(#{$toggle-height} + 2px);
@@ -64,16 +70,17 @@ $toggle-height: 25px;
   &-handle {
     background-color: #fff;
     border-radius: 50%;
+    box-shadow: 2px 2px 5px 0 rgba($med-gray, 0.4);
     display: inline-block;
     height: $toggle-height;
     margin-left: calc(#{$toggle-height} * -2.5);
-    margin-top: 2px;
+    margin-top: 3px;
     position: absolute;
     transition: margin ease 0.3s;
     width: $toggle-height;
 
     &.active {
-      margin-left: calc(-#{$toggle-height} - 2px);
+      margin-left: calc(-#{$toggle-height} - 3px);
     }
   }
 }
