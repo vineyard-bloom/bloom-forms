@@ -35,7 +35,7 @@ const CurrencyInput = (props) => {
           className={ `Input Input--currency ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
           data-validate={ validateAs || 'number' } placeholder={ placeholder } maxLength='150' { ...attr } />
         { currency ?
-          <div className='Input-after' style={ { right: '5px' } }>{ currency }</div>
+          <div className='Input-after'>{ currency }</div>
           : '' }
       </label>
       { error ? <ErrorTip contents={ error } /> : '' }
