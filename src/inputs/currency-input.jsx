@@ -31,7 +31,7 @@ const CurrencyInput = (props) => {
           <div className='Input-before Input--currency-before'>{ coinIcon }</div>
         }
         <input type='number' min={ rest.minimumValue } step='any' value={ value.replace(/^0+(?!\.|$)/, '') } name={ name }
-          id={ id } onChange={ onChange } onBlur={ onBlur } disabled={ disabled } max={ rest.maximumValue }
+          id={ id || name } onChange={ onChange } onBlur={ onBlur } disabled={ disabled } max={ rest.maximumValue }
           className={ `Input Input--currency ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
           data-validate={ validateAs || 'number' } placeholder={ placeholder } maxLength='150' { ...attr } />
         { currency ?

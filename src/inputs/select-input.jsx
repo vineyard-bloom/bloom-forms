@@ -22,6 +22,7 @@ const compareLetters = (str1, str2) => {
 
 class SelectInput extends React.Component {
   state = {
+    hasUsedPresentationElements: false,
     showList: false,
     sortBy: null,
     sortedOpts: null
@@ -30,6 +31,7 @@ class SelectInput extends React.Component {
   selectOpt = (val) => {
     this.props.onChange(this.props.formId, this.props.name, val);
     this.setState({
+      hasUsedPresentationElements: true,
       showList: false,
       sortBy: null,
       sortedOpts: this.props.options
@@ -76,6 +78,7 @@ class SelectInput extends React.Component {
 
       if (key === 40) { // arrow down, open and go to next opt
         this.setState({
+          hasUsedPresentationElements: true,
           showList: true
         }, () => {
           const elem = document.getElementById(`input-placeholder-${nextValue}`)
@@ -85,6 +88,7 @@ class SelectInput extends React.Component {
         })
       } else if (key === 38) { // arrow up, go to prev opt
         this.setState({
+          hasUsedPresentationElements: true,
           showList: true
         }, () => {
           const elem = document.getElementById(`input-placeholder-${prevValue}`)
@@ -130,6 +134,7 @@ class SelectInput extends React.Component {
 
   sortResults = (e) => {
     this.setState({
+      hasUsedPresentationElements: true,
       showList: true,
       sortBy: e.target.value,
       sortedOpts: this.props.options.filter((opt) => compareLetters(e.target.value, (opt.label ? opt.label : opt)))
@@ -139,6 +144,7 @@ class SelectInput extends React.Component {
   toggleList = (e) => {
     e.preventDefault();
     this.setState({
+      hasUsedPresentationElements: true,
       focusedOpt: null,
       showList: !this.state.showList
     });
@@ -216,35 +222,37 @@ class SelectInput extends React.Component {
 
     return (
       <label className={ `Input-label SelectInput ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.closeOpts }
-        onKeyDown={ this.onKeyDown } id={ `${ name }-label` }>
+        id={ `${ name }-label` }>
         <span className={ `Input-label-text ${ !showLabel ? 'u-sr-only' : '' }` }>
           { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
-            {loading ? <Loading/> : null}
+          { loading ? <Loading/> : null }
         </span>
-        { options.length && typeAhead
-          ? (
-            <input type='text' className={ `Btn Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
-              value={ typeAheadDisplay } aria-hidden role='presentation'
-              onChange={ this.sortResults }
-            />
-          ) : (
-            <button disabled={!options.length} className={ `${!options.length ? 'Btn is-disabled' : 'Btn'} Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
-              onClick={ this.toggleList } aria-hidden role='presentation'>
-              { this.props.placeholder && !value
-                ? <span className='u-grayed-out'>{ this.props.placeholder }</span>
-                :  (translateVal ? activeOptLabel : (value || 'Select'))
-              }
-            </button>
-          )
-        }
-        { error && <ErrorTip contents={ error } className='Tooltip--error--select' /> }
-        { this.state.showList &&
-          <ul className='SelectInput-opts non-sr-only' aria-hidden role='presentation'>
-            { placeholderOpts }
-          </ul>
-        }
+        <span onKeyDown={ this.onKeyDown } aria-hidden role='presentation'>
+          { options.length && typeAhead
+            ? (
+              <input type='text' className={ `Btn Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
+                value={ typeAheadDisplay } aria-hidden role='presentation'
+                onChange={ this.sortResults }
+              />
+            ) : (
+              <button disabled={!options.length} className={ `${!options.length ? 'Btn is-disabled' : 'Btn'} Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
+                onClick={ this.toggleList } aria-hidden role='presentation'>
+                { this.props.placeholder && !value
+                  ? <span className='u-grayed-out'>{ this.props.placeholder }</span>
+                  :  (translateVal ? activeOptLabel : (value || 'Select'))
+                }
+              </button>
+            )
+          }
+          { error && <ErrorTip contents={ error } className='Tooltip--error--select' /> }
+          { this.state.showList &&
+            <ul className='SelectInput-opts non-sr-only' aria-hidden role='presentation'>
+              { placeholderOpts }
+            </ul>
+          }
+        </span>
         <select value={ value } name={ name } id={ name } className='u-sr-only' { ...attr } data-validate={ validateAs }
-          onChange={ (e) => this.selectOpt(e.target.value) }>
+          onChange={ (e) => this.selectOpt(e.target.value) } tabIndex={ this.state.hasUsedPresentationElements ? '-1' : '0' }>
           { opts }
         </select>
       </label>

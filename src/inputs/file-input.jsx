@@ -76,7 +76,7 @@ class FileInput extends React.Component {
           </div>
         </div>
         { error && <ErrorTip contents={ error } /> }
-        <input name={ name } id={ id } { ...attr } type='file' data-validate={ required ? 'not-empty' : null }
+        <input name={ name } id={ id || name } { ...attr } type='file' data-validate={ required ? 'not-empty' : null }
           className='input u-sr-only' style={ {display: 'none'} } onChange={ this.updateText } accept={ accept }
           data-multiple-caption="{count} files selected" multiple={ multiple } data-validate='file' />
       </label>
