@@ -52,7 +52,8 @@ SELECT INPUT
 .SelectInput-opts {
   background-color: $white;
   box-shadow: $box-shadow-no-top;
-  margin-top: 75px;
+  // margin-top: 75px;
+  margin-top: -10px;
   max-height: 200px;
   min-width: 300px;
   overflow-x: hidden;
