@@ -6,7 +6,6 @@ import '../styles/toggle-switch.scss';
 
 const ToggleSwitch = (props) => {
   let { className, disabled, innerLabels, isActive, labelText, name, onClick, required } = props;
-
   let attr = {};
 
   if (required) {
@@ -14,12 +13,16 @@ const ToggleSwitch = (props) => {
     attr['aria-required'] = true;
   }
 
+  const triggerHiddenCheckbox = (e) => {
+    document.getElementById(name).click()
+  }
+
   return (
     <label className={ `ToggleSwitch ${ isActive ? 'active' : '' } ${ disabled ? 'disabled' : '' }
-      ${ className || '' }` } onClick={ !disabled ? onClick : () => '' } id={ `${ name }-label` }>
+      ${ className || '' }` } onClick={ !disabled ? triggerHiddenCheckbox : () => '' } id={ `${ name }-label` }>
       { labelText }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
       <input type='checkbox' className='ToggleSwitch-input u-sr-only' checked={ isActive } id={ name } name={ name } readOnly
-        aria-labelledby={ `${ name }-aria-label` } />
+        aria-labelledby={ `${ name }-aria-label` } onClick={ onClick }/>
       <div>
         <span className='u-sr-only' id={ `${ name }-aria-label` }>{ labelText }: { isActive ? 'on' : 'off' }</span>
         <span className='ToggleSwitch-label' data-on={ innerLabels && innerLabels.on || 'On' }
