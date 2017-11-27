@@ -141,10 +141,13 @@ class SelectInput extends React.Component {
   }
 
   sortResults = (e) => {
+    const sortValue = e.target.value && e.target.value.replace(/\s/g, '')
+      ? e.target.value
+      : ''
     this.setState({
       hasUsedPresentationElements: true,
       showList: true,
-      sortBy: e.target.value,
+      sortBy: sortValue,
       sortedOpts: this.props.options.filter((opt) => compareLetters(e.target.value, (opt.label ? opt.label : opt)))
     })
   }
@@ -211,6 +214,7 @@ class SelectInput extends React.Component {
       attr['aria-required'] = true;
     }
 
+    // in case options' values are different from their labels
     let translateVal = options[0] && !!options[0].label;
     let activeOptLabel;
     if (translateVal && value) {
