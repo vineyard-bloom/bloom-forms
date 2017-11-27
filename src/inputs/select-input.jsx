@@ -141,7 +141,7 @@ class SelectInput extends React.Component {
   }
 
   sortResults = (e) => {
-    const sortValue = e.target.value && e.target.value.replace(/\s/g, '')
+    const sortValue = e.target.value && e.target.value.replace(/\s/g, '') && e.target.value.replace(/\s/g, '').length
       ? e.target.value
       : ''
     this.setState({
