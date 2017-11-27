@@ -227,19 +227,19 @@ class SelectInput extends React.Component {
           { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
           { loading ? <Loading/> : null }
         </span>
-        <span onKeyDown={ this.onKeyDown } aria-hidden role='presentation'>
+        <span onKeyDown={ this.onKeyDown } aria-hidden role='presentation' className='SelectInput-placeholderWrapper'>
           { options.length && typeAhead
             ? (
-              <input type='text' className={ `Btn Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
-                value={ typeAheadDisplay } aria-hidden role='presentation'
+              <input className={ `Btn Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' } ${ error ? 'Input--invalid' : '' }` }
+                type='text' value={ typeAheadDisplay } aria-hidden role='presentation'
                 onChange={ this.sortResults }
               />
             ) : (
-              <button disabled={!options.length} className={ `${!options.length ? 'Btn is-disabled' : 'Btn'} Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' }` }
-                onClick={ this.toggleList } aria-hidden role='presentation'>
+              <button disabled={!options.length} onClick={ this.toggleList } aria-hidden role='presentation'
+                className={ `${!options.length ? 'Btn is-disabled' : 'Btn'} Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' } ${ error ? 'Input--invalid' : '' }` }>
                 { this.props.placeholder && !value
                   ? <span className='u-grayed-out'>{ this.props.placeholder }</span>
-                  :  (translateVal ? activeOptLabel : (value || 'Select'))
+                  : (translateVal ? activeOptLabel : (value || 'Select'))
                 }
               </button>
             )

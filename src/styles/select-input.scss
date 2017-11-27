@@ -39,8 +39,13 @@ SELECT INPUT
     }
 
     &[type='text'] {
+      box-sizing: border-box;
       padding: 0 $pad-mar-small;
     }
+  }
+
+  &-placeholderWrapper {
+    width: 100%;
   }
 
   .Input-label-text {
