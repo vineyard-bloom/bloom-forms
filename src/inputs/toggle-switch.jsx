@@ -24,7 +24,7 @@ const ToggleSwitch = (props) => {
       { labelText }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
       <input type='checkbox' className='ToggleSwitch-input u-sr-only' checked={ isActive } id={ name } name={ name }
         aria-labelledby={ `${ name }-aria-label` } onClick={ onClick } />
-      <span className='u-sr-only' id={ `${ name }-aria-label` }>
+      <span className='u-sr-only' id={ `${ name }-aria-label` } aria-live='polite'>
         { labelText }: { isActive ? 'on' : 'off' }
         <span className='u-sr-only'>Press Space Bar to toggle on or off.</span>
       </span>
