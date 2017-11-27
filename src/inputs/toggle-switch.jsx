@@ -14,6 +14,7 @@ const ToggleSwitch = (props) => {
   }
 
   const triggerHiddenCheckbox = (e) => {
+    e.preventDefault();
     document.getElementById(name).click()
   }
 
