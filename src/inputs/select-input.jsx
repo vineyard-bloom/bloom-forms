@@ -244,7 +244,9 @@ class SelectInput extends React.Component {
               </button>
             )
           }
-          { error && <ErrorTip contents={ error } className='Tooltip--error--select' /> }
+          { error && !this.state.showList &&
+            <ErrorTip contents={ error } className='Tooltip--error--select' />
+          }
           { this.state.showList &&
             <ul className='SelectInput-opts non-sr-only' aria-hidden role='presentation'>
               { placeholderOpts }
