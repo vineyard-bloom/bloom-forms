@@ -38,6 +38,14 @@ class SelectInput extends React.Component {
     });
   };
 
+  focusOnTypeAhead = (e) => {
+    const typeaheadId = `${ this.props.name }-typeahead`
+
+    if (document.getElementById(typeaheadId)) {
+      document.getElementById(typeaheadId).focus()
+    }
+  }
+
   onKeyDown = (e) => {
     const key = e.which || e.keyCode
     const currValue = document.activeElement.id && document.activeElement.id.includes('input-placeholder')
@@ -57,17 +65,17 @@ class SelectInput extends React.Component {
       let nextValue = currValue
         ? (
           options.find((opt, i) => opt.value
-            ? options[i-1] && (options[i-1].value === currValue)
-            : options[i-1] && (options[i-1] === currValue)
+            ? options[i-1] && (options[i-1].value.toString() === currValue.toString())
+            : options[i-1] && (options[i-1].toString() === currValue.toString())
           )
         ) : (
           options[0].value ? options[0].value : options[0]
         )
       let prevValue = currValue
         ? (
-          options.find((opt, i) => opt.value
-            ? options[i+1] && (options[i+1].value === currValue)
-            : options[i+1] && (options[i+1] === currValue)
+          options.find((opt, indx) => opt.value
+            ? options[indx+1] && (options[indx+1].value.toString() === currValue.toString())
+            : options[indx+1] && (options[indx+1].toString() === currValue.toString())
           )
         ) : (
           options[0].value ? options[0].value : options[0]
@@ -222,7 +230,7 @@ class SelectInput extends React.Component {
 
     return (
       <label className={ `Input-label SelectInput ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.closeOpts }
-        id={ `${ name }-label` }>
+        id={ `${ name }-label` } onFocus={ this.focusOnTypeAhead }>
         <span className={ `Input-label-text ${ !showLabel ? 'u-sr-only' : '' }` }>
           { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
           { loading ? <Loading/> : null }
@@ -232,7 +240,7 @@ class SelectInput extends React.Component {
             ? (
               <input className={ `Btn Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' } ${ error ? 'Input--invalid' : '' }` }
                 type='text' value={ typeAheadDisplay } aria-hidden role='presentation'
-                onChange={ this.sortResults }
+                onChange={ this.sortResults } onFocus={ this.focusOnTypeAhead } id={ `${ name }-typeahead` }
               />
             ) : (
               <button disabled={!options.length} onClick={ this.toggleList } aria-hidden role='presentation'
@@ -275,11 +283,11 @@ SelectInput.propTypes = {
     PropTypes.oneOfType([
       PropTypes.shape({
         label: PropTypes.string.isRequired,
-        value: PropTypes.oneOfType(PropTypes.string, PropTypes.number)
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
       }),
       PropTypes.string
     ]).isRequired
-  ).isRequired,
+  ),
   required: PropTypes.bool,
   showLabel: PropTypes.bool,
   typeAhead: PropTypes.bool,
