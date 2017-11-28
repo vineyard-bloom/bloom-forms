@@ -5,7 +5,7 @@ import '../styles/inputs.scss';
 import '../styles/toggle-switch.scss';
 
 const ToggleSwitch = (props) => {
-  let { className, disabled, innerLabels, isActive, labelText, name, onClick, required } = props;
+  let { className, disabled, innerLabels, isActive, labelText, name, onClick, required, showLabel } = props;
   let attr = {};
 
   if (required) {
