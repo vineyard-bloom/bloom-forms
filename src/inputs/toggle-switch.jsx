@@ -21,7 +21,11 @@ const ToggleSwitch = (props) => {
   return (
     <label className={ `ToggleSwitch ${ isActive ? 'active' : '' } ${ disabled ? 'disabled' : '' }
       ${ className || '' }` } onClick={ !disabled ? triggerHiddenCheckbox : () => '' } id={ `${ name }-label` }>
-      { labelText }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
+      <span className={ `ToggleSwitch-label-text ${ showLabel ? '' : 'u-sr-only' }` }>
+        { labelText }{ attr.required &&
+          <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span>
+        }
+      </span>
       <input type='checkbox' className='ToggleSwitch-input u-sr-only' checked={ isActive } id={ name } name={ name }
         aria-labelledby={ `${ name }-aria-label` } onClick={ onClick } />
       <span className='u-sr-only' id={ `${ name }-aria-label` } aria-live='polite'>
@@ -54,7 +58,8 @@ ToggleSwitch.propTypes = {
   labelText: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  showLabel: PropTypes.bool
 }
 
 export default ToggleSwitch;
