@@ -48,7 +48,7 @@ $toggle-height: 25px;
 
     &:focus,
     &:active {
-      & ~ .ToggleSwitch-label {
+      & ~ div .ToggleSwitch-label {
         box-shadow: 0 0 5px rgba($blue, .8);
       }
     }
