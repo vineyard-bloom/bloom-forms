@@ -8,6 +8,13 @@ Features:
 - All form actions available through redux.
 - Fully customizable validation. Works through form.jsx and independently.
 
+## Why use Bloom Forms?
+* Built-in state management
+* Built-in error handling
+* Built-in form population
+* Built-in accessibility
+* All field values and errors available through Redux
+
 Includes:
 
 * Redux:
