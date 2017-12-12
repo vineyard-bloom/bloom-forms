@@ -61,6 +61,8 @@
   A boolean indicating if the input value can't be empty.
 - `showLabel`:
   A boolean showing or hiding the label text. By default, all bloom forms input labels are hidden.
+- `showLabelBeforeCheckbox`:
+  A boolean reversing the display order of checkbox and label text.
 - `validateAs`:
   A string tying into the validation help passed in to the wrapper `<Form>`. Examples include 'not-empty', 'zip', and 'number'.
 
