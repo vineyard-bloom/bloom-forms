@@ -25,7 +25,7 @@ const Checkbox = (props) => {
   )
 
   return (
-    <label style={{paddingBottom: '2px'}} className='Input-label Input-label--inline'
+    <label style={{paddingBottom: '2px'}} className='Input-label Input-label--inline Input--checkbox'
       id={ `${name}-label` }>
       { showLabelBeforeCheckbox && labelText }
       <div className={ `non-sr-only Input--checkbox-placeholder ${ checked ? 'glyphicon glyphicon-ok is-checked' : '' }` }></div>
