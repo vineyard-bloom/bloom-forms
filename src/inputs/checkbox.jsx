@@ -8,7 +8,8 @@ const Checkbox = (props) => {
   let {
     checked, className, errors,
     name, label, labelClass,
-    showLabel, validateAs, ...rest } = props;
+    showLabel, showLabelBeforeCheckbox,
+    validateAs, ...rest } = props;
   let labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : ' u-sr-only' }`;
   let attr = {}
 
