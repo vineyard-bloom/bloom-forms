@@ -217,7 +217,7 @@ class SelectInput extends React.Component {
     // in case options' values are different from their labels
     let translateVal = options[0] && !!options[0].label;
     let activeOptLabel;
-    if (translateVal && value) {
+    if (translateVal && (value || (value === 0) || (value === false))) {
       activeOptLabel = options.filter((opt) => opt.value.toString() === value.toString())[0];
       activeOptLabel = activeOptLabel ? activeOptLabel.label : 'Select';
     }
