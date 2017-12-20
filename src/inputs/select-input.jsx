@@ -245,7 +245,7 @@ class SelectInput extends React.Component {
               <input className={ `Btn Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' } ${ error ? 'Input--invalid' : '' }` }
                 type='text' value={ typeAheadDisplay } aria-hidden role='presentation'
                 onChange={ this.sortResults } onFocus={ this.focusOnTypeAhead } id={ `${ name }-typeahead` }
-                autocomplete='new-password'
+                name='autofill-buster'
               />
             ) : (
               <button disabled={!options.length} onClick={ this.toggleList } aria-hidden role='presentation'
