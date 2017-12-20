@@ -29,7 +29,7 @@ const TextInput = (props) => {
         onChange={ props.onChange } onKeyDown={ props.onKeyDown } disabled={ disabled }
         className={ `Input Input--text ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
         data-validate={ validateAs }  placeholder={ placeholder } maxLength='150' { ...attr }
-        autocomplete='new-password'
+        autoComplete='new-password'
       />
       { error ? <ErrorTip contents={ error } /> : '' }
     </label>
