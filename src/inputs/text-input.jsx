@@ -28,7 +28,9 @@ const TextInput = (props) => {
       <input type={ isPassword ? 'password' : 'text' } value={ props.value } name={ name } id={ name }
         onChange={ props.onChange } onKeyDown={ props.onKeyDown } disabled={ disabled }
         className={ `Input Input--text ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
-        data-validate={ validateAs }  placeholder={ placeholder } maxLength='150' { ...attr } />
+        data-validate={ validateAs }  placeholder={ placeholder } maxLength='150' { ...attr }
+        autocomplete='new-password'
+      />
       { error ? <ErrorTip contents={ error } /> : '' }
     </label>
   )
