@@ -100,7 +100,7 @@ function nameError(testData, fieldName, errorLanguage) {
   return testData.length < 2
     ? errorLanguage && errorLanguage['min-length']
       ? errorLanguage['min-length'].replace('<FIELD>', fieldName).replace('<LIMIT>', '2')
-      : `${fieldName} must be at least 2 characters.`
+      : `This field must be at least 2 characters.`
     : null
 }
 
@@ -108,7 +108,7 @@ function notEmptyError(testData, fieldName, errorLanguage) {
   return !testData && (testData !== 0)
     ? errorLanguage  && errorLanguage['not-empty']
       ? errorLanguage['not-empty'].replace('<FIELD>', fieldName)
-      : `${fieldName} cannot be empty.`
+      : `This field cannot be empty.`
     : null
 }
 
@@ -120,7 +120,7 @@ function numberError(testData, fieldName, errorLanguage) {
 
 function numberFieldError(testData, fieldName, errorLanguage) {
   return !testData || !(/^[0-9]+$/.test(testData))
-    ? errorLanguage ? errorLanguage['invalid-field'].replace('<FIELD>', fieldName) : `${fieldName} is invalid.`
+    ? errorLanguage ? errorLanguage['invalid-field'].replace('<FIELD>', fieldName) : `This field is invalid.`
     : null
 }
 
@@ -128,11 +128,11 @@ function phoneError(testData, fieldName, errorLanguage) {
   if (testData.length < 8) {
     return errorLanguage && errorLanguage['min-length']
       ? errorLanguage['min-length'].replace('<FIELD>', language.fieldLabels.phoneNumber).replace('<LIMIT>', '8')
-      : `${fieldName} must be at least 8 chars.`
+      : `This field must be at least 8 chars.`
   } else if (testData.length > 15) {
     return errorLanguage && errorLanguage['max-length']
       ? errorLanguage['max-length'].replace('<FIELD>', language.fieldLabels.phoneNumber).replace('<LIMIT>', '15')
-      : `${fieldName} cannot exceed 15 chars.`
+      : `This field cannot exceed 15 chars.`
   } else {
     return null
   }
