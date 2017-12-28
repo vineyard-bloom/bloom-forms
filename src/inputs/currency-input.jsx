@@ -7,10 +7,26 @@ import '../styles/inputs.scss';
 
 class CurrencyInput extends React.Component {
   componentDidMount() {
-    PropTypes.checkPropTypes(CurrencyInput.propTypes, props, 'prop', 'CurrencyInput');
-    // for (let field in CurrencyInput.propTypes) {
+    const requiredProps = ['id', 'label', 'maximumValue', 'minimumValue', 'name', 'value']
+    const recommendedProps = ['onChange']
 
-    // }
+    const missingRequired = []
+
+    requiredProps.forEach(field => {
+      if (!this.props[field]) {
+        missingRequired.push(field)
+      }
+    })
+
+    recommendedProps.forEach(field => {
+      if (!this.props[field]) {
+        console.log(`%c Missing recommended prop in CurrencyInput with name ${this.props.name}: ${field}`, 'color: red')
+      }
+    })
+
+    if (missingRequired.length) {
+      console.log(`%c Missing required props in CurrencyInput with name ${this.props.name}: ${missingRequired.toString()}`, 'color: red')
+    }
   }
 
   render() {
