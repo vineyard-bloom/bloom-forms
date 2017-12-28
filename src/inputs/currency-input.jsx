@@ -10,12 +10,8 @@ class CurrencyInput extends React.Component {
     const requiredProps = ['id', 'label', 'maximumValue', 'minimumValue', 'name', 'value']
     const recommendedProps = ['onChange']
 
-    const missingRequired = []
-
-    requiredProps.forEach(field => {
-      if (!this.props[field]) {
-        missingRequired.push(field)
-      }
+    const missingRequired = requiredProps.filter(field => {
+      return !this.props[field]
     })
 
     recommendedProps.forEach(field => {
