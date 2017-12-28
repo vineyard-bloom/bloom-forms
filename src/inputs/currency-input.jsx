@@ -5,42 +5,51 @@ import ErrorTip from '../error-tip'
 
 import '../styles/inputs.scss';
 
-const CurrencyInput = (props) => {
-  let {
-    className, coinIcon, currency, disabled, error,
-    id, label, labelClass, name, onBlur, onChange, placeholder,
-    showLabel, validateAs, value, ...rest } = props;
-  let labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : 'u-sr-only' }`;
+class CurrencyInput extends React.Component {
+  componentDidMount() {
+    PropTypes.checkPropTypes(CurrencyInput.propTypes, props, 'prop', 'CurrencyInput');
+    // for (let field in CurrencyInput.propTypes) {
 
-  let attr = {};
-
-  if (rest.required) {
-    attr['aria-required'] = true;
-    attr.required = true;
+    // }
   }
 
-  const labelElem = document.getElementById(`${id}-label`)
+  render() {
+    let {
+      className, coinIcon, currency, disabled, error,
+      id, label, labelClass, name, onBlur, onChange, placeholder,
+      showLabel, validateAs, value, ...rest } = props;
+    let labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : 'u-sr-only' }`;
 
-  return (
-    <div>
-      <label className='Input-label' id={ `${id}-label` }>
-        <span className={ labelTextClasses }>
-          { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
-        </span>
-        { coinIcon &&
-          <div className='Input-before Input--currency-before'>{ coinIcon }</div>
-        }
-        <input type='number' min={ rest.minimumValue } step='any' value={ value.replace(/^0+(?!\.|$)/, '') } name={ name }
-          id={ id || name } onChange={ onChange } onBlur={ onBlur } disabled={ disabled } max={ rest.maximumValue }
-          className={ `Input Input--currency ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
-          data-validate={ validateAs || 'number' } placeholder={ placeholder } maxLength='150' { ...attr } />
-        { currency ?
-          <div className='Input-after'>{ currency }</div>
-          : '' }
-      </label>
-      { error ? <ErrorTip contents={ error } /> : '' }
-    </div>
-  )
+    let attr = {};
+
+    if (rest.required) {
+      attr['aria-required'] = true;
+      attr.required = true;
+    }
+
+    const labelElem = document.getElementById(`${id || name}-label`)
+
+    return (
+      <div>
+        <label className='Input-label' id={ `${id || name}-label` }>
+          <span className={ labelTextClasses }>
+            { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
+          </span>
+          { coinIcon &&
+            <div className='Input-before Input--currency-before'>{ coinIcon }</div>
+          }
+          <input type='number' min={ rest.minimumValue } step='any' value={ value.replace(/^0+(?!\.|$)/, '') } name={ name }
+            id={ id || name } onChange={ onChange } onBlur={ onBlur } disabled={ disabled } max={ rest.maximumValue }
+            className={ `Input Input--currency ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
+            data-validate={ validateAs || 'number' } placeholder={ placeholder } maxLength='150' { ...attr } />
+          { currency ?
+            <div className='Input-after'>{ currency }</div>
+            : '' }
+        </label>
+        { error ? <ErrorTip contents={ error } /> : '' }
+      </div>
+    )
+  }
 }
 
 CurrencyInput.defaultProps = {
