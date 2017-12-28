@@ -52,6 +52,27 @@ class FileInput extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const requiredProps = ['formId', 'label', 'id', 'name', 'onChange']
+    const recommendedProps = ['accept']
+
+    const missingRequired = requiredProps.filter(field => {
+      return !this.props[field] && (this.props[field] !== false)
+    })
+
+    const missingRecommended = recommendedProps.filter(field => {
+      return !this.props[field] && (this.props[field] !== false)
+    })
+
+    if (missingRequired.length) {
+      console.log(`%c Missing required props in FileInput with name ${this.props.name}: ${missingRequired.toString()}`, 'color: red')
+    }
+
+    if (missingRecommended.length) {
+      console.log(`%c Missing recommended props in FileInput with name ${this.props.name}: ${missingRecommended.toString()}`, 'color: red')
+    }
+  }
+
   render = () => {
     const { accept, error, id, label, multiple, name, required } = this.props
     let requiredString = ''
@@ -78,7 +99,8 @@ class FileInput extends React.Component {
         { error && <ErrorTip contents={ error } /> }
         <input name={ name } id={ id || name } { ...attr } type='file' data-validate={ required ? 'not-empty' : null }
           className='input u-sr-only' style={ {display: 'none'} } onChange={ this.updateText } accept={ accept }
-          data-multiple-caption="{count} files selected" multiple={ multiple } data-validate='file' />
+          data-multiple-caption="{count} files selected" multiple={ multiple } data-validate='file'
+        />
       </label>
     )
   }

@@ -174,6 +174,16 @@ class SelectInput extends React.Component {
     this.setState({
       sortedOpts: this.props.options
     })
+
+    const requiredProps = ['formId', 'label', 'name', 'onChange', 'options', 'value']
+
+    const missingRequired = requiredProps.filter(field => {
+      return !this.props[field] && (this.props[field] !== false)
+    })
+
+    if (missingRequired.length) {
+      console.log(`%c Missing required props in SelectInput with name ${this.props.name}: ${missingRequired.toString()}`, 'color: red')
+    }
   }
 
   render() {

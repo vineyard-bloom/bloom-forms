@@ -7,21 +7,23 @@ import '../styles/inputs.scss';
 
 class CurrencyInput extends React.Component {
   componentDidMount() {
-    const requiredProps = ['id', 'label', 'maximumValue', 'minimumValue', 'name', 'value']
+    const requiredProps = ['id', 'label', 'maximumValue', 'name', 'value']
     const recommendedProps = ['onChange']
 
     const missingRequired = requiredProps.filter(field => {
-      return !this.props[field]
+      return !this.props[field] && (this.props[field] !== false)
     })
 
-    recommendedProps.forEach(field => {
-      if (!this.props[field]) {
-        console.log(`%c Missing recommended prop in CurrencyInput with name ${this.props.name}: ${field}`, 'color: red')
-      }
+    const missingRecommended = recommendedProps.filter(field => {
+      return !this.props[field] && (this.props[field] !== false)
     })
 
     if (missingRequired.length) {
       console.log(`%c Missing required props in CurrencyInput with name ${this.props.name}: ${missingRequired.toString()}`, 'color: red')
+    }
+
+    if (missingRecommended.length) {
+      console.log(`%c Missing recommended props in CurrencyInput with name ${this.props.name}: ${missingRecommended.toString()}`, 'color: red')
     }
   }
 
@@ -37,6 +39,10 @@ class CurrencyInput extends React.Component {
     if (props.required) {
       attr['aria-required'] = true;
       attr.required = true;
+    }
+
+    if (!onChange) {
+      attr.readOnly = true
     }
 
     const labelElem = document.getElementById(`${id || name}-label`)

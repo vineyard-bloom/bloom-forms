@@ -78,6 +78,25 @@ class MyDropzone extends React.Component {
   componentDidMount() {
     document.addEventListener('dragover', docDrop, false)
     document.addEventListener('drop', this.onDrop, false)
+
+    const requiredProps = ['label', 'name', 'onChange']
+    const recommendedProps = ['loadingElement', 'accept']
+
+    const missingRequired = requiredProps.filter(field => {
+      return !this.props[field] && (this.props[field] !== false)
+    })
+
+    const missingRecommended = recommendedProps.filter(field => {
+      return !this.props[field] && (this.props[field] !== false)
+    })
+
+    if (missingRequired.length) {
+      console.log(`%c Missing required props in Dropzone with name ${this.props.name}: ${missingRequired.toString()}`, 'color: red')
+    }
+
+    if (missingRecommended.length) {
+      console.log(`%c Missing recommended props in Dropzone with name ${this.props.name}: ${missingRecommended.toString()}`, 'color: red')
+    }
   }
 
   componentWillUnmount() {

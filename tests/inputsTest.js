@@ -24,7 +24,7 @@ function exampleClick() {
 describe('<Button />', function() {
   it ('renders without breaking', function() {
     const exampleText = 'example button';
-    const button = mount(<Button contents={ exampleText } onClick={ exampleClick } />);
+    const button = mount(<Button contents={ exampleText } onClick={ exampleClick } id='button-id' />);
 
     assert.ok((button).text().indexOf(exampleText) >= 0);
   })
@@ -33,7 +33,7 @@ describe('<Button />', function() {
 describe('<Checkbox />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Checkbox';
-    const checkbox = mount(<Checkbox name='checkbox' label={ exampleLabel } checked={ true } />);
+    const checkbox = mount(<Checkbox name='checkbox' label={ exampleLabel } checked onChange={() => ''} />);
 
     assert.ok((checkbox).text().indexOf(exampleLabel) >= 0);
   })
@@ -42,7 +42,7 @@ describe('<Checkbox />', function() {
 describe('<CurrencyInput />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Currency Input';
-    const currency = mount(<CurrencyInput label={ exampleLabel } name='currency-input' id='currency-input' />);
+    const currency = mount(<CurrencyInput label={ exampleLabel } name='currency-input' id='currency-input' maximumValue={ 100 } value='50' />);
 
     assert.ok((currency).text().indexOf(exampleLabel) >= 0);
   })
@@ -87,7 +87,7 @@ describe('<RadioGroup />', function() {
         id: 'opt-2'
       }
     ]
-    const radio = mount(<RadioGroup options={ options } value='opt-2' onChange={ exampleClick } name='radio' />);
+    const radio = mount(<RadioGroup options={ options } value='opt-2' onChange={ exampleClick } name='radio' label='radio' />);
 
     assert.ok((radio).text().indexOf('Option 2') >= 0);
   })
@@ -96,7 +96,7 @@ describe('<RadioGroup />', function() {
 describe('<SelectInput />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Select Input';
-    const select = mount(<SelectInput label={ exampleLabel } name='select' formId='example-form' />);
+    const select = mount(<SelectInput label={ exampleLabel } name='select' formId='example-form' onChange={() => ''} value='12' />);
 
     assert.ok((select).text().indexOf(exampleLabel) >= 0);
   })
@@ -105,7 +105,7 @@ describe('<SelectInput />', function() {
 describe('<TextArea />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Text Area';
-    const textarea = mount(<TextArea label={ exampleLabel } name='textarea' />);
+    const textarea = mount(<TextArea label={ exampleLabel } name='textarea' value='hello' />);
 
     assert.ok((textarea).text().indexOf(exampleLabel) >= 0);
   })
@@ -114,7 +114,7 @@ describe('<TextArea />', function() {
 describe('<TextInput />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Text Input';
-    const textinput = mount(<TextInput label={ exampleLabel } name='textinput' />);
+    const textinput = mount(<TextInput label={ exampleLabel } name='textinput' value='hi hi hi' />);
 
     assert.ok((textinput).text().indexOf(exampleLabel) >= 0);
   })
