@@ -29,12 +29,12 @@ class CurrencyInput extends React.Component {
     let {
       className, coinIcon, currency, disabled, error,
       id, label, labelClass, name, onBlur, onChange, placeholder,
-      showLabel, validateAs, value, ...rest } = this.props;
+      showLabel, validateAs, value, ...props } = this.props;
     let labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : 'u-sr-only' }`;
 
     let attr = {};
 
-    if (rest.required) {
+    if (props.required) {
       attr['aria-required'] = true;
       attr.required = true;
     }
@@ -50,10 +50,17 @@ class CurrencyInput extends React.Component {
           { coinIcon &&
             <div className='Input-before Input--currency-before'>{ coinIcon }</div>
           }
-          <input type='number' min={ rest.minimumValue } step='any' value={ value.replace(/^0+(?!\.|$)/, '') } name={ name }
-            id={ id || name } onChange={ onChange } onBlur={ onBlur } disabled={ disabled } max={ rest.maximumValue }
+          <input type='number'
             className={ `Input Input--currency ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
-            data-validate={ validateAs || 'number' } placeholder={ placeholder } maxLength='150' { ...attr } />
+            data-validate={ validateAs || 'number' } disabled={ disabled } 
+            id={ id || name } 
+            min={ props.minimumValue } max={ props.maximumValue } maxLength='150'
+            name={ name }
+            onChange={ onChange } onBlur={ onBlur }
+            placeholder={ placeholder } step='any'
+            value={ (value || '').replace(/^0+(?!\.|$)/, '') }
+            { ...attr }
+          />
           { currency ?
             <div className='Input-after'>{ currency }</div>
             : '' }
