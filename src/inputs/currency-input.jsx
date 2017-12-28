@@ -33,7 +33,7 @@ class CurrencyInput extends React.Component {
     let {
       className, coinIcon, currency, disabled, error,
       id, label, labelClass, name, onBlur, onChange, placeholder,
-      showLabel, validateAs, value, ...rest } = props;
+      showLabel, validateAs, value, ...rest } = this.props;
     let labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : 'u-sr-only' }`;
 
     let attr = {};
