@@ -24,7 +24,7 @@ class RadioGroup extends React.Component {
     }
 
     if (missingRecommended.length) {
-      console.log(`%c Missing recommended props in RadioGroup with name ${this.props.name}: ${missingRecommended.toString()}`, 'color: red')
+      console.log(`%c Missing recommended props in RadioGroup with name ${this.props.name}: ${missingRecommended.toString()}`, 'color: orange')
     }
   }
 

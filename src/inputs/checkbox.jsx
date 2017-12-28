@@ -22,7 +22,7 @@ class Checkbox extends React.Component {
     }
 
     if (missingRecommended.length) {
-      console.log(`%c Missing recommended props in Checkbox with name ${this.props.name}: ${missingRecommended.toString()}`, 'color: red')
+      console.log(`%c Missing recommended props in Checkbox with name ${this.props.name}: ${missingRecommended.toString()}`, 'color: orange')
     }
   }
 
