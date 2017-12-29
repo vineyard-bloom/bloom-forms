@@ -8,7 +8,7 @@ import '../styles/radio-input.scss'
 
 class RadioGroup extends React.Component {
   componentDidMount() {
-    const requiredProps = ['label', 'name', 'options', 'value']
+    const requiredProps = ['name', 'options', 'value']
     const recommendedProps = ['onChange']
 
     const missingRequired = requiredProps.filter(field => {
