@@ -23,6 +23,7 @@ const compareLetters = (str1, str2) => {
 class SelectInput extends React.Component {
   state = {
     hasUsedPresentationElements: false,
+    initialFocus: false,
     showList: false,
     sortBy: null,
     sortedOpts: null
@@ -41,8 +42,11 @@ class SelectInput extends React.Component {
   focusOnTypeAhead = (e) => {
     const typeaheadId = `${ this.props.name }-typeahead`
 
-    if (document.getElementById(typeaheadId)) {
+    if (document.getElementById(typeaheadId) && !this.state.initialFocus) { // we only want it to focus on first click
       document.getElementById(typeaheadId).focus()
+      this.setState({
+        initialFocus: true
+      })
     }
   }
 
@@ -53,10 +57,10 @@ class SelectInput extends React.Component {
       : null
     const options = this.state.sortedOpts
 
-    console.log(key)
-
     // close if esc key
     if (key === 27) {
+      const typeaheadId = `${ this.props.name }-typeahead`
+      document.getElementById(typeaheadId).focus()
       this.setState({
         showList: false,
         sortBy: null,
@@ -86,14 +90,13 @@ class SelectInput extends React.Component {
       nextValue = nextValue && nextValue.value ? nextValue.value : nextValue
       prevValue = prevValue && prevValue.value ? prevValue.value : prevValue
 
-      console.log(prevValue, currValue, nextValue)
-
       if (key === 40) { // arrow down, open and go to next opt
         this.setState({
           hasUsedPresentationElements: true,
           showList: true
         }, () => {
           const elem = document.getElementById(`input-placeholder-${nextValue}`)
+          console.log(elem)
           if (elem) {
             elem.focus()
           }
