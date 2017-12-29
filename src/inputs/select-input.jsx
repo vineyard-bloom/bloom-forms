@@ -53,6 +53,8 @@ class SelectInput extends React.Component {
       : null
     const options = this.state.sortedOpts
 
+    console.log(key)
+
     // close if esc key
     if (key === 27) {
       this.setState({
@@ -83,6 +85,8 @@ class SelectInput extends React.Component {
 
       nextValue = nextValue && nextValue.value ? nextValue.value : nextValue
       prevValue = prevValue && prevValue.value ? prevValue.value : prevValue
+
+      console.log(prevValue, currValue, nextValue)
 
       if (key === 40) { // arrow down, open and go to next opt
         this.setState({
