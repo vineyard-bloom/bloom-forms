@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { requiredPropsLogger } from '../required-props-logger'
+
 import '../styles/inputs.scss';
 import '../styles/checkbox.scss';
 
@@ -9,26 +11,12 @@ class Checkbox extends React.Component {
     const requiredProps = ['checked', 'label', 'name']
     const recommendedProps = ['onChange']
 
-    const missingRequired = requiredProps.filter(field => {
-      return !this.props[field] && (this.props[field] !== false)
-    })
-
-    const missingRecommended = recommendedProps.filter(field => {
-      return !this.props[field] && (this.props[field] !== false)
-    })
-
-    if (missingRequired.length) {
-      console.log(`%c Missing required props in Checkbox with name ${this.props.name}: ${missingRequired.toString()}`, 'color: red')
-    }
-
-    if (missingRecommended.length) {
-      console.log(`%c Missing recommended props in Checkbox with name ${this.props.name}: ${missingRecommended.toString()}`, 'color: orange')
-    }
+    requiredPropsLogger(this.props, requiredProps, recommendedProps)
   }
 
   render() {
     let {
-      checked, className, errors,
+      checked, className, error, formData,
       name, label, labelClass,
       showLabel, showLabelBeforeCheckbox,
       validateAs, ...props } = this.props;
@@ -38,6 +26,18 @@ class Checkbox extends React.Component {
     if (props.required) {
       attr['aria-required'] = true;
       attr.required = true;
+    }
+
+    let err = error
+    if (Object.keys(this.props).indexOf('checked') === -1 && formData && (Object.keys(formData).indexOf(name) > -1)) {
+      attr.checked = formData[name].value
+      err = formData[name].error || error
+    } else {
+      attr.checked = checked
+    }
+
+    if (!props.onChange) {
+      attr.readOnly = true
     }
 
     const labelText = (
@@ -50,13 +50,16 @@ class Checkbox extends React.Component {
       <label style={{paddingBottom: '2px'}} className='Input-label Input-label--inline Input--checkbox'
         id={ `${name}-label` }>
         { showLabelBeforeCheckbox && labelText }
-        <div className={ `non-sr-only Input--checkbox-placeholder ${ checked ? 'glyphicon glyphicon-ok is-checked' : '' }` }></div>
-        <input type='checkbox' checked={ checked } name={ name } id={ name } onChange={ props.onChange }
-          className={ `u-sr-only Input Input--text ${ className ? className : '' } ${ errors ? 'Input--invalid' : '' }` }
-          data-validate={ validateAs } { ...attr } />
+        <div className={ `non-sr-only Input--checkbox-placeholder ${ attr.checked ? 'glyphicon glyphicon-ok is-checked' : '' }` }></div>
+        <input
+          className={ `u-sr-only Input Input--text ${ className ? className : '' } ${ err ? 'Input--invalid' : '' }` }
+          data-validate={ validateAs }
+          id={ name }
+          name={ name } onChange={ props.onChange }
+          type='checkbox' { ...attr } />
         { !showLabelBeforeCheckbox && labelText }
-        { errors &&
-          <div className='Input-error'>{ errors }</div>
+        { err &&
+          <div className='Input-error'>{ err }</div>
         }
       </label>
     )
@@ -64,9 +67,10 @@ class Checkbox extends React.Component {
 }
 
 Checkbox.propTypes = {
-  checked: PropTypes.bool.isRequired,
+  checked: PropTypes.bool,
   className: PropTypes.string,
-  errors: PropTypes.string,
+  error: PropTypes.string,
+  formData: PropTypes.object,
   name: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([
       PropTypes.string,

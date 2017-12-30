@@ -2,34 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ErrorTip from '../error-tip'
+import { requiredPropsLogger } from '../required-props-logger'
 
 import '../styles/inputs.scss';
 
 class CurrencyInput extends React.Component {
   componentDidMount() {
-    const requiredProps = ['id', 'label', 'maximumValue', 'name', 'value']
+    const requiredProps = ['id', 'label', 'maximumValue', 'name']
     const recommendedProps = ['onChange']
 
-    const missingRequired = requiredProps.filter(field => {
-      return !this.props[field] && (this.props[field] !== false)
-    })
-
-    const missingRecommended = recommendedProps.filter(field => {
-      return !this.props[field] && (this.props[field] !== false)
-    })
-
-    if (missingRequired.length) {
-      console.log(`%c Missing required props in CurrencyInput with name ${this.props.name}: ${missingRequired.toString()}`, 'color: red')
-    }
-
-    if (missingRecommended.length) {
-      console.log(`%c Missing recommended props in CurrencyInput with name ${this.props.name}: ${missingRecommended.toString()}`, 'color: orange')
-    }
+    requiredPropsLogger(this.props, requiredProps, recommendedProps, true)
   }
 
   render() {
     let {
-      className, coinIcon, currency, disabled, error,
+      className, coinIcon, currency, disabled, error, formData,
       id, label, labelClass, name, onBlur, onChange, placeholder,
       showLabel, validateAs, value, ...props } = this.props;
     let labelTextClasses = `Input-label-text ${ labelClass ? labelClass : '' } ${ showLabel ? '' : 'u-sr-only' }`;
@@ -39,6 +26,14 @@ class CurrencyInput extends React.Component {
     if (props.required) {
       attr['aria-required'] = true;
       attr.required = true;
+    }
+
+    let err = error
+    if (Object.keys(this.props).indexOf('value') === -1 && formData && (Object.keys(formData).indexOf(name) > -1)) {
+      attr.value = formData[name].value
+      err = formData[name].error
+    } else {
+      attr.value = value
     }
 
     if (!onChange) {
@@ -64,14 +59,14 @@ class CurrencyInput extends React.Component {
             name={ name }
             onChange={ onChange } onBlur={ onBlur }
             placeholder={ placeholder } step='any'
-            value={ (value || '').replace(/^0+(?!\.|$)/, '') }
             { ...attr }
+            value={ attr.value.replace(/^0+(?!\.|$)/, '') }
           />
           { currency ?
             <div className='Input-after'>{ currency }</div>
             : '' }
         </label>
-        { error ? <ErrorTip contents={ error } /> : '' }
+        { err ? <ErrorTip contents={ err } /> : '' }
       </div>
     )
   }
@@ -90,6 +85,7 @@ CurrencyInput.propTypes = {
   ]),
   disabled: PropTypes.bool,
   error: PropTypes.string,
+  formData: PropTypes.object,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   labelClass: PropTypes.string,

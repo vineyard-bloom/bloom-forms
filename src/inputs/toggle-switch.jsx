@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { requiredPropsLogger } from '../required-props-logger'
+
 import '../styles/inputs.scss';
 import '../styles/toggle-switch.scss';
 
@@ -8,17 +10,12 @@ class ToggleSwitch extends React.Component {
   componentDidMount() {
     const requiredProps = ['isActive', 'labelText', 'name', 'onClick']
 
-    const missingRequired = requiredProps.filter(field => {
-      return !this.props[field] && (this.props[field] !== false)
-    })
-
-    if (missingRequired.length) {
-      console.log(`%c Missing required props in ToggleSwitch with name ${this.props.name}: ${missingRequired.toString()}`, 'color: red')
-    }
+    requiredPropsLogger(this.props, requiredProps)
   }
 
   render() {
-    let { className, disabled, innerLabels, isActive, labelText, name, onClick, required, showLabel } = this.props;
+    let { className, disabled, formData, innerLabels, isActive,
+      labelText, name, onClick, required, showLabel, ...props } = this.props;
     let attr = {};
 
     if (required) {
@@ -29,6 +26,16 @@ class ToggleSwitch extends React.Component {
     const triggerHiddenCheckbox = (e) => {
       e.preventDefault();
       document.getElementById(name).click()
+    }
+
+    if (Object.keys(this.props).indexOf('isActive') === -1 && (formData && (Object.keys(formData).indexOf(name) > -1))) {
+      attr.checked = formData[name].value
+    } else {
+      attr.checked = isActive
+    }
+
+    if (!props.onChange) {
+      attr.readOnly = true
     }
 
     return (
@@ -64,6 +71,7 @@ class ToggleSwitch extends React.Component {
 ToggleSwitch.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
+  formData: PropTypes.object,
   innerLabels: PropTypes.shape({
     on: PropTypes.string.isRequired,
     off: PropTypes.string.isRequired

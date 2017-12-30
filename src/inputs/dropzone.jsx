@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { requiredPropsLogger } from '../required-props-logger'
 import '../styles/dropzone'
 import docImage from '../images/file.svg'
 
@@ -82,21 +83,7 @@ class MyDropzone extends React.Component {
     const requiredProps = ['label', 'name', 'onChange']
     const recommendedProps = ['loadingElement', 'accept']
 
-    const missingRequired = requiredProps.filter(field => {
-      return !this.props[field] && (this.props[field] !== false)
-    })
-
-    const missingRecommended = recommendedProps.filter(field => {
-      return !this.props[field] && (this.props[field] !== false)
-    })
-
-    if (missingRequired.length) {
-      console.log(`%c Missing required props in Dropzone with name ${this.props.name}: ${missingRequired.toString()}`, 'color: red')
-    }
-
-    if (missingRecommended.length) {
-      console.log(`%c Missing recommended props in Dropzone with name ${this.props.name}: ${missingRecommended.toString()}`, 'color: orange')
-    }
+    requiredPropsLogger(this.props, requiredProps, recommendedProps)
   }
 
   componentWillUnmount() {

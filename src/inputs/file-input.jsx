@@ -1,8 +1,9 @@
 'use strict'
 import React from 'react'
 import PropTypes from 'prop-types'
-import ErrorTip from '../error-tip'
 
+import ErrorTip from '../error-tip'
+import { requiredPropsLogger } from '../required-props-logger'
 import '../styles/inputs.scss'
 
 class FileInput extends React.Component {
@@ -56,21 +57,7 @@ class FileInput extends React.Component {
     const requiredProps = ['formId', 'label', 'id', 'name', 'onChange']
     const recommendedProps = ['accept']
 
-    const missingRequired = requiredProps.filter(field => {
-      return !this.props[field] && (this.props[field] !== false)
-    })
-
-    const missingRecommended = recommendedProps.filter(field => {
-      return !this.props[field] && (this.props[field] !== false)
-    })
-
-    if (missingRequired.length) {
-      console.log(`%c Missing required props in FileInput with name ${this.props.name}: ${missingRequired.toString()}`, 'color: red')
-    }
-
-    if (missingRecommended.length) {
-      console.log(`%c Missing recommended props in FileInput with name ${this.props.name}: ${missingRecommended.toString()}`, 'color: orange')
-    }
+    requiredPropsLogger(this.props, requiredProps, recommendedProps)
   }
 
   render = () => {

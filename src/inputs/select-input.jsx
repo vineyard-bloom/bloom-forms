@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import ErrorTip from '../error-tip'
 import Loading from './loading'
+import { requiredPropsLogger } from '../required-props-logger'
 import '../styles/inputs.scss'
 import '../styles/select-input.scss'
 
@@ -182,19 +183,15 @@ class SelectInput extends React.Component {
       sortedOpts: this.props.options
     })
 
-    const requiredProps = ['formId', 'label', 'name', 'onChange', 'options', 'value']
+    const requiredProps = ['formId', 'label', 'name', 'onChange', 'options']
 
-    const missingRequired = requiredProps.filter(field => {
-      return !this.props[field] && (this.props[field] !== false)
-    })
-
-    if (missingRequired.length) {
-      console.log(`%c Missing required props in SelectInput with name ${this.props.name}: ${missingRequired.toString()}`, 'color: red')
-    }
+    requiredPropsLogger(this.props, requiredProps, [], true)
   }
 
   render() {
-    const { containerClass, label, name, onChange, loading, options, typeAhead, showLabel, validateAs, value, error, ...rest } = this.props;
+    const { containerClass, error, name, label, loading,
+      onChange, options, showLabel, typeAhead,
+      validateAs, value, ...props } = this.props;
     const sortedOpts = this.state.sortedOpts || this.props.options
     let opts = sortedOpts.map((opt, i) => {
       return opt.label
@@ -226,9 +223,21 @@ class SelectInput extends React.Component {
 
     let attr = {};
 
-    if (rest.required) {
+    if (props.required) {
       attr['required'] = true;
       attr['aria-required'] = true;
+    }
+
+    let err = error
+    if (Object.keys(this.props).indexOf('value') === -1 && formData && (Object.keys(formData).indexOf(name) > -1)) {
+      attr.value = formData[name].value
+      err = formData[name].error
+    } else {
+      attr.value = value
+    }
+
+    if (!props.onChange) {
+      attr.readOnly = true
     }
 
     // in case options' values are different from their labels
@@ -274,8 +283,8 @@ class SelectInput extends React.Component {
               </button>
             )
           }
-          { error && !this.state.showList &&
-            <ErrorTip contents={ error } className='Tooltip--error--select' />
+          { err && !this.state.showList &&
+            <ErrorTip contents={ err } className='Tooltip--error--select' />
           }
           { this.state.showList &&
             <ul className='SelectInput-opts non-sr-only' aria-hidden role='presentation'>
@@ -283,8 +292,10 @@ class SelectInput extends React.Component {
             </ul>
           }
         </span>
-        <select value={ value } name={ name } id={ name } className='u-sr-only' { ...attr } data-validate={ validateAs }
-          onChange={ (e) => this.selectOpt(e.target.value) } tabIndex={ this.state.hasUsedPresentationElements ? '-1' : '0' }>
+        <select name={ name } id={ name } className='u-sr-only' data-validate={ validateAs }
+          onChange={ (e) => this.selectOpt(e.target.value) }
+          tabIndex={ this.state.hasUsedPresentationElements ? '-1' : '0' }
+          { ...attr }>
           { opts }
         </select>
       </label>
@@ -294,8 +305,9 @@ class SelectInput extends React.Component {
 
 SelectInput.propTypes = {
   containerClass: PropTypes.string,
-  formId: PropTypes.string.isRequired,
   error: PropTypes.string,
+  formData: PropTypes.object,
+  formId: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   loading: PropTypes.string,
@@ -317,7 +329,7 @@ SelectInput.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
-  ]).isRequired
+  ])
 }
 
 SelectInput.defaultProps = {
