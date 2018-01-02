@@ -47,7 +47,7 @@ class ToggleSwitch extends React.Component {
           }
         </span>
         <input type='checkbox' className='ToggleSwitch-input u-sr-only' checked={ isActive } id={ name } name={ name }
-          aria-labelledby={ `${ name }-aria-label` } onClick={ onClick } readOnly />
+          aria-labelledby={ `${ name }-aria-label` } onClick={ onClick } readOnly aria-live='polite' />
         <span className='u-sr-only' id={ `${ name }-aria-label` } aria-live='polite'>
           { labelText }: { isActive ? 'on' : 'off' }.
           <span className='u-sr-only'>Press Space Bar to toggle on or off.</span>

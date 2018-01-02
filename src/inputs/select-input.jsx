@@ -38,16 +38,31 @@ class SelectInput extends React.Component {
       sortBy: null,
       sortedOpts: this.props.options
     });
+    this.focusOnTypeAhead(null, true)
   };
 
-  focusOnTypeAhead = (e) => {
-    const typeaheadId = `${ this.props.name }-typeahead`
+  focusOnTypeAhead = (e, override=false) => {
+    const typeaheadId = `${ this.props.name }-placeholder`
+    const allowFocus = !this.state.initialFocus || override
 
-    if (document.getElementById(typeaheadId) && !this.state.initialFocus) { // we only want it to focus on first click
+    if (document.getElementById(typeaheadId) && allowFocus) {
       document.getElementById(typeaheadId).focus()
       this.setState({
         initialFocus: true
       })
+    }
+  }
+
+  isInsideTheSelectPlaceholder = (domElement) => {
+    let parent = domElement
+    while (parent && parent.tagName) {
+      if (parent.id === `${ this.props.name }-placeholder-label`) {
+        return true
+      } else if (parent.tagName === 'BODY'){
+        return false
+      } else {
+        parent = parent.parentNode
+      }
     }
   }
 
@@ -60,7 +75,7 @@ class SelectInput extends React.Component {
 
     // close if esc key
     if (key === 27) {
-      const typeaheadId = `${ this.props.name }-typeahead`
+      const typeaheadId = `${ this.props.name }-placeholder`
       document.getElementById(typeaheadId).focus()
       this.setState({
         showList: false,
@@ -97,7 +112,6 @@ class SelectInput extends React.Component {
           showList: true
         }, () => {
           const elem = document.getElementById(`input-placeholder-${nextValue}`)
-          console.log(elem)
           if (elem) {
             elem.focus()
           }
@@ -117,29 +131,13 @@ class SelectInput extends React.Component {
   }
 
   closeOpts = (e) => {
-    e.persist()
-    const target = e.target
+    if (e) { e.persist() }
 
-    // find if it's our label or inside our label
-    let thisLabel = e.relatedTarget;
-    if (thisLabel && thisLabel.getAttribute) {
-      while (thisLabel && thisLabel.getAttribute && !thisLabel.getAttribute('for')) {
-        if (thisLabel.parentNode) {
-          thisLabel = thisLabel.parentNode
-        } else {
-          // not even an input
-          thisLabel = null;
-        }
-      }
-    } else {
-      thisLabel = null;
+    if (e && (!e.relatedTarget || !this.isInsideTheSelectPlaceholder(e.relatedTarget))) {
+      this.setState({
+        showList: false
+      })
     }
-
-    // if (!thisLabel || (thisLabel.getAttribute && thisLabel.getAttribute('for') && (thisLabel.getAttribute('for') !== this.props.name))) {
-    //   this.setState({
-    //     showList: false
-    //   })
-    // }
 
     const select = document.getElementById(this.props.name)
 
@@ -193,7 +191,8 @@ class SelectInput extends React.Component {
       onChange, options, showLabel, typeAhead,
       validateAs, value, ...props } = this.props;
     const sortedOpts = this.state.sortedOpts || this.props.options
-    let opts = sortedOpts.map((opt, i) => {
+
+    const opts = sortedOpts.map((opt, i) => {
       return opt.label
         ? (
           <option key={ `${name}-opt-${i}` } value={ opt.value }>
@@ -204,18 +203,24 @@ class SelectInput extends React.Component {
         );
     });
 
-    let placeholderOpts = sortedOpts.map((opt, i) => {
+    const placeholderOpts = sortedOpts.map((opt, i) => {
       return opt.label
         ? (
           <li key={ `${ name }-opt-${i}` } onClick={ (e) => this.selectOpt(opt.value) }>
-            <button id={ `input-placeholder-${opt.value}` }>
-              { opt.label }
+            <button id={ `input-placeholder-${opt.value}` } tabIndex={ this.state.hasUsedPresentationElements ? '0' : '-1' }
+              aria-labelledby={ `${ name }-opt-${i}-text` }>
+              <span id={ `${ name }-opt-${i}-text` }>
+                { opt.label }
+              </span>
             </button>
           </li>
         ) : (
           <li key={ `${ name }-opt-${i}` } onClick={ (e) => this.selectOpt(opt) }>
-            <button id={ `input-placeholder-${opt}` }>
-              { opt }
+            <button id={ `input-placeholder-${opt}` } tabIndex={ this.state.hasUsedPresentationElements ? '0' : '-1' }
+              aria-labelledby={ `${ name }-opt-${i}-text` }>
+              <span id={ `${ name }-opt-${i}-text` }>
+                { opt }
+              </span>
             </button>
           </li>
         );
@@ -257,48 +262,69 @@ class SelectInput extends React.Component {
           : (value || 'Select')
         )
       )
+    const displayValue = translateVal ? (activeOptLabel || 'Select') : (value || 'Select')
+
+    const labelText = (
+      <span className={ `Input-label-text ${ !showLabel ? 'u-sr-only' : '' }` }
+        aria-labels={ name } id={ `${ name }-label-text` }>
+        { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
+        { loading ? <Loading /> : null }
+      </span>
+    )
+
+    const placeholderElement = (
+        <div className={ `Input-label SelectInput ${ containerClass || '' }` } onBlur={(e) => this.closeOpts(e)}
+          id={ `${ name }-placeholder-label` } onFocus={(e) => this.focusOnTypeAhead(e)}>
+          { labelText }
+          <span onKeyDown={ this.onKeyDown } aria-controlls={ name } className='SelectInput-placeholderWrapper'>
+            { options.length && typeAhead
+              ? (
+                <input className={ `Btn Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' } ${ error ? 'Input--invalid' : '' }` }
+                  type='text' value={ typeAheadDisplay }
+                  id={ `${ name }-placeholder` } name='autofill-buster'
+                  onChange={ this.sortResults }
+                  aria-label={ `${ value ? `Selected Option: ${displayValue}.` : 'Typeahead' }.\
+                    Type characters to filter your list of Selectable Options, or press the arrow keys to view full list.` }
+                />
+              ) : (
+                <button disabled={ !options.length } onClick={ this.toggleList }
+                  className={ `${!options.length ? 'Btn is-disabled' : 'Btn'} Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' } ${ error ? 'Input--invalid' : '' }` }
+                  aria-label={ `${ value ? `Selected Option: ${ displayValue }. ` : ''}Press the arrow keys to view and choose Selectable Options.` }
+                  id={ `${ name }-placeholder` }>
+                  { this.props.placeholder && !value
+                    ? <span className='u-grayed-out'>{ this.props.placeholder }</span>
+                    : displayValue
+                  }
+                </button>
+              )
+            }
+            { err && !this.state.showList &&
+              <ErrorTip contents={ err } className='Tooltip--error--select' />
+            }
+            { this.state.showList &&
+              <ul className='SelectInput-opts non-sr-only' aria-labelledby={ `${ name }-label-text` }
+                name={ name }>
+                { placeholderOpts }
+              </ul>
+            }
+          </span>
+        </div>
+    )
 
     return (
-      <label className={ `Input-label SelectInput ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.closeOpts }
-        id={ `${ name }-label` } onFocus={ this.focusOnTypeAhead }>
-        <span className={ `Input-label-text ${ !showLabel ? 'u-sr-only' : '' }` }>
-          { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
-          { loading ? <Loading/> : null }
-        </span>
-        <span onKeyDown={ this.onKeyDown } aria-hidden role='presentation' className='SelectInput-placeholderWrapper'>
-          { options.length && typeAhead
-            ? (
-              <input className={ `Btn Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' } ${ error ? 'Input--invalid' : '' }` }
-                type='text' value={ typeAheadDisplay } aria-hidden role='presentation'
-                onChange={ this.sortResults } onFocus={ this.focusOnTypeAhead } id={ `${ name }-typeahead` }
-                name='autofill-buster'
-              />
-            ) : (
-              <button disabled={!options.length} onClick={ this.toggleList } aria-hidden role='presentation'
-                className={ `${!options.length ? 'Btn is-disabled' : 'Btn'} Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' } ${ error ? 'Input--invalid' : '' }` }>
-                { this.props.placeholder && !value
-                  ? <span className='u-grayed-out'>{ this.props.placeholder }</span>
-                  : (translateVal ? activeOptLabel : (value || 'Select'))
-                }
-              </button>
-            )
-          }
-          { err && !this.state.showList &&
-            <ErrorTip contents={ err } className='Tooltip--error--select' />
-          }
-          { this.state.showList &&
-            <ul className='SelectInput-opts non-sr-only' aria-hidden role='presentation'>
-              { placeholderOpts }
-            </ul>
-          }
-        </span>
-        <select name={ name } id={ name } className='u-sr-only' data-validate={ validateAs }
-          onChange={ (e) => this.selectOpt(e.target.value) }
-          tabIndex={ this.state.hasUsedPresentationElements ? '-1' : '0' }
-          { ...attr }>
-          { opts }
-        </select>
-      </label>
+      <div onBlur={(e) => this.closeOpts(e)}>
+        { placeholderElement }
+        <label className={ `Input-label SelectInput ${ containerClass || '' } u-sr-only` } htmlFor={ name }
+          id={ `${ name }-label` } tabIndex={ -1 } aria-hidden>
+          <select name={ name } id={ name } className='u-sr-only' data-validate={ validateAs }
+            onChange={ (e) => this.selectOpt(e.target.value) } aria-labelledby={ `${ name }-label-text` }
+            tabIndex={ -1 }
+            { ...attr }>
+            <option value=''>Select</option>
+            { opts }
+          </select>
+        </label>
+      </div>
     )
   }
 }
