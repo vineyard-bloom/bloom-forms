@@ -7,6 +7,7 @@
   * [Dropzone](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#dropzone)
   * [FileInput](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#fileinput)
   * [RadioGroup](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#radiogroup)
+  * [RadioButtonGroup](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#radiobuttongroup)
   * [SelectInput](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#selectinput)
   * [TextArea](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#textarea)
   * [TextInput](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#textinput)
@@ -161,6 +162,11 @@ Inline file input that does not support drag and drop.
 [Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## RadioGroup
+## and RadioButtonGroup
+
+Both RadioGroup and RadioButtonGroup are used when there are a variety of options, but only one can be selected at once.
+RadioButtonGroup behaves nearly identically to RadioGroup but has the styling of buttons.
+
 ### Required Props
 - `name`:
   A string tying the `RadioGroup`'s value to the `formData`. Also sets the `name` prop of each element in the group.
