@@ -59,7 +59,7 @@ const validate = async (prevStatus, testData, validateAs, fieldName, dict, error
   //   }
   // }
 
-  if (!doct[validateAs]) {
+  if (!dict[validateAs]) {
     throw new Error(`${validateAs} is not defined in your validationHelp dictionary.`)
   }
 
