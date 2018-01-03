@@ -266,17 +266,19 @@ class SelectInput extends React.Component {
 
     const labelText = (
       <span className={ `Input-label-text ${ !showLabel ? 'u-sr-only' : '' }` }
-        aria-labels={ name } id={ `${ name }-label-text` }>
+        id={ `${ name }-label-text` }>
         { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
         { loading ? <Loading /> : null }
       </span>
     )
 
     const placeholderElement = (
-        <div className={ `Input-label SelectInput ${ containerClass || '' }` } onBlur={(e) => this.closeOpts(e)}
-          id={ `${ name }-placeholder-label` } onFocus={(e) => this.focusOnTypeAhead(e)}>
+        <div className={ `Input-label SelectInput ${ containerClass || '' }` }
+          id={ `${ name }-placeholder-label` }
+          onBlur={(e) => this.closeOpts(e)} onFocus={(e) => this.focusOnTypeAhead(e)}
+          aria-labelledBy={ `${ name }-label-text` }>
           { labelText }
-          <span onKeyDown={ this.onKeyDown } aria-controlls={ name } className='SelectInput-placeholderWrapper'>
+          <span onKeyDown={ this.onKeyDown } aria-controls={ name } className='SelectInput-placeholderWrapper'>
             { options.length && typeAhead
               ? (
                 <input className={ `Btn Input-placeholder non-sr-only ${ this.state.showList ? 'is-open' : '' } ${ error ? 'Input--invalid' : '' }` }

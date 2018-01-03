@@ -12,6 +12,7 @@ import DateInput from '../src/inputs/date-input.jsx';
 import Dropzone from '../src/inputs/dropzone.jsx';
 import FileInput from '../src/inputs/file-input.jsx';
 import RadioGroup from '../src/inputs/radio-group.jsx';
+import RadioButtonGroup from '../src/inputs/radio-button-group.jsx';
 import SelectInput from '../src/inputs/select-input.jsx';
 import TextArea from '../src/inputs/text-area.jsx';
 import TextInput from '../src/inputs/text-input.jsx';
@@ -88,6 +89,24 @@ describe('<RadioGroup />', function() {
       }
     ]
     const radio = mount(<RadioGroup options={ options } value='opt-2' onChange={ exampleClick } name='radio' label='radio' />);
+
+    assert.ok((radio).text().indexOf('Option 2') >= 0);
+  })
+})
+
+describe('<RadioButtonGroup />', function() {
+  it ('renders without breaking', function() {
+    const options = [
+      {
+        label: 'Option 1',
+        id: 'opt-1'
+      },
+      {
+        label: 'Option 2',
+        id: 'opt-2'
+      }
+    ]
+    const radio = mount(<RadioButtonGroup options={ options } value='opt-2' onChange={ exampleClick } name='radio' label='radio' />);
 
     assert.ok((radio).text().indexOf('Option 2') >= 0);
   })
