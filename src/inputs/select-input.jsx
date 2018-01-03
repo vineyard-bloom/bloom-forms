@@ -195,11 +195,11 @@ class SelectInput extends React.Component {
     const opts = sortedOpts.map((opt, i) => {
       return opt.label
         ? (
-          <option key={ `${name}-opt-${i}` } value={ opt.value }>
+          <option key={ `${name}-opt-${i}` } value={ opt.value } tabIndex={ -1 }>
             { opt.label }
           </option>
         ) : (
-          <option key={ `${name}-opt-${i}` } value={ opt }>{ opt }</option>
+          <option key={ `${name}-opt-${i}` } value={ opt } tabIndex={ -1 }>{ opt }</option>
         );
     });
 
