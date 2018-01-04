@@ -276,7 +276,7 @@ class SelectInput extends React.Component {
         <div className={ `Input-label SelectInput ${ containerClass || '' }` }
           id={ `${ name }-placeholder-label` }
           onBlur={(e) => this.closeOpts(e)} onFocus={(e) => this.focusOnTypeAhead(e)}
-          aria-labelledBy={ `${ name }-label-text` }>
+          aria-labelledby={ `${ name }-label-text` }>
           { labelText }
           <span onKeyDown={ this.onKeyDown } aria-controls={ name } className='SelectInput-placeholderWrapper'>
             { options.length && typeAhead

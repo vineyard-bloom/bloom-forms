@@ -35,7 +35,7 @@ class RadioGroup extends React.Component {
     }
 
     return (
-      <radiogroup className={ containerClass }>
+      <fieldset className={ containerClass }>
         { legend && <legend className='Input-legend'>{ legend }</legend> }
         { options.map((opt,i) => {
           const { label, id } = opt
@@ -70,7 +70,7 @@ class RadioGroup extends React.Component {
           )
         }) }
         { err ? <ErrorTip contents={ err } /> : '' }
-      </radiogroup>
+      </fieldset>
     )
   }
 }

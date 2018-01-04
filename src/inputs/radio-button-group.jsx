@@ -35,7 +35,7 @@ class RadioButtonGroup extends React.Component {
     }
 
     return (
-      <radiogroup className={ `RadioButton-wrapper ${ containerClass || '' }` }>
+      <fieldset className={ `RadioButton-wrapper ${ containerClass || '' }` }>
         { legend && <legend className='RadioButton-legend'>{ legend }</legend> }
         { options.map((opt,i) => {
           const { label, id } = opt
@@ -69,7 +69,7 @@ class RadioButtonGroup extends React.Component {
             </label>
           )
         }) }
-      </radiogroup>
+      </fieldset>
     )
   }
 }
