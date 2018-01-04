@@ -24,7 +24,11 @@ const submitProcess = (formData, files, success, fail) => {
 function generateComponent(store, replacementProps={}) {
   const component = <ConnectedForm fieldNames={fieldNames} id='example-form' submitForm={submitProcess} { ...replacementProps } />
   return shallowWithStore(component, store)
-} 
+}
+
+function comparableArray(array) {
+  return array.sort().toString()
+}
 
 const startingState = {
   prepopulated: false,
@@ -52,89 +56,69 @@ describe('<Form/>', function() {
     assert.equal(wrapper.props().forms['example-form'].name.value, 'Bob');
   })
 
-  it ('updates the store when receiving new fieldNames', function() {
-    // populating fields round #1
+  if ('updates values of fields when they change', function() {
     const wrapper = generateComponent(store)
     const diver = wrapper.dive().instance()
 
-    diver.populateFields({ ...wrapper.props(), fieldNames: fieldNames })
+    diver.manualFieldUpdate('example-form', 'name', 'new value')
+    assert.ok(wrapper.props().forms['example-form'].name.value)
+    assert.equal(
+      wrapper.props().forms['example-form'].name.value,
+      'new value'
+    )
 
-    const thisFormStore = store.getState().forms['example-form']
+    diver.manualFieldUpdate('example-form', 'name', '')
+    assert.ok(wrapper.props().forms['example-form'].name)
+    assert.equal(
+      wrapper.props().forms['example-form'].name.value,
+      ''
+    )
+  })
+
+  it ('updates the store when receiving new fieldNames', function() {
+    const wrapper = generateComponent(store)
     assert.equal(wrapper.props().fieldNames, fieldNames)
-    assert.ok(thisFormStore)
 
-    assert.ok(Object.keys(thisFormStore).length-1 === (Object.keys(fieldNames).length)) // minus one for 'isValid'
-
-    // populating fields round #2
     const newFieldNames = ['name', 'id', 'pet', 'muffinflavor', 'blep'];
-
-    diver.populateFields({ ...wrapper.props(), fieldNames: newFieldNames })
+    wrapper.setProps({ ...wrapper.props(), fieldNames: newFieldNames })
     wrapper.update()
-    // assert.equal(wrapper.props().fieldNames, newFieldNames)
-    assert.ok(Object.keys(store.getState().forms['example-form']).length-1 === (Object.keys(newFieldNames).length))
+    assert.equal(
+      comparableArray(wrapper.props().fieldNames),
+      comparableArray(newFieldNames)
+    )
+
+    wrapper.dive().instance().populateFields({ ...wrapper.props(), fieldNames: newFieldNames })
+    assert.equal(
+      comparableArray(Object.keys(wrapper.props().forms['example-form'])),
+      comparableArray([ ...newFieldNames, 'isValid' ])
+    )
   })
 
   it ('prepopulates if given data', function() {
-    function tempCreateForm(id, dataObj) {
-      return store.dispatch(createForm(id, dataObj));
+    const prepopulateData = {
+      'muffinflavor': 'banana nut',
+      'pet': 'Doodle',
+      'stuff': {
+        'id': '123-id'
+      }
     }
-    // const wrapper = Enzyme.shallow(<Form fieldNames={fieldNames} id='example-form' submitForm={submitProcess} />);
-    // const spy = sinon.spy(wrapper.instance(), 'componentWillReceiveProps');
-    // const spy2 = sinon.spy(wrapper.instance(), 'populateFields');
+    const wrapper = generateComponent(store)
+    wrapper.setProps({ ...wrapper.props(), prepopulateData })
+    wrapper.update()
+    wrapper.dive().instance().populateFields(wrapper.props(), prepopulateData)
 
-    // wrapper.update();
-    // assert.equal(spy.calledOnce, false);
-    // assert.equal(spy2.callCount, 0);
-    // wrapper.setProps({ ...store.getState(), createForm: tempCreateForm, prepopulateData: {name: 'Bob'}});
-
-    // assert.equal(spy.calledOnce, true);
-    // assert.equal(spy2.callCount, 1);
-
-    // assert.ok(store.getState().forms['example-form']);
-    // assert.ok(store.getState().forms['example-form'].name);
-    // assert.equal(store.getState().forms['example-form'].name.value, 'Bob')
-  })
-
-  it ('validates when told to', function() {
-    // const validationHelp = {
-    //   errorLanguage: {
-    //     'not-empty': 'This field cannot be empty.'
-    //   }
-    // }
-    // const wrapper = Enzyme.shallow(<Form fieldNames={fieldNames} id='example-form' submitForm={submitProcess} validationHelp={ validationHelp } />);
-    // const fakeElem = {
-    //   value: '',
-    //   name: 'name',
-    //   'data-validate': 'not-empty',
-    //   getAttribute: (thing) => {
-    //     return fakeElem[thing]
-    //   }
-    // }
-    // function tempCreateForm(id='example-form', dataObj) {
-    //   return store.dispatch(createForm(id, dataObj));
-    // }
-    // function tempDeleteFormError(id='example-form', fieldName) {
-    //   return store.dispatch(deleteFormError(id, fieldName))
-    // }
-    // function tempAddFormError(formId='example-form', fieldName, errorMessage) {
-    //   return store.dispatch(addFormError(formId, fieldName, errorMessage))
-    // }
-
-    // wrapper.setProps({ deleteFormError: tempDeleteFormError, addFormError: tempAddFormError, createForm: tempCreateForm, forms: { 'example-form': {} } })
-    // wrapper.update();
-
-    // wrapper.instance().checkField(null, fakeElem)
-
-    // const thisForm = store.getState().forms['example-form']
-    // assert.ok(thisForm.name);
-    // assert.ok(thisForm.name.error);
-    // assert.equal(thisForm.name.error, validationHelp.errorLanguage['not-empty']);
-
-    // fakeElem.value = 'Bob';
-    // wrapper.instance().checkField(null, fakeElem);
-
-    // const thatForm = store.getState().forms['example-form']
-    // assert.ok(thatForm.name)
-    // assert.ok(!thatForm.name.error);
+    const thisFormStore = wrapper.props().forms['example-form']
+    assert.equal(
+      thisFormStore.muffinflavor.value,
+      prepopulateData.muffinflavor
+    )
+    assert.equal(
+      thisFormStore.pet.value,
+      prepopulateData.pet
+    )
+    assert.equal(
+      thisFormStore.id.value,
+      prepopulateData.stuff.id
+    )
   })
 })

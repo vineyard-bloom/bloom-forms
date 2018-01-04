@@ -38,7 +38,7 @@ export async function validatorAggregator (testDataObject = {}, errorLanguage=nu
   for (let field in testDataObject) {
     let thisField = testDataObject[field]
     if (thisField.validateAs) {
-      status = validate(status, thisField.value, thisField.validateAs, thisField.name, dict, errorLanguage)
+      status = await validate(status, thisField.value, thisField.validateAs, thisField.name, dict, errorLanguage)
     }
   }
 
@@ -46,31 +46,18 @@ export async function validatorAggregator (testDataObject = {}, errorLanguage=nu
 }
 
 const validate = async (prevStatus, testData, validateAs, fieldName, dict, errorLanguage) => {
-  // maybe this is too much magic
-  // if (fieldName.indexOf('confirm') > -1) {
-  //   // find its partner and test against it
-  //   const partnerName = fieldName.replace('confirm', '')
-  //   const partner = document.getElementById(partnerName[0].toLowerCase().concat(partnerName.slice(1)))
-  //   if (partner.value != testData) {
-  //     prevStatus.isValid = prevStatus.isValid && false
-  //     prevStatus.warnings[fieldName] = errorLanguage ? errorLanguage['dont-match'].replace('<FIELD>', partnerName) : `${partnerName}s must match.`
-  //   } else {
-  //     isValid = prevStatus.isValid && true
-  //   }
-  // }
-
   if (!dict[validateAs]) {
     throw new Error(`${validateAs} is not defined in your validationHelp dictionary.`)
   }
 
-  let error = await dict[validateAs](testData, fieldName, errorLanguage)
-  prevStatus.warnings[fieldName] = error
+  try {
+    let error = await dict[validateAs](testData, fieldName, errorLanguage)
+    prevStatus.warnings[fieldName] = error
 
-  // if (!error) {
-  //   delete prevStatus.warnings[fieldName]
-  // }
-
-  return { ...prevStatus, isValid: prevStatus.isValid && !error }
+    return { ...prevStatus, isValid: prevStatus.isValid && !error }
+  } catch(err) {
+    throw new Error(`Error in validation: ${err.toString()}`)
+  }
 }
 
 function dateError(testData, fieldName, errorLanguage) {
