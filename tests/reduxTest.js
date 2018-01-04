@@ -9,7 +9,7 @@ const exampleApp = combineReducers({
 
 const store = createStore(exampleApp);
 
-describe('creates a new form', function() {
+describe('Bloom Form redux', function() {
   it ('dispatches new form named example-form', function() {
     const exampleFields = {}
 

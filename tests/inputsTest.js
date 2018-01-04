@@ -1,5 +1,4 @@
 import React from 'react';
-import sinon from 'sinon';
 import * as assert from 'assert';
 import Enzyme from 'enzyme';
 import { combineReducers, createStore, dispatch } from 'redux';
