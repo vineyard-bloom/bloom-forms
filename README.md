@@ -31,8 +31,9 @@ Includes:
       * Dropzone
       * FileInput
       * RadioGroup
+      * RadioButtonGroup
       * SelectInput
-      * TextArea (bigger, multi-line, like `<textarea>`)
+      * TextArea
       * TextInput
       * ToggleSwitch
 
@@ -105,5 +106,17 @@ class LoginFormContainer extends React.Component {
 }
 ```
 - Note that the IDs match ('login-form'), and the fieldNames match the names of the TextInputs.
+
+Now make sure that you've imported your `formReducer` into your reducers file in redux, like:
+```
+import { formReducer } from 'bloom-forms'
+...
+
+export default combineReducers({
+  ...
+  forms: formReducer
+  ...
+})
+```
 
 [Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
