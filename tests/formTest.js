@@ -30,11 +30,6 @@ function comparableArray(array) {
   return array.sort().toString()
 }
 
-const startingState = {
-  prepopulated: false,
-  processingRequest: false
-}
-
 describe('<Form/>', function() {
   it ('has state', function() {
     const wrapper = generateComponent(store)
@@ -50,13 +45,14 @@ describe('<Form/>', function() {
   it ('communicates with redux form store', function() {
     const wrapper = generateComponent(store)
     wrapper.props().updateForm(null, 'example-form', 'name', 'Bob', 'text', { 'name': { value: '' } });
-    assert.ok(wrapper.props().forms['example-form']);
-    assert.ok(wrapper.props().forms['example-form'].name);
-    assert.ok(wrapper.props().forms['example-form'].name.value);
-    assert.equal(wrapper.props().forms['example-form'].name.value, 'Bob');
+    const thisFormStore = wrapper.props().forms['example-form']
+    assert.ok(thisFormStore);
+    assert.ok(thisFormStore.name);
+    assert.ok(thisFormStore.name.value);
+    assert.equal(thisFormStore.name.value, 'Bob');
   })
 
-  if ('updates values of fields when they change', function() {
+  it ('updates values of fields when they change', function() {
     const wrapper = generateComponent(store)
     const diver = wrapper.dive().instance()
 
