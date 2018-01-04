@@ -24,7 +24,7 @@ export class Form extends React.Component {
 
   static propTypes = {
     addFormError: PropTypes.func,
-    ignoreFocusOnFirstElement: PropTypes.func,
+    ignoreFocusOnFirstElement: PropTypes.bool,
     clearForm: PropTypes.func,
     createForm: PropTypes.func,
     deleteFormError: PropTypes.func,
@@ -44,7 +44,7 @@ export class Form extends React.Component {
       errorLanguage: PropTypes.object,
       dictionary: PropTypes.object
     })
-  } // make sure only those that don't come from redux are declared
+  } // make sure only those that don't come from redux are declared for better error logging to end user
 
   static mapDispatchToProps(dispatch, ownProps) {
     return {
@@ -247,6 +247,10 @@ export class Form extends React.Component {
 
     if (!this.props.ignoreFocusOnFirstElement) {
       this.focusOnFirst();
+    }
+
+    if (this.props.submitRoute) {
+      console.log(`%c You\'re using "submitRoute" in form ${ this.props.id }, which comes from a pre-release version of Bloom Forms. Please use "submitForm".`, 'color: red')
     }
   }
 
