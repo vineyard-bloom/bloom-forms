@@ -28,7 +28,7 @@ describe('validator.js', function() {
     )
   })
 
-  it ('throws an error when a field is invalid', async function() {
+  it ('returns a warning when a field is invalid', async function() {
     testDataObj.limitedLength.value = '1234567890'
     const result = await validator(testDataObj, validationHelp.errorLanguage, validationHelp.dictionary)
     assert.ok(result)
