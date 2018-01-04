@@ -25,6 +25,12 @@ input[type='number'] {
   }
 }
 
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
 .Input {
   border: $input-border;
   color: $dark-gray;
