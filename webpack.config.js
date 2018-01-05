@@ -13,6 +13,8 @@ module.exports = {
     umdNamedDefine: true
   },
 
+  devtool: 'source-map',
+
   module: {
     rules: [
       {
@@ -55,7 +57,7 @@ module.exports = {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({ minimize: true})
+    new webpack.optimize.UglifyJsPlugin({ minimize: true, sourceMap: true })
   ],
 
   resolve: {
