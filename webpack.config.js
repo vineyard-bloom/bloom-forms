@@ -13,7 +13,7 @@ module.exports = {
     umdNamedDefine: true
   },
 
-  devtool: 'cheap-eval-source-map',
+  devtool: 'hidden-source-map',
 
   module: {
     rules: [

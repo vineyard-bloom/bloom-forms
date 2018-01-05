@@ -1,6 +1,6 @@
 {
   "name": "bloom-forms",
-  "version": "0.02.95",
+  "version": "0.02.96",
   "description": "form functionality used in bloom packages",
   "main": "index.js",
   "scripts": {
