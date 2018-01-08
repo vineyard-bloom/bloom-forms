@@ -25,6 +25,7 @@ class SelectInput extends React.Component {
   state = {
     hasUsedPresentationElements: false,
     initialFocus: false,
+    noMatches: false,
     showList: false,
     sortBy: null,
     sortedOpts: null
@@ -150,11 +151,15 @@ class SelectInput extends React.Component {
     const sortValue = e.target.value && e.target.value.replace(/\s/g, '') && e.target.value.replace(/\s/g, '').length
       ? e.target.value
       : ''
+
+    const sortedOpts = this.props.options.filter((opt) => compareLetters(e.target.value, (opt.label ? opt.label : opt)))
+
     this.setState({
       hasUsedPresentationElements: true,
+      noMatches: !!sortValue && !!sortedOpts.length,
       showList: true,
       sortBy: sortValue,
-      sortedOpts: this.props.options.filter((opt) => compareLetters(e.target.value, (opt.label ? opt.label : opt)))
+      sortedOpts: sortedOpts
     })
   }
 
@@ -234,7 +239,9 @@ class SelectInput extends React.Component {
     }
 
     let err = error
-    if (Object.keys(this.props).indexOf('value') === -1 && formData && (Object.keys(formData).indexOf(name) > -1)) {
+    if (this.state.noMatches) {
+      err = 'No matches found.'
+    } else if (Object.keys(this.props).indexOf('value') === -1 && formData && (Object.keys(formData).indexOf(name) > -1)) {
       attr.value = formData[name].value
       err = formData[name].error
     } else {
