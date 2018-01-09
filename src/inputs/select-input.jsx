@@ -156,7 +156,7 @@ class SelectInput extends React.Component {
 
     this.setState({
       hasUsedPresentationElements: true,
-      noMatches: !!sortValue && !!sortedOpts.length,
+      noMatches: (this.props.value || !!sortValue) && !!sortedOpts.length,
       showList: true,
       sortBy: sortValue,
       sortedOpts: sortedOpts
@@ -168,6 +168,7 @@ class SelectInput extends React.Component {
     this.setState({
       hasUsedPresentationElements: true,
       focusedOpt: null,
+      noMatches: !this.state.showList ? noMatches : false,
       showList: !this.state.showList
     });
   };
