@@ -22,6 +22,8 @@
 ## Optional Props
 ### Validation Help
 Used to customize bloom-form's built-in validation. See 'Validation' below.
+### Ignore Focus On First Element
+By default the first input will be focused on for accessibility reasons.  Set this prop to false to offset default behavior.
 ### Preserve After Unmount
 By default, the form will clear its data after unmounting from the ui. This means that a registration form will delete its data after you route to a new page. If `preserveAfterUnmount` is true, this will prevent the form from clearing, and you'll be able to return to that form and see the data still there.
 ### Prepopulate Data
