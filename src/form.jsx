@@ -83,25 +83,31 @@ export class Form extends React.Component {
     const fieldValue = field.value.trim()
     const isRequired = field.getAttribute('aria-required') || field.getAttribute('required')
 
-    const fieldStatus =
-      await validator(
-        { [fieldName]: { value: fieldValue, validateAs: field.getAttribute('data-validate'), name: fieldName} },
-        this.props.validationHelp ? this.props.validationHelp.errorLanguage : null,
-        this.props.validationHelp ? this.props.validationHelp.dictionary : null
-      )
-    const allowNull = !isRequired || (fieldValue && isRequired)
-    const thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
+    try {
+      const fieldStatus =
+        await validator(
+          { [fieldName]: { value: fieldValue, validateAs: field.getAttribute('data-validate'), name: fieldName} },
+          this.props.validationHelp ? this.props.validationHelp.errorLanguage : null,
+          this.props.validationHelp ? this.props.validationHelp.dictionary : null
+        )
+      const allowNull = !isRequired || (fieldValue && isRequired)
+      const thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
 
-    if (fieldStatus.isValid && allowNull) {
-      // if (thisForm[fieldName] && thisForm[fieldName].error) {
-        this.props.deleteFormError(this.props.id, fieldName)
-      // } // tests needed this to run always, since the wrapper instance doesn't talk to the same props
-    } else {
-      this.props.addFormError(this.props.id, fieldName, fieldStatus.warnings[fieldName])
+      if (fieldStatus.isValid && allowNull) {
+        // if (thisForm[fieldName] && thisForm[fieldName].error) {
+          this.props.deleteFormError(this.props.id, fieldName)
+          return true
+        // } // tests needed this to run always, since the wrapper instance doesn't talk to the same props
+      } else {
+        this.props.addFormError(this.props.id, fieldName, fieldStatus.warnings[fieldName])
+        return false
+      }
+    }catch(err){
+      throw new Error(err)
     }
   }
 
-  submitForm = (e) => {
+  submitForm = async(e) => {
     e.preventDefault()
 
     this.setState({
@@ -113,12 +119,13 @@ export class Form extends React.Component {
     const unconvertedForm = { ...thisForm }
 
     let files
+    let checkArr = []
 
     for (let field in thisForm) {
       if (field != 'isValid' && ((thisForm[field].value || (thisForm[field].value === ''))
         && !thisForm[field].value.type /* don't check files */) && (document.getElementById(field))) {
         // validate each field in case onBlur on that field never triggered
-        this.checkField(null, document.getElementById(field))
+         checkArr.push(this.checkField(null, document.getElementById(field)))
       }
 
       if (thisForm[field].value || (thisForm[field].value === '')) {
@@ -139,37 +146,43 @@ export class Form extends React.Component {
       }
     }
 
-    // make sure we've got an updated version in case we got invalid fields from that last checkField
-    thisForm = { ...thisForm, isValid: this.props.forms[this.props.id].isValid }
+    Promise.all(checkArr)
+      .then(res=>{
+        // make sure we've got an updated version in case we got invalid fields from that last checkField
+        thisForm = { ...thisForm, isValid: this.props.forms[this.props.id].isValid }
 
-    if (thisForm && thisForm.isValid) {
-      delete thisForm.isValid
+        if (thisForm && thisForm.isValid) {
+          delete thisForm.isValid
 
-      const successCallback = () => {
-        this.setState({
-          processingRequest: false
-        })
-      }
+          const successCallback = () => {
+            this.setState({
+              processingRequest: false
+            })
+          }
 
-      const failCallback = (err) => {
-        let message = err.response ? err.response.data.error.message : err
-        console.log({ ...err})
-        this.setState({
-          processingRequest: false
-        })
-      }
+          const failCallback = (err) => {
+            let message = err.response ? err.response.data.error.message : err
+            console.log({ ...err})
+            this.setState({
+              processingRequest: false
+            })
+          }
+          return this.props.submitForm(thisForm, files, successCallback, failCallback)
+        } else {
+          delete thisForm.isValid
 
-      return this.props.submitForm(thisForm, files, successCallback, failCallback)
-    } else {
-      delete thisForm.isValid
+          this.setState({
+            processingRequest: false
+          })
 
-      this.setState({
-        processingRequest: false
+          // debugging helper
+          console.log(`form id '${this.props.id}' has invalid fields`, unconvertedForm)
+        }
+
       })
-
-      // debugging helper
-      console.log(`form id '${this.props.id}' has invalid fields`, unconvertedForm)
-    }
+      .catch(err=>{
+        throw new Error(err)
+      })
   }
 
   focusOnFirst = () => {
