@@ -322,7 +322,7 @@ class SelectInput extends React.Component {
     )
 
     return (
-      <div onBlur={(e) => this.closeOpts(e)}>
+      <div onBlur={(e) => this.closeOpts(e)} id={ `${name}-label` }>
         { placeholderElement }
         <label className={ `Input-label SelectInput ${ containerClass || '' } u-sr-only` } htmlFor={ name }
           id={ `${ name }-label` } tabIndex={ -1 } aria-hidden>
