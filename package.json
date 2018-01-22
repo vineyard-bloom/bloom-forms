@@ -24,6 +24,11 @@
     "forms",
     "accessible"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn test"
+    }
+  },
   "author": "inkblotty (http://inkblotty.github.io)",
   "license": "MIT",
   "bugs": {
@@ -44,6 +49,7 @@
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "file-loader": "^1.1.5",
+    "husky": "^0.15.0-rc.2",
     "ignore-styles": "^5.0.1",
     "jsdom": "^11.2.0",
     "node-sass": "^4.5.3",
@@ -58,6 +64,5 @@
     "url-loader": "^0.6.2",
     "webpack": "^3.6.0"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
