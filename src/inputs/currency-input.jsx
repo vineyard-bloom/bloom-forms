@@ -65,8 +65,8 @@ class CurrencyInput extends React.Component {
           { currency ?
             <div className='Input-after'>{ currency }</div>
             : '' }
+          { err ? <ErrorTip contents={ err } /> : '' }
         </label>
-        { err ? <ErrorTip contents={ err } /> : '' }
       </div>
     )
   }
