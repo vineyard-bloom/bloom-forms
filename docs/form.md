@@ -1,13 +1,13 @@
 # The `<Form/>` Wrapper
 
 ### Usage:
-- [Required Props](https://github.com/vineyard-bloom/bloom-forms#required-props)
-- [Optional Props](https://github.com/vineyard-bloom/bloom-forms#optional-props)
-- [Updating Form State](https://github.com/vineyard-bloom/bloom-forms#updating-form-state)
-- [Validation](https://github.com/vineyard-bloom/bloom-forms#validation)
-- [Prepopulating Form](https://github.com/vineyard-bloom/bloom-forms#prepopulating-form)
-- [Submitting Forms](https://github.com/vineyard-bloom/bloom-forms#submitting-forms)
-- [Forms with Switch Inside](https://github.com/vineyard-bloom/bloom-forms#forms-with-switch-inside)
+- [Required Props](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/form.md#required-props)
+- [Optional Props](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/form.md#optional-props)
+- [Updating Form State](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/form.md#updating-form-state)
+- [Validation](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/form.md#validation)
+- [Prepopulating Form](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/form.md#prepopulating-form)
+- [Submitting Forms](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/form.md#submitting-forms)
+- [Forms with Switch Inside](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/form.md#forms-with-switch-inside)
 
 ## Required Props
 ### Field Names

@@ -12,6 +12,7 @@ import '../styles/select-input.scss'
   - esc and arrow keys
   - tabbing
   - regular old onClick
+  - multiple values
 */
 
 const compareLetters = (str1, str2) => {
@@ -192,6 +193,34 @@ class SelectInput extends React.Component {
     requiredPropsLogger(this.props, requiredProps, [], true)
   }
 
+  renderPlaceholderOptions = (sortedOpts) => {
+    const { name } = this.props
+    return sortedOpts.map((opt, i) => {
+      return opt.label
+        ? (
+          <li key={ `${ name }-opt-${i}` } onClick={ (e) => this.selectOpt(opt.value) }>
+            <button id={ `input-placeholder-${opt.value}` }
+              tabIndex={ this.state.hasUsedPresentationElements ? '0' : '-1' }
+              aria-labelledby={ `${ name }-opt-${i}-text` }>
+              <span id={ `${ name }-opt-${i}-text` }>
+                { opt.label }
+              </span>
+            </button>
+          </li>
+        ) : (
+          <li key={ `${ name }-opt-${i}` } onClick={ (e) => this.selectOpt(opt) }>
+            <button id={ `input-placeholder-${opt}` }
+              tabIndex={ this.state.hasUsedPresentationElements ? '0' : '-1' }
+              aria-labelledby={ `${ name }-opt-${i}-text` }>
+              <span id={ `${ name }-opt-${i}-text` }>
+                { opt }
+              </span>
+            </button>
+          </li>
+        );
+    })
+  }
+
   render() {
     const { containerClass, error, name, label, loading,
       onChange, options, showLabel, typeAhead,
@@ -209,28 +238,7 @@ class SelectInput extends React.Component {
         );
     });
 
-    const placeholderOpts = sortedOpts.map((opt, i) => {
-      return opt.label
-        ? (
-          <li key={ `${ name }-opt-${i}` } onClick={ (e) => this.selectOpt(opt.value) }>
-            <button id={ `input-placeholder-${opt.value}` } tabIndex={ this.state.hasUsedPresentationElements ? '0' : '-1' }
-              aria-labelledby={ `${ name }-opt-${i}-text` }>
-              <span id={ `${ name }-opt-${i}-text` }>
-                { opt.label }
-              </span>
-            </button>
-          </li>
-        ) : (
-          <li key={ `${ name }-opt-${i}` } onClick={ (e) => this.selectOpt(opt) }>
-            <button id={ `input-placeholder-${opt}` } tabIndex={ this.state.hasUsedPresentationElements ? '0' : '-1' }
-              aria-labelledby={ `${ name }-opt-${i}-text` }>
-              <span id={ `${ name }-opt-${i}-text` }>
-                { opt }
-              </span>
-            </button>
-          </li>
-        );
-    })
+    const placeholderOpts = this.renderPlaceholderOptions(sortedOpts)
 
     let attr = {};
 
@@ -243,6 +251,7 @@ class SelectInput extends React.Component {
     if (this.state.noMatches) {
       err = 'No matches found.'
     } else if (Object.keys(this.props).indexOf('value') === -1 && formData && (Object.keys(formData).indexOf(name) > -1)) {
+      // formData prop was passed in instead of value and error
       attr.value = formData[name].value
       err = formData[name].error
     } else {
@@ -293,7 +302,7 @@ class SelectInput extends React.Component {
                   type='text' value={ typeAheadDisplay }
                   id={ `${ name }-placeholder` } name='autofill-buster'
                   onChange={ this.sortResults }
-                  aria-label={ `${ value ? `Selected Option: ${displayValue}.` : 'Typeahead' }.\
+                  aria-label={ `${ value ? `Selected Option: ${displayValue}` : 'Typeahead' }.\
                     Type characters to filter your list of Selectable Options, or press the arrow keys to view full list.` }
                 />
               ) : (
@@ -322,9 +331,9 @@ class SelectInput extends React.Component {
     )
 
     return (
-      <div onBlur={(e) => this.closeOpts(e)} id={ `${name}-label` }>
+      <div onBlur={(e) => this.closeOpts(e)} id={ `${name}-label` } className={ `SelectInput-wrapper ${ containerClass || '' }` }>
         { placeholderElement }
-        <label className={ `Input-label SelectInput ${ containerClass || '' } u-sr-only` } htmlFor={ name }
+        <label className={ `Input-label SelectInput u-sr-only` } htmlFor={ name }
           id={ `${ name }-label` } tabIndex={ -1 } aria-hidden>
           <select name={ name } id={ name } className='u-sr-only' data-validate={ validateAs }
             onChange={ (e) => this.selectOpt(e.target.value) } aria-labelledby={ `${ name }-label-text` }
@@ -364,7 +373,13 @@ SelectInput.propTypes = {
   validateAs: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.number
+    PropTypes.number,
+    PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+      ])
+    )
   ])
 }
 

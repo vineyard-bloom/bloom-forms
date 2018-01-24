@@ -287,6 +287,8 @@ TextInput is a single line text input used most often in forms.
 ### Optional Props
 - `className`:
   A string that styles the input box directly.
+- `containerClass`:
+  A string that styles the wrapper around the entire component.
 - `error`:
   A string usually passed in directly from `formData` that notes an error with that field validation. Generally passed in like `formData.field.error`.
 - `isPassword`:
