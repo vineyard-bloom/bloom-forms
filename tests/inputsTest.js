@@ -20,6 +20,20 @@ import TextArea from '../src/inputs/text-area.jsx';
 import TextInput from '../src/inputs/text-input.jsx';
 import ToggleSwitch from '../src/inputs/toggle-switch.jsx';
 
+const exampleFormData = {
+  'checkbox': { value: '' },
+  'currency-input': { value: '' },
+  'date-input': { value: '' },
+  'dropzone': { value: '' },
+  'file-input': { value: '' },
+  'radio': { value: '' },
+  'radio-button': { value: '' },
+  'select': { value: '' },
+  'textarea': { value: '' },
+  'textinput': { value: '' },
+  'toggle-switch': { value: '' }
+}
+
 function exampleClick() {
   return;
 }
@@ -36,7 +50,9 @@ describe('<Button />', function() {
 describe('<Checkbox />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Checkbox';
-    const checkbox = Enzyme.mount(<Checkbox name='checkbox' label={ exampleLabel } checked onChange={() => ''} />);
+    const checkbox = Enzyme.mount(
+      <Checkbox name='checkbox' label={ exampleLabel } checked onChange={() => ''} formData={ exampleFormData } />
+    );
 
     assert.ok((checkbox).text().indexOf(exampleLabel) >= 0);
   })
@@ -45,7 +61,9 @@ describe('<Checkbox />', function() {
 describe('<CurrencyInput />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Currency Input';
-    const currency = Enzyme.mount(<CurrencyInput label={ exampleLabel } name='currency-input' id='currency-input' maximumValue={ 100 } value='50' />);
+    const currency = Enzyme.mount(
+      <CurrencyInput label={ exampleLabel } name='currency-input' id='currency-input' maximumValue={ 100 } value='50' formData={ exampleFormData } />
+    );
 
     assert.ok((currency).text().indexOf(exampleLabel) >= 0);
   })
@@ -54,7 +72,9 @@ describe('<CurrencyInput />', function() {
 describe('<DateInput />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Date Input';
-    const date = Enzyme.mount(<DateInput label={ exampleLabel } name='date-input' value='2017/12/12' onChange={ exampleClick } />);
+    const date = Enzyme.mount(
+      <DateInput label={ exampleLabel } name='date-input' value='2017/12/12' onChange={ exampleClick } formData={ exampleFormData } />
+    );
 
     assert.ok((date).text().indexOf(exampleLabel) >= 0);
   })
@@ -63,7 +83,9 @@ describe('<DateInput />', function() {
 describe('<Dropzone />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Dropzone';
-    const dropzone = Enzyme.mount(<Dropzone label={ exampleLabel } name='dropzone' onChange={ exampleClick } />);
+    const dropzone = Enzyme.mount(
+      <Dropzone label={ exampleLabel } name='dropzone' onChange={ exampleClick } formData={ exampleFormData } />
+    );
 
     assert.ok((dropzone).text().indexOf(exampleLabel) >= 0);
   })
@@ -72,7 +94,9 @@ describe('<Dropzone />', function() {
 describe('<FileInput />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example File Input';
-    const file = Enzyme.mount(<FileInput label={ exampleLabel } name='file-input' formId='example-form' onChange={ exampleClick } id='example-form' />);
+    const file = Enzyme.mount(
+      <FileInput label={ exampleLabel } name='file-input' formId='example-form' onChange={ exampleClick } id='example-form' formData={ exampleFormData } />
+    );
 
     assert.ok((file).text().indexOf(exampleLabel) >= 0);
   })
@@ -90,7 +114,9 @@ describe('<RadioGroup />', function() {
         id: 'opt-2'
       }
     ]
-    const radio = Enzyme.mount(<RadioGroup options={ options } value='opt-2' onChange={ exampleClick } name='radio' label='radio' />);
+    const radio = Enzyme.mount(
+      <RadioGroup options={ options } value='opt-2' onChange={ exampleClick } name='radio' label='radio' formData={ exampleFormData } />
+    );
 
     assert.ok((radio).text().indexOf('Option 2') >= 0);
   })
@@ -108,7 +134,9 @@ describe('<RadioButtonGroup />', function() {
         id: 'opt-2'
       }
     ]
-    const radio = Enzyme.mount(<RadioButtonGroup options={ options } value='opt-2' onChange={ exampleClick } name='radio' label='radio' />);
+    const radio = Enzyme.mount(
+      <RadioButtonGroup options={ options } value='opt-2' onChange={ exampleClick } name='radio-button' label='radio' formData={ exampleFormData } />
+    );
 
     assert.ok((radio).text().indexOf('Option 2') >= 0);
   })
@@ -117,7 +145,9 @@ describe('<RadioButtonGroup />', function() {
 describe('<SelectInput />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Select Input';
-    const select = Enzyme.mount(<SelectInput label={ exampleLabel } name='select' formId='example-form' onChange={() => ''} value='12' />);
+    const select = Enzyme.mount(
+      <SelectInput label={ exampleLabel } name='select' formId='example-form' onChange={() => ''} value='12' formData={ exampleFormData } />
+    );
 
     assert.ok((select).text().indexOf(exampleLabel) >= 0);
   })
@@ -126,7 +156,9 @@ describe('<SelectInput />', function() {
 describe('<TextArea />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Text Area';
-    const textarea = Enzyme.mount(<TextArea label={ exampleLabel } name='textarea' value='hello' />);
+    const textarea = Enzyme.mount(
+      <TextArea label={ exampleLabel } name='textarea' value={ exampleFormData.textarea.value } onChange={() => ''} />
+    );
 
     assert.ok((textarea).text().indexOf(exampleLabel) >= 0);
   })
@@ -135,7 +167,9 @@ describe('<TextArea />', function() {
 describe('<TextInput />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Text Input';
-    const textinput = Enzyme.mount(<TextInput label={ exampleLabel } name='textinput' value='hi hi hi' />);
+    const textinput = Enzyme.mount(
+      <TextInput label={ exampleLabel } name='textinput' value={ exampleFormData.textinput.value } />
+    );
 
     assert.ok((textinput).text().indexOf(exampleLabel) >= 0);
   })
@@ -144,7 +178,9 @@ describe('<TextInput />', function() {
 describe('<ToggleSwitch />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example ToggleSwitch';
-    const toggle = Enzyme.mount(<ToggleSwitch labelText={ exampleLabel } name='toggle-switch' onClick={ exampleClick } isActive={ true } />);
+    const toggle = Enzyme.mount(
+      <ToggleSwitch labelText={ exampleLabel } name='toggle-switch' onClick={ exampleClick } isActive={ true } formData={ exampleFormData } />
+    );
 
     assert.ok((toggle).text().indexOf(exampleLabel) >= 0);
   })

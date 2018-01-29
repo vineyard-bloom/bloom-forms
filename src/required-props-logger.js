@@ -4,16 +4,18 @@ export function requiredPropsLogger(props, requiredProps=[], recommendedProps=[]
   const { formData, name, value } = props
   const propKeys = Object.keys(props)
 
-  const missingRequired = requiredProps.filter(field => {
-    return propKeys.indexOf(field) === -1
-  })
+  const missingRequired = requiredProps.filter(field =>
+    propKeys.indexOf(field) === -1
+  )
 
-  const missingRecommended = recommendedProps.filter(field => {
-    return propKeys.indexOf(field) === -1
-  })
+  const missingRecommended = recommendedProps.filter(field =>
+    propKeys.indexOf(field) === -1
+  )
 
-  const missingOneOrOther = oneOrOther && ((Object.keys(props).indexOf('value') === -1)
-    || !(formData && (Object.keys(formData).indexOf(name) > -1)))
+  const missingOneOrOther = oneOrOther && (
+      (propKeys.indexOf('value') === -1)
+      || (formData && (Object.keys(formData).indexOf(name) === -1))
+    )
 
   if (missingRequired.length) {
     console.log(`%c Missing required props in input with name ${name}: ${missingRequired.toString()}`, 'color: red')
