@@ -168,7 +168,7 @@ describe('<TextInput />', function() {
   it ('renders without breaking', function() {
     const exampleLabel = 'Example Text Input';
     const textinput = Enzyme.mount(
-      <TextInput label={ exampleLabel } name='textinput' value={ exampleFormData.textinput.value } />
+      <TextInput label={ exampleLabel } name='textinput' value={ exampleFormData.textinput.value } onChange={() => ''} />
     );
 
     assert.ok((textinput).text().indexOf(exampleLabel) >= 0);
