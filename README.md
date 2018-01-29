@@ -63,7 +63,7 @@ import { formReducer } from 'bloom-forms';
 ```
 
 ## Contributing
-Fork this repo, run `yarn test` and ensure everything passes, then bundle with `yarn build`. Accepted PRs will be merged and published to npm.
+Fork this repo, and submit any changes as a PR to master. Accepted PRs will be merged and published to npm.
 
 ## Set Up
 - Every form needs two files: a container and a presentation component (with all the inputs inside it)
