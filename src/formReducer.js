@@ -54,7 +54,7 @@ export default function formReducer(state = {}, action) {
     case 'TRIGGER_MULTIPLE_CHECK': {
       console.log('trigger multiple in reducer')
       let formId = action.formId
-      let fieldNames = action.fieldNames
+      let fieldNames = action.fieldNames || []
       // if (!formId) {
       //   formId = Object.keys(newForms).filter(key => (newForms[key].visibleFields || []).length)
       // }
@@ -63,7 +63,7 @@ export default function formReducer(state = {}, action) {
       // }
       return {
         ...newForms,
-        awaitingCheck: [ ...newForms.awaitingCheck, { formId, fieldNames } ]
+        awaitingCheck: [ ...(newForms.awaitingCheck || []), { formId, fieldNames } ]
       }
     }
 
