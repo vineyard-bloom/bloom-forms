@@ -1,6 +1,14 @@
 import * as assert from 'assert';
 import { combineReducers, createStore, dispatch } from 'redux';
-import { addFormError, clearForm, createForm, deleteFormError, updateForm } from '../src/formActions';
+import {
+  addFormError,
+  checkCompleted,
+  checkMultipleFields,
+  clearForm,
+  createForm,
+  deleteFormError,
+  updateForm
+} from '../src/formActions';
 import formReducer from '../src/formReducer';
 
 const exampleApp = combineReducers({
@@ -11,11 +19,11 @@ const store = createStore(exampleApp);
 
 describe('Bloom Form redux', function() {
   it ('dispatches new form named example-form', function() {
-    const exampleFields = {}
+    const example = { fields: {}, awaitingCheck: [] }
 
-    store.dispatch(createForm('example-form', exampleFields));
+    store.dispatch(createForm('example-form', example));
 
-    assert.deepEqual(store.getState().forms['example-form'], { ...exampleFields, isValid: true });
+    assert.deepEqual(store.getState().forms['example-form'], { fields: example.fields, awaitingCheck: [], isValid: true });
   })
 
   it ('adds fields to the example-form', function() {
@@ -30,7 +38,7 @@ describe('Bloom Form redux', function() {
       store.dispatch(updateForm(null, 'example-form', field, exampleFields[field].value, 'text'));
     }
 
-    assert.deepEqual(store.getState().forms['example-form'], { fields: exampleFields, isValid: true });
+    assert.deepEqual(store.getState().forms['example-form'].fields, exampleFields);
   })
 })
 
@@ -51,7 +59,7 @@ describe('populates fieldNames after initialization', function() {
       'blep': { value: '' }
     }
 
-    assert.deepEqual(store.getState().forms['example-form'], { fields: exampleFields, isValid: true });
+    assert.deepEqual(store.getState().forms['example-form'].fields, exampleFields);
   })
 
   it ('adds values to a couple fields', function() {
@@ -69,7 +77,8 @@ describe('populates fieldNames after initialization', function() {
       'isValid': true
     }
 
-    assert.deepEqual(store.getState().forms['example-form'], endComparison)
+    assert.deepEqual(store.getState().forms['example-form'].fields, endComparison.fields)
+    assert.equal(store.getState().forms['example-form'].isValid, endComparison.isValid)
   })
 })
 
@@ -88,7 +97,8 @@ describe('handles errors', function() {
       'isValid': false
     }
 
-    assert.deepEqual(store.getState().forms['example-form'], endComparison)
+    assert.deepEqual(store.getState().forms['example-form'].fields, endComparison.fields)
+    assert.equal(store.getState().forms['example-form'].isValid, endComparison.isValid)
   })
 
   it ('updates a value and deletes an error from blep', function() {
@@ -106,7 +116,30 @@ describe('handles errors', function() {
       'isValid': true
     }
 
-    assert.deepEqual(store.getState().forms['example-form'], endComparison)
+    assert.deepEqual(store.getState().forms['example-form'].fields, endComparison.fields)
+    assert.equal(store.getState().forms['example-form'].isValid, endComparison.isValid)
+  })
+})
+
+describe('deals with awaitingCheck', function() {
+  it ('adds fields that are awaitingCheck', function() {
+    assert.deepEqual(
+      store.getState().forms['example-form'].awaitingCheck,
+      []
+    )
+    store.dispatch(checkMultipleFields('example-form', ['blep']))
+    assert.deepEqual(
+      store.getState().forms['example-form'].awaitingCheck,
+      [{ formId: 'example-form', fieldNames: ['blep'] }]
+    )
+  })
+
+  it ('removes fields that were awaitingCheck and are now checked', function() {
+    store.dispatch(checkCompleted('example-form'))
+    assert.deepEqual(
+      store.getState().forms['example-form'].awaitingCheck,
+      []
+    )
   })
 })
 

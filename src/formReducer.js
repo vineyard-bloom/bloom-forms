@@ -37,6 +37,7 @@ export default function formReducer(state = {}, action) {
 
     case 'CREATE_FORM':
       newForms[action.formId] = action.formObject
+      newForms[action.formId].awaitingCheck = action.formObject.awaitingCheck || []
       newForms[action.formId].isValid = true
       return { ...newForms }
 
