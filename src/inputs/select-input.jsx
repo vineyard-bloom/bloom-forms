@@ -276,7 +276,7 @@ class SelectInput extends React.Component {
           ? activeOptLabel
           : (value || 'Select')
         )
-      )
+
     const displayValue = translateVal ? (activeOptLabel || 'Select') : (value || 'Select')
 
     const labelText = (
