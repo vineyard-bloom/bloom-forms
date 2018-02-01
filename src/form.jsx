@@ -25,10 +25,6 @@ export class Form extends React.Component {
 
   static propTypes = {
     addFormError: PropTypes.func,
-    awaitingCheck: PropTypes.arrayOf(PropTypes.shape({
-      formId: PropTypes.string,
-      fieldNames: PropTypes.arrayOf(PropTypes.string)
-    })),
     ignoreFocusOnFirstElement: PropTypes.bool,
     clearForm: PropTypes.func,
     createForm: PropTypes.func,
@@ -288,10 +284,10 @@ export class Form extends React.Component {
       this.populateFields(newProps);
     }
 
-    if (newProps.awaitingCheck &&
-      (newProps.awaitingCheck.find(obj => obj.formId === newProps.id))
+    if (newProps.forms[newProps.id] && newProps.forms[newProps.id].awaitingCheck &&
+      (newProps.forms[newProps.id].awaitingCheck.find(obj => obj.formId === newProps.id))
     ) {
-      newProps.awaitingCheck.fieldNames.forEach(name => {
+      newProps.forms[newProps.id].awaitingCheck.fieldNames.forEach(name => {
         const elem = document.getElementById(name)
         if (elem) {
           this.props.checkField(null, elem)

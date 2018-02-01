@@ -8,7 +8,7 @@ import '../styles/inputs.scss';
 
 class CurrencyInput extends React.Component {
   componentDidMount() {
-    const requiredProps = ['id', 'label', 'maximumValue', 'name']
+    const requiredProps = ['id', 'label', 'minimumValue', 'name']
     const recommendedProps = ['onChange']
 
     requiredPropsLogger(this.props, requiredProps, recommendedProps, true)
