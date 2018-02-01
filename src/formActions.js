@@ -17,6 +17,7 @@ export function checkCompleted(formId) {
 }
 
 export function checkMultipleFields(formId, fieldNames) {
+  console.log('check multiple fields action')
   return {
     type: 'TRIGGER_MULTIPLE_CHECK',
     formId,

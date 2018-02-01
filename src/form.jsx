@@ -204,7 +204,6 @@ export class Form extends React.Component {
   }
 
   populateFields = (props, responseData) => {
-    console.log('populating fields')
     let formData = { fields: {} }
     // initialize the form with all fields inside
     props.fieldNames.forEach((fieldName) => {
