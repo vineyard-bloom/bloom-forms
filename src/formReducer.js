@@ -56,7 +56,6 @@ export default function formReducer(state = {}, action) {
       return { ...newForms }
 
     case 'TRIGGER_MULTIPLE_CHECK': {
-      console.log('trigger multiple in reducer')
       let formId = action.formId
       let fieldNames = action.fieldNames || []
       // if (!formId) {
