@@ -283,7 +283,7 @@ export class Form extends React.Component {
       this.populateFields(newProps, newProps.prepopulateData)
     }
 
-    if (newProps.fieldNames.length != Object.keys(newProps.forms[newProps.id].fields)) { // ignore isValid
+    if (newProps.fieldNames.length != Object.keys(newProps.forms[newProps.id].fields).length) { // ignore isValid
       this.populateFields(newProps);
     }
 
