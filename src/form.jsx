@@ -204,38 +204,40 @@ export class Form extends React.Component {
   }
 
   populateFields = (props, responseData) => {
-    let formData = {}
+    let formData = { fields: {} }
     // initialize the form with all fields inside
     props.fieldNames.forEach((fieldName) => {
       if (fieldName.type) {
-        formData[fieldName.name] = {}
+        formData.fields[fieldName.name] = {}
 
         switch(fieldName.type) {
           case 'checkbox':
-            formData[fieldName.name].value = false
+            formData.fields[fieldName.name].value = false
             break
           case 'radio':
-            formData[fieldName.name].value = false
+            formData.fields[fieldName.name].value = false
             break
           default:
-            formData[fieldName.name] = { value: '' }
+            formData.fields[fieldName.name] = { value: '' }
         }
       } else {
-        formData[fieldName.toString()] = { value: '' }
+        formData.fields[fieldName.toString()] = { value: '' }
       }
     })
+
+    formData.awaitingCheck = []
 
     if (responseData) {
       for (var key in responseData) {
         // explode out any nested fields we might need
         if (typeof responseData[key] == 'object') {
           for (var field in responseData[key]) {
-            if (formData[field]) { // we only want fields that exist in the form to update
-              formData[field].value = responseData[key][field]
+            if (formData.fields[field]) { // we only want fields that exist in the form to update
+              formData.fields[field].value = responseData[key][field]
             }
           }
-        } else if (formData[key]) {
-          formData[key].value = responseData[key]
+        } else if (formData.fields[key]) {
+          formData.fields[key].value = responseData[key]
 
           if (!this.state.prepopulated && responseData[key]) {
             this.setState({
@@ -314,7 +316,7 @@ export class Form extends React.Component {
             attemptedSubmit: this.state.attemptedSubmit,
             checkField: this.checkField,
             deleteFormError: props.deleteFormError,
-            formData: thisForm,
+            formData: (thisForm && thisForm.fields) || {},
             formId: props.id,
             isValid: thisForm && thisForm.isValid,
             manualFieldUpdate: this.manualFieldUpdate,

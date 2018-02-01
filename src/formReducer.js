@@ -6,11 +6,14 @@ export default function formReducer(state = {}, action) {
       if (!newForms[action.formId]) {
         newForms[action.formId] = {}
       }
-      if (!newForms[action.formId][action.fieldName]) {
-        newForms[action.formId][action.fieldName] = {}
+      if (!newForms[action.formId].fields) {
+        newForms[action.formId].fields = {}
+      }
+      if (!newForms[action.formId].fields[action.fieldName]) {
+        newForms[action.formId].fields[action.fieldName] = {}
       }
       newForms[action.formId].isValid = false
-      newForms[action.formId][action.fieldName].error = action.errorMsg
+      newForms[action.formId].fields[action.fieldName].error = action.errorMsg
       return { ...newForms }
 
     case 'CHECK_COMPLETED': {
@@ -35,12 +38,12 @@ export default function formReducer(state = {}, action) {
       return { ...newForms }
 
     case 'DELETE_FORM_ERROR':
-      if (newForms[action.formId] && newForms[action.formId][action.fieldName]) {
-        delete newForms[action.formId][action.fieldName].error
+      if (newForms[action.formId] && newForms[action.formId].fields && newForms[action.formId].fields[action.fieldName]) {
+        delete newForms[action.formId].fields[action.fieldName].error
       }
-      const allOtherErrors = newForms[action.formId]
-        ? Object.keys(newForms[action.formId])
-          .filter((key) => (key !== action.fieldName) && (!!newForms[action.formId][key].error))
+      const allOtherErrors = newForms[action.formId] && newForms[action.formId].fields
+        ? Object.keys(newForms[action.formId].fields)
+          .filter((key) => (key !== action.fieldName) && (!!newForms[action.formId].fields[key].error))
         : null
 
       if (!allOtherErrors.length) {
@@ -67,24 +70,30 @@ export default function formReducer(state = {}, action) {
       if (!newForms[action.formId]) {
         newForms[action.formId] = {}
       }
-      if (
-        !newForms[action.formId][action.fieldName] ||
-        newForms[action.formId][action.fieldName] === ''
-      ) {
-        newForms[action.formId][action.fieldName] = {}
+      if (!newForms[action.formId].fields) {
+        newForms[action.formId].fields = {}
       }
-      newForms[action.formId][action.fieldName].value = action.fieldValue
+      if (
+        !newForms[action.formId].fields[action.fieldName] ||
+        newForms[action.formId].fields[action.fieldName] === ''
+      ) {
+        newForms[action.formId].fields[action.fieldName] = {}
+      }
+      newForms[action.formId].fields[action.fieldName].value = action.fieldValue
       return { ...newForms }
 
     case 'UPDATE_FORM_FILE':
       if (!newForms[action.formId]) {
         newForms[action.formId] = {}
       }
+      if (!newForms[action.formId].fields) {
+        newForms[action.formId].fields = {}
+      }
       if (
-        !newForms[action.formId][action.fieldName] ||
-        newForms[action.formId][action.fieldName] === ''
+        !newForms[action.formId].fields[action.fieldName] ||
+        newForms[action.formId].fields[action.fieldName] === ''
       ) {
-        newForms[action.formId][action.fieldName] = {}
+        newForms[action.formId].fields[action.fieldName] = {}
       }
       let val
       if (action.fieldValue && Array.isArray(action.fieldValue)) {
@@ -92,8 +101,8 @@ export default function formReducer(state = {}, action) {
       } else {
         val = [ action.fieldValue ]
       }
-      newForms[action.formId][action.fieldName].value = val.length
-        ? [...(newForms[action.formId][action.fieldName].value || []), ...val]
+      newForms[action.formId].fields[action.fieldName].value = val.length
+        ? [...(newForms[action.formId].fields[action.fieldName].value || []), ...val]
         : []
       return { ...newForms }
 

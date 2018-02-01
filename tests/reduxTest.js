@@ -30,7 +30,7 @@ describe('Bloom Form redux', function() {
       store.dispatch(updateForm(null, 'example-form', field, exampleFields[field].value, 'text'));
     }
 
-    assert.deepEqual(store.getState().forms['example-form'], { ...exampleFields, isValid: true });
+    assert.deepEqual(store.getState().forms['example-form'], { fields: exampleFields, isValid: true });
   })
 })
 
@@ -51,7 +51,7 @@ describe('populates fieldNames after initialization', function() {
       'blep': { value: '' }
     }
 
-    assert.deepEqual(store.getState().forms['example-form'], { ...exampleFields, isValid: true });
+    assert.deepEqual(store.getState().forms['example-form'], { fields: exampleFields, isValid: true });
   })
 
   it ('adds values to a couple fields', function() {
@@ -59,11 +59,13 @@ describe('populates fieldNames after initialization', function() {
     store.dispatch(updateForm(null, 'example-form', 'pet', 'dog', 'text'))
 
     const endComparison = {
-      'name': { value: 'Bob' },
-      'id': { value: '' },
-      'pet': { value: 'dog' },
-      'muffinflavor': { value: '' },
-      'blep': { value: '' },
+      fields: {
+        'name': { value: 'Bob' },
+        'id': { value: '' },
+        'pet': { value: 'dog' },
+        'muffinflavor': { value: '' },
+        'blep': { value: '' }
+      },
       'isValid': true
     }
 
@@ -76,11 +78,13 @@ describe('handles errors', function() {
     store.dispatch(addFormError('example-form', 'blep', 'This field can\'t be empty.'))
 
     const endComparison = {
-      'name': { value: 'Bob' },
-      'id': { value: '' },
-      'pet': { value: 'dog' },
-      'muffinflavor': { value: '' },
-      'blep': { value: '', error: 'This field can\'t be empty.' },
+      fields: {
+        'name': { value: 'Bob' },
+        'id': { value: '' },
+        'pet': { value: 'dog' },
+        'muffinflavor': { value: '' },
+        'blep': { value: '', error: 'This field can\'t be empty.' }
+      },
       'isValid': false
     }
 
@@ -92,11 +96,13 @@ describe('handles errors', function() {
     store.dispatch(deleteFormError('example-form', 'blep', 'This field can\'t be empty.'))
 
     const endComparison = {
-      'name': { value: 'Bob' },
-      'id': { value: '' },
-      'pet': { value: 'dog' },
-      'muffinflavor': { value: '' },
-      'blep': { value: 'tiny tongue bleps' },
+      fields: {
+        'name': { value: 'Bob' },
+        'id': { value: '' },
+        'pet': { value: 'dog' },
+        'muffinflavor': { value: '' },
+        'blep': { value: 'tiny tongue bleps' }
+      },
       'isValid': true
     }
 

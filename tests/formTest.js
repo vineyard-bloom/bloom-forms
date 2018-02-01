@@ -44,7 +44,7 @@ describe('<Form/>', function() {
   it ('communicates with redux form store', function() {
     const wrapper = generateComponent(store)
     wrapper.props().updateForm(null, 'example-form', 'name', 'Bob', 'text', { 'name': { value: '' } });
-    const thisFormStore = wrapper.props().forms['example-form']
+    const thisFormStore = wrapper.props().forms['example-form'].fields
     assert.ok(thisFormStore);
     assert.ok(thisFormStore.name);
     assert.ok(thisFormStore.name.value);
@@ -56,16 +56,16 @@ describe('<Form/>', function() {
     const diver = wrapper.dive().instance()
 
     diver.manualFieldUpdate('example-form', 'name', 'new value')
-    assert.ok(wrapper.props().forms['example-form'].name.value)
+    assert.ok(wrapper.props().forms['example-form'].fields.name.value)
     assert.equal(
-      wrapper.props().forms['example-form'].name.value,
+      wrapper.props().forms['example-form'].fields.name.value,
       'new value'
     )
 
     diver.manualFieldUpdate('example-form', 'name', '')
-    assert.ok(wrapper.props().forms['example-form'].name)
+    assert.ok(wrapper.props().forms['example-form'].fields.name)
     assert.equal(
-      wrapper.props().forms['example-form'].name.value,
+      wrapper.props().forms['example-form'].fields.name.value,
       ''
     )
   })
@@ -84,8 +84,8 @@ describe('<Form/>', function() {
 
     wrapper.dive().instance().populateFields({ ...wrapper.props(), fieldNames: newFieldNames })
     assert.equal(
-      comparableArray(Object.keys(wrapper.props().forms['example-form'])),
-      comparableArray([ ...newFieldNames, 'isValid' ])
+      comparableArray(Object.keys(wrapper.props().forms['example-form'].fields)),
+      comparableArray(newFieldNames)
     )
   })
 
@@ -102,7 +102,8 @@ describe('<Form/>', function() {
     wrapper.update()
     wrapper.dive().instance().populateFields(wrapper.props(), prepopulateData)
 
-    const thisFormStore = wrapper.props().forms['example-form']
+    const thisFormStore = wrapper.props().forms['example-form'].fields
+    console.log(thisFormStore.muffinflavor)
     assert.equal(
       thisFormStore.muffinflavor.value,
       prepopulateData.muffinflavor
