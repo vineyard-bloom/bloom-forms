@@ -295,7 +295,7 @@ export class Form extends React.Component {
       newProps.forms[newProps.id].awaitingCheck[0].fieldNames.forEach(name => {
         const elem = document.getElementById(name)
         if (elem) {
-          this.props.checkField(null, elem)
+          this.checkField(null, elem)
         }
       })
       this.props.checkCompleted(newProps.id)
