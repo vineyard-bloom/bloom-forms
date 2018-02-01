@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { requiredPropsLogger } from '../required-props-logger'
 import '../styles/dropzone'
 import docImage from '../images/file.svg'
+import ErrorTip from '../error-tip'
 
 const docDrop = (e) => {
   e.preventDefault();
@@ -92,7 +93,7 @@ class MyDropzone extends React.Component {
   }
 
   render() {
-    const { accept, files, imageStyle, label, loadingElement, multiple, name, onDrop, required } = this.props
+    const { accept, files, imageStyle, label, loadingElement, multiple, name, onDrop, required, error, formData, value } = this.props
     const dropZoneStyle = {
       border: '2px dashed #ddd',
       borderRadius: '5px',
@@ -113,6 +114,15 @@ class MyDropzone extends React.Component {
       requiredString = (<span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span>)
       attr['required'] = true
       attr['aria-required'] = 'true'
+    }
+
+
+    let err = error
+    if (Object.keys(this.props).indexOf('value') === -1 && formData && (Object.keys(formData).indexOf(name) > -1)) {
+    attr.value = formData[name].value
+    err = formData[name].error
+    } else {
+    attr.value = value
     }
 
     const defaultImageStyle = {
@@ -183,6 +193,7 @@ class MyDropzone extends React.Component {
         <button className='Btn' id={ `dropzone-${name}-clear-btn` } onClick={ this.clearAll }>
           Clear All
         </button>
+        { err ? <ErrorTip contents={ err } /> : '' }
       </label>
     )
   }
