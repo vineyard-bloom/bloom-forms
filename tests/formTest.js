@@ -103,7 +103,6 @@ describe('<Form/>', function() {
     wrapper.dive().instance().populateFields(wrapper.props(), prepopulateData)
 
     const thisFormStore = wrapper.props().forms['example-form'].fields
-    console.log(thisFormStore.muffinflavor)
     assert.equal(
       thisFormStore.muffinflavor.value,
       prepopulateData.muffinflavor
