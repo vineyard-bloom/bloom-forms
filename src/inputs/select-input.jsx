@@ -272,9 +272,7 @@ class SelectInput extends React.Component {
 
     const typeAheadDisplay = this.state.sortBy || (this.state.sortBy === '')
       ? this.state.sortBy
-      : (this.props.placeholder && !value
-        ? this.props.placeholder
-        : (translateVal
+      : (translateVal
           ? activeOptLabel
           : (value || 'Select')
         )
@@ -302,6 +300,7 @@ class SelectInput extends React.Component {
                   type='text' value={ typeAheadDisplay }
                   id={ `${ name }-placeholder` } name='autofill-buster'
                   onChange={ this.sortResults }
+                  placeholder={ this.props.placeholder }
                   aria-label={ `${ value ? `Selected Option: ${displayValue}` : 'Typeahead' }.\
                     Type characters to filter your list of Selectable Options, or press the arrow keys to view full list.` }
                 />

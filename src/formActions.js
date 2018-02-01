@@ -9,6 +9,21 @@ export function addFormError(formId, fieldName, errorMsg) {
   }
 }
 
+export function checkCompleted(formId) {
+  return {
+    type: 'CHECK_COMPLETED',
+    formId
+  }
+}
+
+export function checkMultipleFields(formId, fieldNames) {
+  return {
+    type: 'TRIGGER_MULTIPLE_CHECK',
+    formId,
+    fieldNames
+  }
+}
+
 export function clearForm(formId) {
   return {
     type: 'CLEAR_FORM',

@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { validatorAggregator as validator } from './validator'
 import {
   addFormError,
+  checkCompleted,
   clearForm,
   createForm,
   deleteFormError,
@@ -24,6 +25,10 @@ export class Form extends React.Component {
 
   static propTypes = {
     addFormError: PropTypes.func,
+    awaitingCheck: PropTypes.arrayOf(PropTypes.shape({
+      formId: PropTypes.string,
+      fieldNames: PropTypes.arrayOf(PropTypes.string)
+    })),
     ignoreFocusOnFirstElement: PropTypes.bool,
     clearForm: PropTypes.func,
     createForm: PropTypes.func,
@@ -50,6 +55,9 @@ export class Form extends React.Component {
     return {
       addFormError: (formId=ownProps.id, fieldName, errorMessage) => {
         dispatch(addFormError(formId, fieldName, errorMessage))
+      },
+      checkCompleted: (formId=ownProps.id) => {
+        dispatch(checkCompleted(formId))
       },
       clearForm: (formId=ownProps.id) => {
         dispatch(clearForm(formId))
@@ -96,11 +104,11 @@ export class Form extends React.Component {
       if (fieldStatus.isValid && allowNull) {
         // if (thisForm[fieldName] && thisForm[fieldName].error) {
           this.props.deleteFormError(this.props.id, fieldName)
-          return true
+          return Promise.resolve(true)
         // } // tests needed this to run always, since the wrapper instance doesn't talk to the same props
       } else {
         this.props.addFormError(this.props.id, fieldName, fieldStatus.warnings[fieldName])
-        return false
+        return Promise.resolve(false)
       }
     }catch(err){
       throw new Error(err)
@@ -278,6 +286,18 @@ export class Form extends React.Component {
 
     if (newProps.fieldNames.length != Object.keys(newProps.forms[newProps.id]).length-1) { // ignore isValid
       this.populateFields(newProps);
+    }
+
+    if (newProps.awaitingCheck &&
+      (newProps.awaitingCheck.find(obj => obj.formId === newProps.id))
+    ) {
+      newProps.awaitingCheck.fieldNames.forEach(name => {
+        const elem = document.getElementById(name)
+        if (elem) {
+          this.props.checkField(null, elem)
+        }
+      })
+      this.props.checkCompleted(newProps.id)
     }
   }
 

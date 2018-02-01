@@ -13,6 +13,17 @@ export default function formReducer(state = {}, action) {
       newForms[action.formId][action.fieldName].error = action.errorMsg
       return { ...newForms }
 
+    case 'CHECK_COMPLETED':
+      let formId = action.formId
+      let fieldName = action.fieldName
+      if (!formId) {
+        formId = Object.keys(newForms).filter(key => (newForms[key].visibleFields || []).length)
+      }
+      return {
+        ...newForms,
+        awaitingCheck: (newForms.awaitingCheck || []).filter(obj => obj.formId !== action.formId)
+      }
+
     case 'CLEAR_FORM':
       newForms[action.formId] = {}
       return { ...newForms }
@@ -35,6 +46,20 @@ export default function formReducer(state = {}, action) {
         newForms[action.formId].isValid = true
       }
       return { ...newForms }
+
+    case 'TRIGGER_MULTIPLE_CHECK':
+      let formId = action.formId
+      let fieldNames = action.fieldNames
+      if (!formId) {
+        formId = Object.keys(newForms).filter(key => (newForms[key].visibleFields || []).length)
+      }
+      if (!fieldNames) {
+        fieldNames = newForms[formId].visibleFields || []
+      }
+      return {
+        ...newForms,
+        awaitingCheck: [ ...newForms.awaitingCheck, { formId, fieldNames } ]
+      }
 
     case 'UPDATE_FORM':
       if (!newForms[action.formId]) {
