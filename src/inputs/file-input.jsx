@@ -75,7 +75,7 @@ class FileInput extends React.Component {
       <label htmlFor={ this.props.name } className='Input-label Input--file' onClick={ this.triggerInput }
         id={ `${ name }-label` }>
         <span className='Input--file-label-text'>{ label }{ requiredString }</span>
-        <div className='Input-placeholder Input-placeholder--file' role='presentation' aria-hidden>
+        <div className='Input-placeholder Input-placeholder--file' tabIndex={ 0 }>
           <div className='Input--file-text'>
             { this.state.fileText }
           </div>
@@ -87,6 +87,7 @@ class FileInput extends React.Component {
         <input name={ name } id={ id || name } { ...attr } type='file' data-validate={ required ? 'not-empty' : null }
           className='input u-sr-only' style={ {display: 'none'} } onChange={ this.updateText } accept={ accept }
           data-multiple-caption="{count} files selected" multiple={ multiple } data-validate='file'
+          tabIndex={ -1 } aria-hidden
         />
       </label>
     )

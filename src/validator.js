@@ -38,7 +38,13 @@ export async function validatorAggregator (testDataObject = {}, errorLanguage=nu
   for (let field in testDataObject) {
     let thisField = testDataObject[field]
     if (thisField.validateAs) {
-      status = await validate(status, thisField.value, thisField.validateAs, thisField.name, dict, errorLanguage)
+      if (thisField.validateAs.indexOf(' ') > -1) {
+        for (let validateAs of thisField.validateAs.split(' ')) {
+          status = await validate(status, thisField.value, validateAs, thisField.name, dict, errorLanguage)
+        }
+      } else {
+        status = await validate(status, thisField.value, thisField.validateAs, thisField.name, dict, errorLanguage)
+      }
     }
   }
 
