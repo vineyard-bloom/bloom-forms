@@ -204,6 +204,7 @@ export class Form extends React.Component {
   }
 
   populateFields = (props, responseData) => {
+    console.log('populating fields')
     let formData = { fields: {} }
     // initialize the form with all fields inside
     props.fieldNames.forEach((fieldName) => {
@@ -289,6 +290,7 @@ export class Form extends React.Component {
     if (newProps.forms[newProps.id] && newProps.forms[newProps.id].awaitingCheck &&
       (newProps.forms[newProps.id].awaitingCheck.find(obj => obj.formId === newProps.id))
     ) {
+      console.log('responding to awaitingCheck')
       newProps.forms[newProps.id].awaitingCheck.fieldNames.forEach(name => {
         const elem = document.getElementById(name)
         if (elem) {
