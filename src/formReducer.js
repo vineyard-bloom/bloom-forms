@@ -19,12 +19,15 @@ export default function formReducer(state = {}, action) {
     case 'CHECK_COMPLETED': {
       let formId = action.formId
       let fieldName = action.fieldName
-      if (!formId) {
-        formId = Object.keys(newForms).filter(key => (newForms[key].visibleFields || []).length)
-      }
+      // if (!formId) {
+      //   formId = Object.keys(newForms).filter(key => (newForms[key].visibleFields || []).length)
+      // }
       return {
         ...newForms,
-        awaitingCheck: (newForms.awaitingCheck || []).filter(obj => obj.formId !== action.formId)
+        [formId]: {
+          ...newForms[formId],
+          awaitingCheck: (newForms.awaitingCheck || []).filter(obj => obj.formId !== action.formId)
+        }
       }
     }
 
@@ -63,7 +66,10 @@ export default function formReducer(state = {}, action) {
       // }
       return {
         ...newForms,
-        awaitingCheck: [ ...(newForms.awaitingCheck || []), { formId, fieldNames } ]
+        [formId]: {
+          ...newProps[formId],
+          awaitingCheck: [ ...(newForms.awaitingCheck || []), { formId, fieldNames } ]
+        }
       }
     }
 
