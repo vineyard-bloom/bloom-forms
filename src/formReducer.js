@@ -67,7 +67,7 @@ export default function formReducer(state = {}, action) {
       return {
         ...newForms,
         [formId]: {
-          ...newProps[formId],
+          ...newForms[formId],
           awaitingCheck: [ ...(newForms.awaitingCheck || []), { formId, fieldNames } ]
         }
       }
