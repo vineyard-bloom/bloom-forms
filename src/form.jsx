@@ -286,8 +286,8 @@ export class Form extends React.Component {
       this.populateFields(newProps);
     }
 
-    if (newProps.forms[newProps.id] && newProps.forms[newProps.id].awaitingCheck &&
-      (newProps.forms[newProps.id].awaitingCheck.find(obj => obj.formId === newProps.id))
+    if (newProps.forms[newProps.id] && newProps.forms[newProps.id].awaitingCheck
+      && newProps.forms[newProps.id].awaitingCheck.length
     ) {
       console.log('responding to awaitingCheck')
       newProps.forms[newProps.id].awaitingCheck.fieldNames.forEach(name => {
