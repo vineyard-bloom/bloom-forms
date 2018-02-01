@@ -286,12 +286,9 @@ export class Form extends React.Component {
       this.populateFields(newProps);
     }
 
-    console.log(newProps)
-
     if (newProps.forms[newProps.id] && newProps.forms[newProps.id].awaitingCheck
       && newProps.forms[newProps.id].awaitingCheck.length
     ) {
-      console.log('responding to awaitingCheck')
       newProps.forms[newProps.id].awaitingCheck[0].fieldNames.forEach(name => {
         const elem = document.getElementById(name)
         if (elem) {
