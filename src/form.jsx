@@ -286,6 +286,8 @@ export class Form extends React.Component {
       this.populateFields(newProps);
     }
 
+    console.log(newProps)
+
     if (newProps.forms[newProps.id] && newProps.forms[newProps.id].awaitingCheck
       && newProps.forms[newProps.id].awaitingCheck.length
     ) {
