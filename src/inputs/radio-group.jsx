@@ -8,6 +8,32 @@ import '../styles/inputs.scss'
 import '../styles/radio-input.scss'
 
 class RadioGroup extends React.Component {
+  state = {
+    focused: false
+  }
+
+  onFocusIn = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: true
+    })
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  }
+
+  onFocusOut = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: false
+    })
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
+  }
+
   componentDidMount() {
     const requiredProps = ['name', 'options']
     const recommendedProps = ['onChange']
@@ -53,8 +79,9 @@ class RadioGroup extends React.Component {
           }
 
           return (
-            <label className='Input-label Input--radio-label Input-label--inline' htmlFor={ name } onBlur={ props.onBlur }
-              onClick={ clickForward } id={ `${ name }-label` } key={ `radio-${name}-${id}` }>
+            <label className='Input-label Input--radio-label Input-label--inline' htmlFor={ name } onBlur={ this.onFocusOut }
+              onClick={ clickForward } id={ `${ name }-label` } key={ `radio-${name}-${id}` }
+              onFocus={ this.onFocusIn }>
               <input
                 className={ `Input Input--radio u-sr-only ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
                 data-validate={ validateAs }
@@ -69,7 +96,7 @@ class RadioGroup extends React.Component {
             </label>
           )
         }) }
-        { err ? <ErrorTip contents={ err } /> : '' }
+        { err && !this.state.focused ? <ErrorTip contents={ err } /> : '' }
       </fieldset>
     )
   }

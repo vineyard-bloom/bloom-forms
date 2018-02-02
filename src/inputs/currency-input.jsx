@@ -7,6 +7,32 @@ import { requiredPropsLogger } from '../required-props-logger'
 import '../styles/inputs.scss';
 
 class CurrencyInput extends React.Component {
+  state = {
+    focused: false
+  }
+
+  onFocusIn = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: true
+    })
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  }
+
+  onFocusOut = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: false
+    })
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
+  }
+
   componentDidMount() {
     const requiredProps = ['id', 'label', 'minimumValue', 'name']
     const recommendedProps = ['onChange']
@@ -43,31 +69,30 @@ class CurrencyInput extends React.Component {
     const labelElem = document.getElementById(`${id || name}-label`)
 
     return (
-      <div>
-        <label className='Input-label' id={ `${id || name}-label` }>
-          <span className={ labelTextClasses }>
-            { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
-          </span>
-          { coinIcon &&
-            <div className='Input-before Input--currency-before'>{ coinIcon }</div>
-          }
-          <input type='number'
-            className={ `Input Input--currency ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
-            data-validate={ validateAs || 'number' } disabled={ disabled } 
-            id={ id || name } 
-            min={ props.minimumValue } max={ props.maximumValue } maxLength='150'
-            name={ name }
-            onChange={ onChange } onBlur={ onBlur }
-            placeholder={ placeholder } step='any'
-            { ...attr }
-            value={ attr.value.replace(/^0+(?!\.|$)/, '') }
-          />
-          { currency ?
-            <div className='Input-after'>{ currency }</div>
-            : '' }
-          { err ? <ErrorTip contents={ err } /> : '' }
-        </label>
-      </div>
+      <label className='Input-label' id={ `${id || name}-label` }
+        onFocus={ this.onFocusIn } onBlur={ this.onFocusOut }>
+        <span className={ labelTextClasses }>
+          { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
+        </span>
+        { coinIcon &&
+          <div className='Input-before Input--currency-before'>{ coinIcon }</div>
+        }
+        <input type='number'
+          className={ `Input Input--currency ${ className ? className : '' } ${ error ? 'Input--invalid' : '' }` }
+          data-validate={ validateAs || 'number' } disabled={ disabled } 
+          id={ id || name } 
+          min={ props.minimumValue } max={ props.maximumValue } maxLength='150'
+          name={ name }
+          onChange={ onChange } onBlur={ onBlur }
+          placeholder={ placeholder } step='any'
+          { ...attr }
+          value={ attr.value.replace(/^0+(?!\.|$)/, '') }
+        />
+        { currency ?
+          <div className='Input-after'>{ currency }</div>
+          : '' }
+        { err && !this.state.focused ? <ErrorTip contents={ err } /> : '' }
+      </label>
     )
   }
 }

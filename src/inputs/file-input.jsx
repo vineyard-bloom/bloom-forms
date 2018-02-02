@@ -7,12 +7,10 @@ import { requiredPropsLogger } from '../required-props-logger'
 import '../styles/inputs.scss'
 
 class FileInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fileText: 'Choose a File'
-    }
-  };
+  state = {
+    fileText: 'Choose a File',
+    focused: false
+  }
 
   static propTypes = {
     accept: PropTypes.string, /* file type */
@@ -26,6 +24,28 @@ class FileInput extends React.Component {
     onChange: PropTypes.func.isRequired,
     required: PropTypes.bool,
   };
+
+  onFocusIn = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: true
+    })
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  }
+
+  onFocusOut = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: false
+    })
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
+  }
 
   triggerInput = (e) => {
     const input = document.getElementById(this.props.id);
@@ -73,7 +93,7 @@ class FileInput extends React.Component {
 
     return (
       <label htmlFor={ this.props.name } className='Input-label Input--file' onClick={ this.triggerInput }
-        id={ `${ name }-label` }>
+        id={ `${ name }-label` } onFocus={ this.onFocusIn } onBlur={ this.onFocusOut }>
         <span className='Input--file-label-text'>{ label }{ requiredString }</span>
         <div className='Input-placeholder Input-placeholder--file' tabIndex={ 0 }>
           <div className='Input--file-text'>
@@ -83,7 +103,7 @@ class FileInput extends React.Component {
             Browse <span className="u-sr-only">local file system</span>
           </div>
         </div>
-        { error && <ErrorTip contents={ error } /> }
+        { error && !this.state.focused && <ErrorTip contents={ error } /> }
         <input name={ name } id={ id || name } { ...attr } type='file' data-validate={ required ? 'not-empty' : null }
           className='input u-sr-only' style={ {display: 'none'} } onChange={ this.updateText } accept={ accept }
           data-multiple-caption="{count} files selected" multiple={ multiple } data-validate='file'

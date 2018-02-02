@@ -24,6 +24,7 @@ const compareLetters = (str1, str2) => {
 
 class SelectInput extends React.Component {
   state = {
+    focused: false,
     hasUsedPresentationElements: false,
     initialFocus: false,
     noMatches: false,
@@ -129,6 +130,28 @@ class SelectInput extends React.Component {
           }
         })
       }
+    }
+  }
+
+  onFocusIn = (e) => {
+    this.setState({
+      focused: true
+    })
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  }
+
+  onFocusOut = (e) => {
+    this.setState({
+      focused: false
+    })
+
+    this.closeOpts(e)
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
     }
   }
 
@@ -316,7 +339,7 @@ class SelectInput extends React.Component {
                 </button>
               )
             }
-            { err && !this.state.showList &&
+            { err && !this.state.showList && !this.state.focused &&
               <ErrorTip contents={ err } className='Tooltip--error--select' />
             }
             { this.state.showList &&
@@ -330,7 +353,7 @@ class SelectInput extends React.Component {
     )
 
     return (
-      <div onBlur={(e) => this.closeOpts(e)} id={ `${name}-label` } className={ `SelectInput-wrapper ${ containerClass || '' }` }>
+      <div onBlur={ this.onFocusOut } id={ `${name}-label` } className={ `SelectInput-wrapper ${ containerClass || '' }` }>
         { placeholderElement }
         <label className={ `Input-label SelectInput u-sr-only` } htmlFor={ name }
           id={ `${ name }-label` } tabIndex={ -1 } aria-hidden>

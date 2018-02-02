@@ -295,7 +295,7 @@ export class Form extends React.Component {
           this.checkField(null, elem)
         }
       })
-      this.props.checkCompleted(newProps.id)
+      // this.props.checkCompleted(newProps.id)
     }
   }
 

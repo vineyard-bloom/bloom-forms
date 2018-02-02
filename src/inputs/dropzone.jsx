@@ -45,6 +45,32 @@ class MyDropzone extends React.Component {
     }
   }
 
+  state = {
+    focused: false
+  }
+
+  onFocusIn = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: true
+    })
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  }
+
+  onFocusOut = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: false
+    })
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
+  }
+
   getDataTransferItems(event) {
     let dataTransferItemsList = []
     if (event.dataTransfer) {
@@ -168,7 +194,7 @@ class MyDropzone extends React.Component {
       ) : null
 
     return (
-      <label className='Input-label DropZone'>
+      <label className='Input-label DropZone' onFocus={ this.onFocusIn } onBlur={ this.onFocusOut }>
         { label }{ requiredString }
         <div onDragOver={ this.onDrop } multiple={ false } onClick={ this.triggerInput } style={ dropZoneStyle } className='DropZone-box Input--file'>
           <div aria-hidden role='presentation'>
@@ -193,7 +219,7 @@ class MyDropzone extends React.Component {
         <button className='Btn' id={ `dropzone-${name}-clear-btn` } onClick={ this.clearAll }>
           Clear All
         </button>
-        { err ? <ErrorTip contents={ err } /> : '' }
+        { err && !this.state.focused ? <ErrorTip contents={ err } /> : '' }
       </label>
     )
   }

@@ -8,6 +8,32 @@ import '../styles/inputs.scss'
 import '../styles/radio-button.scss'
 
 class RadioButtonGroup extends React.Component {
+  state = {
+    focused: false
+  }
+
+  onFocusIn = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: true
+    })
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  }
+
+  onFocusOut = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: false
+    })
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
+  }
+
   componentDidMount() {
     const requiredProps = ['name', 'options']
     const recommendedProps = ['onChange']
@@ -55,7 +81,7 @@ class RadioButtonGroup extends React.Component {
           return (
             <label className={ `RadioButton ${ attr.checked ? 'is-checked' : '' } ${ className ? className : '' }` }
               htmlFor={ name } id={ `${ name }-label` } key={ `radiobutton-${name}-${id}` }
-              onBlur={ props.onBlur } onClick={ clickForward }>
+              onBlur={ this.onFocusOut } onClick={ clickForward } onFocus={ this.onFocusIn }>
               <input
                 className='RadioButton-input u-sr-only'
                 data-validate={ validateAs }
@@ -69,6 +95,7 @@ class RadioButtonGroup extends React.Component {
             </label>
           )
         }) }
+        { err && !this.state.focused ? <ErrorTip contents={ err } /> : '' }
       </fieldset>
     )
   }

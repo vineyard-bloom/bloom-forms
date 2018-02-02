@@ -8,6 +8,32 @@ import { requiredPropsLogger } from '../required-props-logger'
 import '../styles/inputs.scss'
 
 class TextInput extends React.Component {
+  state = {
+    focused: false
+  }
+
+  onFocusIn = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: true
+    })
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  }
+
+  onFocusOut = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: false
+    })
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
+  }
+
   componentDidMount() {
     const requiredProps = ['label', 'name']
     const recommendedProps = ['onChange']
@@ -42,8 +68,11 @@ class TextInput extends React.Component {
     }
 
     return (
-      <label className={ `Input-label ${ containerClass || '' }` } htmlFor={ name } onBlur={ props.onBlur }
-        id={ `${ name }-label` }>
+      <label className={ `Input-label ${ containerClass || '' }` }
+        htmlFor={ name }
+        id={ `${ name }-label` }
+        onBlur={ this.onFocusOut }
+        onFocus={ this.onFocusIn }>
         <span className={ labelTextClasses }>
           { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
         </span>
@@ -53,7 +82,7 @@ class TextInput extends React.Component {
           data-validate={ validateAs }  placeholder={ placeholder } maxLength='150' { ...attr }
           autoComplete='new-password'
         />
-        { err ? <ErrorTip contents={ err } /> : '' }
+        { err && !this.state.focused ? <ErrorTip contents={ err } /> : '' }
       </label>
     )
   }

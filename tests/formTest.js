@@ -116,4 +116,19 @@ describe('<Form/>', function() {
       prepopulateData.stuff.id
     )
   })
+
+  it ('triggers multiple checkFields if it receives anything in awaitingCheck', function() {
+    const wrapper = generateComponent(store)
+    const newForms = {
+      'example-form': {
+        fields: { blep: '' },
+        awaitingCheck: [{ formId: 'example-form', fieldNames: 'blep' }]
+      }
+    }
+    wrapper.setProps({ ...wrapper.props(), forms: newForms })
+    wrapper.update()
+    const thisFormStore = wrapper.props().forms['example-form']
+    // assert.deepEqual(thisFormStore.awaitingCheck, newForms['example-form'].awaitingCheck)
+
+  })
 })

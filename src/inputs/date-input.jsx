@@ -6,6 +6,32 @@ import { requiredPropsLogger } from '../required-props-logger'
 
 /* just the basic input[type='date'] -- no customized dropdown styles or anything */
 class DateInput extends React.Component {
+  state = {
+    focused: false
+  }
+
+  onFocusIn = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: true
+    })
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  }
+
+  onFocusOut = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: false
+    })
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
+  }
+
   componentDidMount() {
     const requiredProps = ['label', 'name']
     const recommendedProps = ['onChange']
@@ -40,8 +66,8 @@ class DateInput extends React.Component {
     }
 
     return (
-      <label className={ `Input-label ${ containerClass || '' }` } htmlFor={ name } onBlur={ props.onBlur }
-        id={ `${ name }-label` }>
+      <label className={ `Input-label ${ containerClass || '' }` } htmlFor={ name } onBlur={ this.onFocusOut }
+        id={ `${ name }-label` } onFocus={ this.onFocusIn }>
         <span className={ labelTextClasses }>
           { label }{ attr.required && <span>{ '\u00A0' }*<span className='u-sr-only'> required field</span></span> }
         </span>
@@ -53,7 +79,7 @@ class DateInput extends React.Component {
           placeholder={ placeholder } type='date'
           { ...attr }
         />
-        { err ? <ErrorTip contents={ err } /> : '' }
+        { err && !this.state.focused ? <ErrorTip contents={ err } /> : '' }
       </label>
     )
   }

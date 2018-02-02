@@ -7,6 +7,32 @@ import '../styles/inputs.scss';
 import '../styles/checkbox.scss';
 
 class Checkbox extends React.Component {
+  state = {
+    focused: false
+  }
+
+  onFocusIn = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: true
+    })
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e)
+    }
+  }
+
+  onFocusOut = (e) => {
+    if (e) { e.preventDefault(); }
+    this.setState({
+      focused: false
+    })
+
+    if (this.props.onBlur) {
+      this.props.onBlur(e)
+    }
+  }
+
   componentDidMount() {
     const requiredProps = ['checked', 'label', 'name']
     const recommendedProps = ['onChange']
@@ -48,7 +74,7 @@ class Checkbox extends React.Component {
 
     return (
       <label style={{paddingBottom: '2px'}} className='Input-label Input-label--inline Input--checkbox'
-        id={ `${name}-label` }>
+        id={ `${name}-label` } onFocus={ this.onFocusIn } onBlur={ this.onFocusOut }>
         { showLabelBeforeCheckbox && labelText }
         <div className={ `non-sr-only Input--checkbox-placeholder ${ attr.checked ? 'glyphicon glyphicon-ok is-checked' : '' }` }></div>
         <input
@@ -58,7 +84,7 @@ class Checkbox extends React.Component {
           name={ name } onChange={ props.onChange }
           type='checkbox' { ...attr } />
         { !showLabelBeforeCheckbox && labelText }
-        { err &&
+        { err && !this.state.focused &&
           <div className='Input-error'>{ err }</div>
         }
       </label>
