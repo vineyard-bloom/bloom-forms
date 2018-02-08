@@ -10,6 +10,7 @@ class ExampleFormContainer extends React.Component {
   };
 
   submitForm = async (formData, files, successCallback, failCallback) => {
+    console.log(formData)
     try {
       // const res = await callToWebService(formData)
       // this.rerouteAfterSubmit(res)

@@ -160,9 +160,9 @@ export class Form extends React.Component {
     })
 
     let thisForm =
-      this.props.forms && this.props.forms[this.props.id]
-        ? { ...this.props.forms[this.props.id] }
-        : null
+      this.props.forms &&
+      this.props.forms[this.props.id] &&
+      { ...this.props.forms[this.props.id] }.fields
     const unconvertedForm = { ...thisForm }
 
     let files
@@ -388,7 +388,7 @@ export class Form extends React.Component {
         Object.keys(newProps.forms[newProps.id].fields).length
     ) {
       // ignore isValid
-      this.populateFields(newProps, null, newProps.forms[newProps.id].fields);
+      this.populateFields(newProps, null, newProps.forms[newProps.id].fields)
     }
 
     if (newProps.forms[newProps.id] && !this.props.forms[this.props.id]) {
