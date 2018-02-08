@@ -99,6 +99,7 @@ Includes:
 ### [`<Form/>` Wrapper](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/form.md)
 ### [Props passed down to child inputs](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/children-props.md)
 ### [Bloom Inputs](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md)
+### [Redux -- Reducers, Actions, and Store format](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/redux.md)
 
 ## Usage
 To use this package, you can install with either npm or yarn.

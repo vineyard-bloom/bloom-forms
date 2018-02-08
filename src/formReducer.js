@@ -153,6 +153,7 @@ export default function formReducer(state = {}, action) {
       ) {
         newForms[action.formId].fields[action.fieldName] = {}
       }
+
       let val
       if (action.fieldValue && Array.isArray(action.fieldValue)) {
         val = [...action.fieldValue]
@@ -170,6 +171,13 @@ export default function formReducer(state = {}, action) {
             ]
           : []
       }
+
+      if (
+        newForms[action.formId].dirtyFields.indexOf(action.fieldName) === -1
+      ) {
+        newForms[action.formId].dirtyFields.push(action.fieldName)
+      }
+
       return { ...newForms }
     default:
       return state

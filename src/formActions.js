@@ -16,6 +16,13 @@ export function checkCompleted(formId) {
   }
 }
 
+export function checkForVisibleFields(formId) {
+  return {
+    type: 'CHECK_FOR_VISIBLE_FIELDS',
+    formId: formId
+  }
+}
+
 export function checkMultipleFields(formId, fieldNames) {
   return {
     type: 'TRIGGER_MULTIPLE_CHECK',
@@ -31,10 +38,11 @@ export function clearForm(formId) {
   }
 }
 
-export function checkForVisibleFields(formId) {
+export function createForm(formId, formObject) {
   return {
-    type: 'CHECK_FOR_VISIBLE_FIELDS',
-    formId: formId
+    type: 'CREATE_FORM',
+    formId,
+    formObject
   }
 }
 
@@ -44,22 +52,6 @@ export function deleteFormError(formId, fieldName, errorMsg) {
     formId,
     fieldName,
     errorMsg
-  }
-}
-
-export function createForm(formId, formObject) {
-  return {
-    type: 'CREATE_FORM',
-    formId,
-    formObject
-  }
-}
-
-export function updateVisibleFieldsArr(formId, fields) {
-  return {
-    type: 'UPDATE_VISIBLE_FIELDS_ARR',
-    formId,
-    fields
   }
 }
 
@@ -115,5 +107,13 @@ export function updateForm(
     fieldName,
     fieldValue,
     multiple
+  }
+}
+
+export function updateVisibleFieldsArr(formId, fields) {
+  return {
+    type: 'UPDATE_VISIBLE_FIELDS_ARR',
+    formId,
+    fields
   }
 }
