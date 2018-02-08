@@ -17,6 +17,7 @@ forms: {
       fieldName1: { value: '', error: '' },
       fieldName2: { value: '', error: '' },
     },
+    isValid: true/false,
     touchedFields: [ 'fieldName1', 'fieldName2' ],
     visibleFields: [ 'fieldName1', 'fieldName2' ]
   }

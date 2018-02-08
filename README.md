@@ -5,7 +5,7 @@
 ## 1.0.0 Release Notes:
 The 1.0.0 release comes with several useful hooks for developers to have more control over error handling -- particularly when the errors appear.
 
-In Redux, each form's structure has migrated from:
+In Redux, each [form's structure](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/redux.md#your-redux-store-structure) has migrated from:
 ```
 [form id]: {
   [key]: { value: '', error: '' }
@@ -35,7 +35,7 @@ Exposing which fields are dirtied (value has been changed), touched (input has b
 NOTE that all field values and errors are now nested one level deeper in the Redux store. This will not affect any fields dependent on `formData`, but will affect any components that pull from Redux's form object directly to get field values. THIS IS A BREAKING API CHANGE FOR SOME USE CASES.
 
 Other upgrades:
-`checkMultipleFields` method is now available via redux (in formActions). This will be processed via the `<Form/>` wrapper to check every field passed in. It is useful for wizard forms where you may want to execute batch checks on pages before triggering an actual submission.
+(`checkMultipleFields`)[https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/redux.md#formactions] method is now available via redux (in formActions). This will be processed via the `<Form/>` wrapper to check every field passed in. It is useful for wizard forms where you may want to execute batch checks on pages before triggering an actual submission.
 
 `suppressErrors` boolean is available on each input. This prop hides errors from displaying when true, but doesn't prevent validation from running. It's useful when you want errors to execute, but do not want them displayed inline, or prefer for them not to be displayed until certain other criteria are met.
 
