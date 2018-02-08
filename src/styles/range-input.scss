@@ -12,13 +12,13 @@ input[type='range'] {
   background: transparent;
   width: 100%;
   -webkit-appearance: none;
-  
+
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
   }
 
   &::-ms-track {
-    background: transparent; 
+    background: transparent;
     border-color: transparent;
     color: transparent;
     cursor: pointer;

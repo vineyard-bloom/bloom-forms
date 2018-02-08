@@ -1,0 +1,14 @@
+# https://docs.npmjs.com/misc/developers#keeping-files-out-of-your-package
+
+#tests
+tests/*
+
+#examples & docs
+example-form/*
+docs/*
+
+#linters
+.prettierrc
+.eslintrc*
+
+#other

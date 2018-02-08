@@ -9,9 +9,31 @@ export function addFormError(formId, fieldName, errorMsg) {
   }
 }
 
+export function checkCompleted(formId) {
+  return {
+    type: 'CHECK_COMPLETED',
+    formId
+  }
+}
+
+export function checkMultipleFields(formId, fieldNames) {
+  return {
+    type: 'TRIGGER_MULTIPLE_CHECK',
+    formId,
+    fieldNames
+  }
+}
+
 export function clearForm(formId) {
   return {
     type: 'CLEAR_FORM',
+    formId: formId
+  }
+}
+
+export function checkForVisibleFields(formId) {
+  return {
+    type: 'CHECK_FOR_VISIBLE_FIELDS',
     formId: formId
   }
 }
@@ -33,8 +55,33 @@ export function createForm(formId, formObject) {
   }
 }
 
-export function updateForm(e, formId, fieldName, fieldValue, type) {
-  fieldName = fieldName || ((e && e.target) ? e.target.getAttribute('name') : null)
+export function updateVisibleFieldsArr(formId, fields) {
+  return {
+    type: 'UPDATE_VISIBLE_FIELDS_ARR',
+    formId,
+    fields
+  }
+}
+
+export function onFocus(formId, fieldName) {
+  return {
+    type: 'ON_FOCUS',
+    formId,
+    fieldName
+  }
+}
+
+export function updateForm(
+  e,
+  formId,
+  fieldName,
+  fieldValue,
+  type,
+  multipleFiles
+) {
+  fieldName =
+    fieldName || (e && e.target ? e.target.getAttribute('name') : null)
+  const multiple = multipleFiles ? multipleFiles : ''
   if (!fieldName || !formId) {
     console.log('missing either fieldName or formId')
     return { type: '' }
@@ -56,16 +103,17 @@ export function updateForm(e, formId, fieldName, fieldValue, type) {
         break
       } else {
         return { type: '' }
-        break
       }
     default:
-      fieldValue = fieldValue || (fieldValue === 0 ? fieldValue : (e ? e.target.value : ''))
+      fieldValue =
+        fieldValue || (fieldValue === 0 ? fieldValue : e ? e.target.value : '')
   }
 
   return {
     type: reducerType,
     formId,
     fieldName,
-    fieldValue
+    fieldValue,
+    multiple
   }
 }

@@ -18,7 +18,7 @@ button {
   font-size: $main-font-size;
   padding: $pad-mar-small $pad-mar-med;
   text-align: center;
-  @include transition(all .3s ease);
+  @include transition(all 0.3s ease);
 
   &:disabled {
     cursor: not-allowed;
@@ -36,7 +36,7 @@ button {
     display: inline-flex;
 
     .Loading {
-      height: .9em;
+      height: 0.9em;
     }
   }
 
@@ -95,7 +95,8 @@ button {
     }
   }
 
-  &--null { // no default styles
+  &--null {
+    // no default styles
     background-color: transparent;
     border: none;
     box-shadow: none;

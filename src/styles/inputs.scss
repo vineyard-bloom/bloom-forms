@@ -10,7 +10,7 @@ $input-border: 1px solid $dark-gray;
 
 .u-sr-only {
   height: 1px;
-  left:-999em;
+  left: -999em;
   outline: none !important;
   overflow: hidden;
   position: absolute !important;
@@ -82,7 +82,7 @@ fieldset {
     }
   }
 
-  &-placeholder{
+  &-placeholder {
     &--file {
       border: $input-border;
       display: flex;
@@ -147,7 +147,6 @@ fieldset {
   }
 }
 
-
 /* RANGE / SLIDERS */
 // keep me in case we want our own custom range later
 
@@ -155,13 +154,13 @@ fieldset {
 //   background: transparent;
 //   width: 100%;
 //   -webkit-appearance: none;
-  
+
 //   &::-webkit-slider-thumb {
 //     -webkit-appearance: none;
 //   }
 
 //   &::-ms-track {
-//     background: transparent; 
+//     background: transparent;
 //     border-color: transparent;
 //     color: transparent;
 //     cursor: pointer;

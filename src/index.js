@@ -16,7 +16,8 @@ import TextArea from './inputs/text-area.jsx'
 import TextInput from './inputs/text-input.jsx'
 import ToggleSwitch from './inputs/toggle-switch.jsx'
 
-import { validatorAggregator as validator } from './validator.js';
+import { validatorAggregator as validator } from './validator.js'
+import './styles/overrides.scss'
 
 export {
   Button,

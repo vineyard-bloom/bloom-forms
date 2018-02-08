@@ -10,35 +10,35 @@ VARIABLES
 COLORS
 ======
 */
-$black:         #000;
-$white:         #fff;
-$light-gray:    #e6e6e6;
-$lighter-gray:  #eee;
-$med-gray:      #acacac;
-$dark-gray:     #696969;
+$black: #000;
+$white: #fff;
+$light-gray: #e6e6e6;
+$lighter-gray: #eee;
+$med-gray: #acacac;
+$dark-gray: #696969;
 
-$blue:          #27aae2;
-$med-blue:      #3994d4;
+$blue: #27aae2;
+$med-blue: #3994d4;
 $med-dark-blue: #4b7ec6;
-$dark-blue:     #5d68b8;
-$green:         #94d439;
-$purple:        #91288f;
-$red:           #f00;
+$dark-blue: #5d68b8;
+$green: #94d439;
+$purple: #91288f;
+$red: #f00;
 
-$shaded-overlay: rgba(0,0,0,0.6);
-$subheader-back:  rgba($black, 0.5);
+$shaded-overlay: rgba(0, 0, 0, 0.6);
+$subheader-back: rgba($black, 0.5);
 
-$box-shadow:          0 0 5px rgba(0,0,0,0.4);
-$box-shadow-no-top:   0 5px 12px -5px rgba(0,0,0,0.4);
-$box-shadow-soft: 0 0 10px rgba(0,0,0,0.1);
-$box-shadow-wide: 0 0 10px rgba(0,0,0,0.4);
-$inset-shadow:        inset 0 1px 1px $med-gray;
+$box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+$box-shadow-no-top: 0 5px 12px -5px rgba(0, 0, 0, 0.4);
+$box-shadow-soft: 0 0 10px rgba(0, 0, 0, 0.1);
+$box-shadow-wide: 0 0 10px rgba(0, 0, 0, 0.4);
+$inset-shadow: inset 0 1px 1px $med-gray;
 
 /*
 TYPOGRAPHY
 ==========
 */
-$main-font: "filson-pro", Verdana, sans-serif;
+$main-font: 'filson-pro', Verdana, sans-serif;
 
 $giant-font-size: 100px;
 
@@ -58,9 +58,9 @@ NUMBERS & SPACING
 $header-height: 70px;
 
 $pad-mar-x-small: 5px;
-$pad-mar-small:   10px;
-$pad-mar-med:     15px;
-$pad-mar-large:   20px;
+$pad-mar-small: 10px;
+$pad-mar-med: 15px;
+$pad-mar-large: 20px;
 $pad-mar-x-large: 30px;
 
 $neg-pad-mar-x-small: -2px;
@@ -68,11 +68,11 @@ $neg-pad-mar-x-small: -2px;
 $border-radius: 4px;
 
 /* z-indices */
-$z-1:     1;
-$z-2:     2;
-$z-5:     5;
-$z-10:    10;
-$z-20:    20;
-$z-50:    50;
-$z-100:   100;
-$z-1000:  1000;
+$z-1: 1;
+$z-2: 2;
+$z-5: 5;
+$z-10: 10;
+$z-20: 20;
+$z-50: 50;
+$z-100: 100;
+$z-1000: 1000;

@@ -18,6 +18,10 @@ const testDataObj = {
   limitedLength: { value: '123', validateAs: 'max-length-8', name: 'limitedLength'}
 }
 
+const testDataObj2 = {
+  multiValidate: { value: 'blah@email.com', validateAs: 'not-empty email', name: 'multiValidate' }
+}
+
 describe('validator.js', function() {
   it ('returns an object', async function() {
     const result = await validator(testDataObj, validationHelp.errorLanguage, validationHelp.dictionary)
@@ -25,6 +29,23 @@ describe('validator.js', function() {
     assert.equal(
       result.toString(),
       { isValid: true, warnings: {} }.toString()
+    )
+  })
+
+  it ('can validate multiple validateAs fields', async function() {
+    const result = await validator(testDataObj2, validationHelp.errorLanguage, validationHelp.dictionary)
+    assert.ok(result)
+    assert.equal(
+      result.toString(),
+      { isValid: true, warnings: {} }.toString()
+    )
+
+    testDataObj2.validateAs = 'email max-length-8'
+    const result2 = await validator(testDataObj2, validationHelp.errorLanguage, validationHelp.dictionary)
+    assert.ok(result2)
+    assert.equal(
+      result2.toString(),
+      { isValid: false, warnings: { multiValidate: validationHelp.errorLanguage['max-length-8'] } }.toString()
     )
   })
 

@@ -3,11 +3,15 @@ import PropTypes from 'prop-types'
 
 import './styles/error-tip.scss'
 
-const ErrorTip = (props) => {
+const ErrorTip = props => {
   return (
-    <div className={ `Tooltip Tooltip--error ${ props.className || '' }` } aria-live='assertive' role='alert'>
-      <div className={ `Tooltip-contents Tooltip-contents--${ props.direction }` }>
-        <div className='Tooltip-contents-text'>{ props.contents }</div>
+    <div
+      className={`Tooltip Tooltip--error ${props.className || ''}`}
+      aria-live='assertive'
+      role='alert'
+    >
+      <div className={`Tooltip-contents Tooltip-contents--${props.direction}`}>
+        <div className='Tooltip-contents-text'>{props.contents}</div>
       </div>
     </div>
   )
@@ -19,10 +23,8 @@ ErrorTip.defaultProps = {
 
 ErrorTip.propTypes = {
   className: PropTypes.string,
-  contents: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.string
-  ]).isRequired,
+  contents: PropTypes.oneOfType([PropTypes.element, PropTypes.string])
+    .isRequired,
   direction: PropTypes.string.isRequired
 }
 

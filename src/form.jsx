@@ -1,15 +1,20 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { validatorAggregator as validator } from './validator'
 import {
   addFormError,
+  checkCompleted,
   clearForm,
   createForm,
   deleteFormError,
-  updateForm } from './formActions'
+  onFocus,
+  updateDirtyFieldsArr,
+  updateVisibleFieldsArr,
+  checkForVisibleFields,
+  updateForm
+} from './formActions'
 
 import './styles/form.scss'
 import './styles/inputs.scss'
@@ -20,7 +25,7 @@ export class Form extends React.Component {
     attemptedSubmit: false,
     prepopulated: false,
     processingRequest: false
-  }
+  };
 
   static propTypes = {
     addFormError: PropTypes.func,
@@ -31,7 +36,10 @@ export class Form extends React.Component {
     fieldNames: PropTypes.arrayOf(
       PropTypes.oneOfType([
         PropTypes.string,
-        PropTypes.shape({ name: PropTypes.string.isRequired, type: PropTypes.string })
+        PropTypes.shape({
+          name: PropTypes.string.isRequired,
+          type: PropTypes.string
+        })
       ])
     ).isRequired,
     forms: PropTypes.object,
@@ -44,29 +52,55 @@ export class Form extends React.Component {
       errorLanguage: PropTypes.object,
       dictionary: PropTypes.object
     })
-  } // make sure only those that don't come from redux are declared for better error logging to end user
+  }; // make sure only those that don't come from redux are declared for better error logging to end user
 
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      addFormError: (formId=ownProps.id, fieldName, errorMessage) => {
+      checkForVisibleFields: (formId = ownProps.id) => {
+        dispatch(checkForVisibleFields(formId))
+      },
+      updateVisibleFieldsArr: (formId = ownProps.id, fieldNames) => {
+        dispatch(updateVisibleFieldsArr(formId, fieldNames))
+      },
+      onFocus: (formId = ownProps.id, fieldName) => {
+        dispatch(onFocus(formId, fieldName))
+      },
+      updateDirtyFieldsArr: (formId = ownProps.id, fieldName) => {
+        dispatch(updateDirtyFieldsArr(formId, fieldName))
+      },
+      addFormError: (formId = ownProps.id, fieldName, errorMessage) => {
         dispatch(addFormError(formId, fieldName, errorMessage))
       },
-      clearForm: (formId=ownProps.id) => {
+      checkCompleted: (formId = ownProps.id) => {
+        dispatch(checkCompleted(formId))
+      },
+      clearForm: (formId = ownProps.id) => {
         dispatch(clearForm(formId))
       },
-      createForm: (formId=ownProps.id, formObject) => {
+      createForm: (formId = ownProps.id, formObject) => {
         dispatch(createForm(formId, formObject))
       },
-      deleteFormError: (formId=ownProps.id, fieldName) => {
+      deleteFormError: (formId = ownProps.id, fieldName) => {
         dispatch(deleteFormError(formId, fieldName))
       },
-      updateForm: (e=null, formId=ownProps.id, fieldName=null, optValue=null, optType=null) => { // optType is for manualFieldUpdate and testing
-        fieldName = fieldName || ((e && e.target) ? e.target.getAttribute('name') : null)
-        const type = optType
-          || (document.getElementById(fieldName)
-              || [...document.getElementsByName(fieldName)][0]
-            ).getAttribute('type')
-        dispatch(updateForm(e, formId, fieldName, optValue, type))
+      updateForm: (
+        e = null,
+        formId = ownProps.id,
+        fieldName = null,
+        optValue = null,
+        optType = null,
+        optMultiple = null
+      ) => {
+        // optType is for manualFieldUpdate and testing //optMultiple is for multi file uploads
+        fieldName =
+          fieldName || (e && e.target ? e.target.getAttribute('name') : null)
+        const type =
+          optType ||
+          (
+            document.getElementById(fieldName) ||
+            [...document.getElementsByName(fieldName)][0]
+          ).getAttribute('type')
+        dispatch(updateForm(e, formId, fieldName, optValue, type, optMultiple))
       }
     }
   }
@@ -77,37 +111,47 @@ export class Form extends React.Component {
     }
   }
 
-  checkField = async (e, elem=null) => {
+  checkField = async (e, elem = null) => {
     const field = elem && elem.getAttribute ? elem : e.target
     const fieldName = field.getAttribute('name')
     const fieldValue = field.value.trim()
-    const isRequired = field.getAttribute('aria-required') || field.getAttribute('required')
+    const isRequired =
+      field.getAttribute('aria-required') || field.getAttribute('required')
 
     try {
-      const fieldStatus =
-        await validator(
-          { [fieldName]: { value: fieldValue, validateAs: field.getAttribute('data-validate'), name: fieldName} },
-          this.props.validationHelp ? this.props.validationHelp.errorLanguage : null,
-          this.props.validationHelp ? this.props.validationHelp.dictionary : null
-        )
+      const fieldStatus = await validator(
+        {
+          [fieldName]: {
+            value: fieldValue,
+            validateAs: field.getAttribute('data-validate'),
+            name: fieldName
+          }
+        },
+        this.props.validationHelp
+          ? this.props.validationHelp.errorLanguage
+          : null,
+        this.props.validationHelp ? this.props.validationHelp.dictionary : null
+      )
       const allowNull = !isRequired || (fieldValue && isRequired)
-      const thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
+      // const thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
 
       if (fieldStatus.isValid && allowNull) {
-        // if (thisForm[fieldName] && thisForm[fieldName].error) {
-          this.props.deleteFormError(this.props.id, fieldName)
-          return true
-        // } // tests needed this to run always, since the wrapper instance doesn't talk to the same props
+        this.props.deleteFormError(this.props.id, fieldName)
+        return Promise.resolve(true)
       } else {
-        this.props.addFormError(this.props.id, fieldName, fieldStatus.warnings[fieldName])
-        return false
+        this.props.addFormError(
+          this.props.id,
+          fieldName,
+          fieldStatus.warnings[fieldName]
+        )
+        return Promise.resolve(false)
       }
-    }catch(err){
+    } catch (err) {
       throw new Error(err)
     }
-  }
+  };
 
-  submitForm = async(e) => {
+  submitForm = async e => {
     e.preventDefault()
 
     this.setState({
@@ -115,26 +159,40 @@ export class Form extends React.Component {
       processingRequest: true
     })
 
-    let thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
+    let thisForm =
+      this.props.forms && this.props.forms[this.props.id]
+        ? { ...this.props.forms[this.props.id] }
+        : null
     const unconvertedForm = { ...thisForm }
 
     let files
     let checkArr = []
 
     for (let field in thisForm) {
-      if (field != 'isValid' && ((thisForm[field].value || (thisForm[field].value === ''))
-        && !thisForm[field].value.type /* don't check files */) && (document.getElementById(field))) {
+      if (
+        field != 'isValid' &&
+        ((thisForm[field].value || thisForm[field].value === '') &&
+          !thisForm[field].value.type) /* don't check files */ &&
+        document.getElementById(field)
+      ) {
         // validate each field in case onBlur on that field never triggered
-         checkArr.push(this.checkField(null, document.getElementById(field)))
+        checkArr.push(this.checkField(null, document.getElementById(field)))
       }
 
-      if (thisForm[field].value || (thisForm[field].value === '')) {
+      if (thisForm[field].value || thisForm[field].value === '') {
         if (field.indexOf('confirm') > -1) {
           // don't send two of the same field (confirm is for front end)
           delete thisForm[field]
-        } else if (thisForm[field].value[0] && thisForm[field].value[0].type && thisForm[field].value[0].name) {
+        } else if (
+          thisForm[field].value[0] &&
+          thisForm[field].value[0].type &&
+          thisForm[field].value[0].name
+        ) {
           // contains files
-          files = files && files.keys() && Array.from(files.keys()).length ? files : new FormData()
+          files =
+            files && files.keys() && Array.from(files.keys()).length
+              ? files
+              : new FormData()
           thisForm[field].value.forEach((elem, i) => {
             console.log(`file ${i}: `, elem)
             files.append(`${field}[${i}]`, elem)
@@ -147,9 +205,12 @@ export class Form extends React.Component {
     }
 
     Promise.all(checkArr)
-      .then(res=>{
+      .then(() => {
         // make sure we've got an updated version in case we got invalid fields from that last checkField
-        thisForm = { ...thisForm, isValid: this.props.forms[this.props.id].isValid }
+        thisForm = {
+          ...thisForm,
+          isValid: this.props.forms[this.props.id].isValid
+        }
 
         if (thisForm && thisForm.isValid) {
           delete thisForm.isValid
@@ -160,14 +221,19 @@ export class Form extends React.Component {
             })
           }
 
-          const failCallback = (err) => {
-            let message = err.response ? err.response.data.error.message : err
-            console.log({ ...err})
+          const failCallback = err => {
+            // let message = err.response ? err.response.data.error.message : err
+            console.log({ ...err })
             this.setState({
               processingRequest: false
             })
           }
-          return this.props.submitForm(thisForm, files, successCallback, failCallback)
+          return this.props.submitForm(
+            thisForm,
+            files,
+            successCallback,
+            failCallback
+          )
         } else {
           delete thisForm.isValid
 
@@ -176,14 +242,16 @@ export class Form extends React.Component {
           })
 
           // debugging helper
-          console.log(`form id '${this.props.id}' has invalid fields`, unconvertedForm)
+          console.log(
+            `form id '${this.props.id}' has invalid fields`,
+            unconvertedForm
+          )
         }
-
       })
-      .catch(err=>{
+      .catch(err => {
         throw new Error(err)
       })
-  }
+  };
 
   focusOnFirst = () => {
     const form = document.getElementById(this.props.id)
@@ -193,45 +261,72 @@ export class Form extends React.Component {
         firstInput.focus()
       }
     }
-  }
+  };
 
-  manualFieldUpdate = (formId=this.props.id, fieldName, fieldValue, type='text') => {
-    this.props.updateForm(null, formId, fieldName, fieldValue, type)
-  }
+  getVisibleInputs = formId => {
+    const id = formId || this.props.id || this.props.formId
+    const el = document.querySelector(id)
+    if (el) {
+      const matches = el.querySelectorAll('input, select, textarea')
+      const fieldNames = []
+      for (var i = 0; i < matches.length; i++) {
+        fieldNames.push(matches[i].id)
+      }
+      this.props.updateVisibleFieldsArr(id, fieldNames)
+    }
+  };
 
-  populateFields = (props, responseData) => {
-    let formData = {}
+  manualFieldUpdate = (
+    formId = this.props.id,
+    fieldName,
+    fieldValue,
+    type = 'text',
+    multi = false
+  ) => {
+    this.props.updateForm(null, formId, fieldName, fieldValue, type, multi)
+  };
+
+  populateFields = (props, responseData, oldFields) => {
+    let formData = { fields: {} }
     // initialize the form with all fields inside
-    props.fieldNames.forEach((fieldName) => {
-      if (fieldName.type) {
-        formData[fieldName.name] = {}
 
-        switch(fieldName.type) {
+    props.fieldNames.forEach(fieldName => {
+      if (fieldName.type) {
+        formData.fields[fieldName.name] = {}
+
+        switch (fieldName.type) {
           case 'checkbox':
-            formData[fieldName.name].value = false
+            formData.fields[fieldName.name].value = false
             break
           case 'radio':
-            formData[fieldName.name].value = false
+            formData.fields[fieldName.name].value = false
             break
           default:
-            formData[fieldName.name] = { value: '' }
+            formData.fields[fieldName.name] = { value: '' }
         }
       } else {
-        formData[fieldName.toString()] = { value: '' }
+        formData.fields[fieldName.toString()] = { value: '' }
       }
     })
+
+    if (oldFields) {
+      formData.fields = { ...formData.fields, ...oldFields }
+    }
+
+    formData.awaitingCheck = []
 
     if (responseData) {
       for (var key in responseData) {
         // explode out any nested fields we might need
         if (typeof responseData[key] == 'object') {
           for (var field in responseData[key]) {
-            if (formData[field]) { // we only want fields that exist in the form to update
-              formData[field].value = responseData[key][field]
+            if (formData.fields[field]) {
+              // we only want fields that exist in the form to update
+              formData.fields[field].value = responseData[key][field]
             }
           }
-        } else if (formData[key]) {
-          formData[key].value = responseData[key]
+        } else if (formData.fields[key]) {
+          formData.fields[key].value = responseData[key]
 
           if (!this.state.prepopulated && responseData[key]) {
             this.setState({
@@ -243,13 +338,13 @@ export class Form extends React.Component {
     }
 
     props.createForm(props.id, formData)
-  }
+  };
 
   componentWillUnmount = () => {
     if (!this.props.preserveAfterUnmount) {
       this.props.clearForm()
     }
-  }
+  };
 
   componentDidMount = () => {
     if (this.props.prepopulateData) {
@@ -259,46 +354,86 @@ export class Form extends React.Component {
     }
 
     if (!this.props.ignoreFocusOnFirstElement) {
-      this.focusOnFirst();
+      this.focusOnFirst()
     }
 
     if (this.props.submitRoute) {
-      console.log(`%c You\'re using "submitRoute" in form ${ this.props.id }, which comes from a pre-release version of Bloom Forms. Please use "submitForm".`, 'color: red')
-    }
-  }
-
-  componentWillReceiveProps = (newProps) => {
-    if (newProps.prepopulateData && (
-        !this.props.prepopulateData ||
-        (Object.values(this.props.prepopulateData).sort().toString() != Object.values(newProps.prepopulateData).sort().toString())
+      console.log(
+        `%c You're using "submitRoute" in form ${
+          this.props.id
+        }, which comes from a pre-release version of Bloom Forms. Please use "submitForm".`,
+        'color: red'
       )
+    }
+  };
+
+  componentWillReceiveProps = newProps => {
+    if (
+      newProps.prepopulateData &&
+      (!this.props.prepopulateData ||
+        Object.values(this.props.prepopulateData)
+          .sort()
+          .toString() !=
+          Object.values(newProps.prepopulateData)
+            .sort()
+            .toString())
     ) {
       this.populateFields(newProps, newProps.prepopulateData)
     }
 
-    if (newProps.fieldNames.length != Object.keys(newProps.forms[newProps.id]).length-1) { // ignore isValid
-      this.populateFields(newProps);
+    if (
+      newProps.forms &&
+      newProps[newProps.id] &&
+      newProps.fieldNames.length !=
+        Object.keys(newProps.forms[newProps.id].fields).length
+    ) {
+      // ignore isValid
+      this.populateFields(newProps)
     }
-  }
+
+    if (newProps.forms[newProps.id] && !this.props.forms[this.props.id]) {
+      // we just created the form
+      this.getVisibleInputs(newProps.id)
+    }
+
+    if (newProps.forms[newProps.id].checkVisibleFields) {
+      this.getVisibleInputs(newProps.id)
+    }
+
+    if (
+      newProps.forms[newProps.id] &&
+      newProps.forms[newProps.id].awaitingCheck &&
+      newProps.forms[newProps.id].awaitingCheck.length
+    ) {
+      newProps.forms[newProps.id].awaitingCheck[0].fieldNames.forEach(name => {
+        const elem = document.getElementById(name)
+        if (elem) {
+          this.checkField(null, elem)
+        }
+      })
+      this.props.checkCompleted(newProps.id)
+    }
+  };
 
   render() {
     let { submitForm, prepopulateData, ...props } = this.props
-
     // make sure this works if the form has one child or many
     let children = props.children
-      ? (Array.isArray(this.props.children) ? this.props.children : [this.props.children])
-      : [];
-    let thisForm = props.forms && props.forms[props.id] ? props.forms[props.id] : null
-
+      ? Array.isArray(this.props.children)
+        ? this.props.children
+        : [this.props.children]
+      : []
+    let thisForm =
+      props.forms && props.forms[props.id] ? props.forms[props.id] : null
     // clone the children to pass in custom props related to entire form
-    let formChildren = children.length ? (
-      React.Children.map(children, (child, indx) => {
+    let formChildren = children.length
+      ? React.Children.map(children, child => {
           return React.cloneElement(child, {
             addFormError: props.addFormError,
             attemptedSubmit: this.state.attemptedSubmit,
             checkField: this.checkField,
             deleteFormError: props.deleteFormError,
-            formData: thisForm,
+            formData: (thisForm && thisForm.fields) || {},
             formId: props.id,
             isValid: thisForm && thisForm.isValid,
             manualFieldUpdate: this.manualFieldUpdate,
@@ -306,16 +441,15 @@ export class Form extends React.Component {
             processingRequest: this.state.processingRequest,
             updateForm: props.updateForm,
             submitForm: this.submitForm,
+            updateVisibleFieldsArr: this.updateVisibleFieldsArr,
+            onFocus: this.onFocus,
+            updateDirtyFieldsArr: this.updateDirtyFieldsArr,
             ...props
           })
-      })
-    ) : children;
+        })
+      : children
 
-    return (
-      <div>
-        { formChildren }
-      </div>
-    )
+    return <div>{formChildren}</div>
   }
 }
 

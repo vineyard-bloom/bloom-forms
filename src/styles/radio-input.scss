@@ -28,7 +28,7 @@ $radio-dim: 15px;
       background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/26/5fd35f_dot.svg');
       background-position: 50% 50%;
       background-repeat: no-repeat;
-      background-size: calc(#{$radio-dim} * .65);
+      background-size: calc(#{$radio-dim} * 0.65);
     }
   }
 }

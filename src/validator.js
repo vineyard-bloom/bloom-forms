@@ -19,35 +19,68 @@
 */
 // and now you can use validateAs='cat' and validateAs='biggerThan2'
 
-export async function validatorAggregator (testDataObject = {}, errorLanguage=null, optDict=null) {
-  let status = { isValid: true, warnings: {}}
+export async function validatorAggregator(
+  testDataObject = {},
+  errorLanguage = null,
+  optDict = null
+) {
+  let status = { isValid: true, warnings: {} }
 
   const dict = {
-    'date': dateError,
-    'email': emailError,
-    'file': fileError,
-    'name': nameError,
+    date: dateError,
+    email: emailError,
+    file: fileError,
+    name: nameError,
     'not-empty': notEmptyError,
-    'number': numberError,
+    number: numberError,
     'number-field': numberFieldError,
-    'phone': phoneError,
-    'zip': zipError,
+    phone: phoneError,
+    zip: zipError,
     ...optDict
   }
 
   for (let field in testDataObject) {
     let thisField = testDataObject[field]
     if (thisField.validateAs) {
-      status = await validate(status, thisField.value, thisField.validateAs, thisField.name, dict, errorLanguage)
+      if (thisField.validateAs.indexOf(' ') > -1) {
+        for (let validateAs of thisField.validateAs.split(' ')) {
+          status = await validate(
+            status,
+            thisField.value,
+            validateAs,
+            thisField.name,
+            dict,
+            errorLanguage
+          )
+        }
+      } else {
+        status = await validate(
+          status,
+          thisField.value,
+          thisField.validateAs,
+          thisField.name,
+          dict,
+          errorLanguage
+        )
+      }
     }
   }
 
   return status
 }
 
-const validate = async (prevStatus, testData, validateAs, fieldName, dict, errorLanguage) => {
+const validate = async (
+  prevStatus,
+  testData,
+  validateAs,
+  fieldName,
+  dict,
+  errorLanguage
+) => {
   if (!dict[validateAs]) {
-    throw new Error(`${validateAs} is not defined in your validationHelp dictionary.`)
+    throw new Error(
+      `${validateAs} is not defined in your validationHelp dictionary.`
+    )
   }
 
   try {
@@ -55,7 +88,7 @@ const validate = async (prevStatus, testData, validateAs, fieldName, dict, error
     prevStatus.warnings[fieldName] = error
 
     return { ...prevStatus, isValid: prevStatus.isValid && !error }
-  } catch(err) {
+  } catch (err) {
     throw new Error(`Error in validation: ${err.toString()}`)
   }
 }
@@ -71,7 +104,7 @@ function dateError(testData, fieldName, errorLanguage) {
 }
 
 function emailError(testData, fieldName, errorLanguage) {
-  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   return emailRegex.test(testData)
     ? null
     : errorLanguage && errorLanguage['invalid-email']
@@ -80,7 +113,7 @@ function emailError(testData, fieldName, errorLanguage) {
 }
 
 function fileError(testData, fieldName, errorLanguage) {
-  return testData.files && testData.files[0] && (testData.files[0].size > 100000)
+  return testData.files && testData.files[0] && testData.files[0].size > 100000
     ? errorLanguage && errorLanguage['file-size']
       ? errorLanguage['file-size']
       : 'Maximum file size exceeded.'
@@ -90,40 +123,50 @@ function fileError(testData, fieldName, errorLanguage) {
 function nameError(testData, fieldName, errorLanguage) {
   return testData.length < 2
     ? errorLanguage && errorLanguage['min-length']
-      ? errorLanguage['min-length'].replace('<FIELD>', fieldName).replace('<LIMIT>', '2')
-      : `This field must be at least 2 characters.`
+      ? errorLanguage['min-length']
+          .replace('<FIELD>', fieldName)
+          .replace('<LIMIT>', '2')
+      : 'This field must be at least 2 characters.'
     : null
 }
 
 function notEmptyError(testData, fieldName, errorLanguage) {
-  return !testData && (testData !== 0)
-    ? errorLanguage  && errorLanguage['not-empty']
+  return !testData && testData !== 0
+    ? errorLanguage && errorLanguage['not-empty']
       ? errorLanguage['not-empty'].replace('<FIELD>', fieldName)
-      : `This field cannot be empty.`
+      : 'This field cannot be empty.'
     : null
 }
 
 function numberError(testData, fieldName, errorLanguage) {
-  return !testData || !(/^[0-9]+$/.test(testData))
-    ? errorLanguage ? errorLanguage['invalid-number'] : 'Please enter a valid number.'
+  return !testData || !/^[0-9]+$/.test(testData)
+    ? errorLanguage
+      ? errorLanguage['invalid-number']
+      : 'Please enter a valid number.'
     : null
 }
 
 function numberFieldError(testData, fieldName, errorLanguage) {
-  return !testData || !(/^[0-9]+$/.test(testData))
-    ? errorLanguage ? errorLanguage['invalid-field'].replace('<FIELD>', fieldName) : `This field is invalid.`
+  return !testData || !/^[0-9]+$/.test(testData)
+    ? errorLanguage
+      ? errorLanguage['invalid-field'].replace('<FIELD>', fieldName)
+      : 'This field is invalid.'
     : null
 }
 
 function phoneError(testData, fieldName, errorLanguage) {
   if (testData.length < 8) {
     return errorLanguage && errorLanguage['min-length']
-      ? errorLanguage['min-length'].replace('<FIELD>', language.fieldLabels.phoneNumber).replace('<LIMIT>', '8')
-      : `This field must be at least 8 chars.`
+      ? errorLanguage['min-length']
+          .replace('<FIELD>', errorLanguage.fieldLabels.phoneNumber)
+          .replace('<LIMIT>', '8')
+      : 'This field must be at least 8 chars.'
   } else if (testData.length > 15) {
     return errorLanguage && errorLanguage['max-length']
-      ? errorLanguage['max-length'].replace('<FIELD>', language.fieldLabels.phoneNumber).replace('<LIMIT>', '15')
-      : `This field cannot exceed 15 chars.`
+      ? errorLanguage['max-length']
+          .replace('<FIELD>', errorLanguage.fieldLabels.phoneNumber)
+          .replace('<LIMIT>', '15')
+      : 'This field cannot exceed 15 chars.'
   } else {
     return null
   }
@@ -134,6 +177,9 @@ function zipError(testData, fieldName, errorLanguage) {
   return usZipRegex.test(testData)
     ? null
     : errorLanguage && errorLanguage['invalid-field']
-      ? errorLanguage['invalid-field'].replace('<FIELD>', language.fieldLabels.zip)
+      ? errorLanguage['invalid-field'].replace(
+          '<FIELD>',
+          errorLanguage.fieldLabels.zip
+        )
       : 'Please enter a valid postal code.'
 }

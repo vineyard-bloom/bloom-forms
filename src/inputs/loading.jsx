@@ -1,11 +1,11 @@
-import React from 'react';
-import Spinner from '../images/spinner.png';
-import '../styles/loading.scss';
+import React from 'react'
+import Spinner from '../images/spinner.png'
+import '../styles/loading.scss'
 
-const Loading = (props) => {
-    return (
-        <img src={ Spinner } alt='This section is loading.' className='Loading' />
-    )
+const Loading = () => {
+  return (
+    <img src={Spinner} alt='This section is loading.' className='Loading' />
+  )
 }
 
-export default Loading;
+export default Loading
