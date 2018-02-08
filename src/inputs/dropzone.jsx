@@ -137,19 +137,6 @@ class MyDropzone extends React.Component {
       suppressErrors,
       value
     } = this.props
-    const dropZoneStyle = {
-      border: '2px dashed #ddd',
-      borderRadius: '5px',
-      color: '#ddd',
-      height: '310px',
-      marginBottom: '0',
-      marginTop: '2px',
-      minHeight: '100px',
-      overflow: 'hidden',
-      padding: '20px',
-      position: 'relative',
-      width: '100%'
-    }
     let requiredString = ''
     let attr = {}
 
@@ -176,15 +163,7 @@ class MyDropzone extends React.Component {
     }
 
     const defaultImageStyle = {
-      height: 'auto',
-      margin: '0 auto',
-      maxHeight: '150px',
-      maxWidth: '200px',
-      minHeight: '100px',
-      minWidth: '100px',
-      objectFit: 'contain',
-      overflow: 'hidden',
-      width: `${1 / (files.length || 1) * 100}%`
+      width: `${ 1 / (files.length || 1) * 100 }%`
     }
 
     const imagePreview =
@@ -239,6 +218,7 @@ class MyDropzone extends React.Component {
     return (
       <label
         className='Input-label DropZone'
+        id={`${this.props.name}-wrapper`}
         onFocus={this.onFocusIn}
         onBlur={this.onFocusOut}
       >
@@ -250,6 +230,7 @@ class MyDropzone extends React.Component {
           onClick={this.triggerInput}
           style={dropZoneStyle}
           className='DropZone-box Input--file'
+          id={`${this.props.name}-box`}
         >
           <div aria-hidden role='presentation'>
             {imagePreview ? (
