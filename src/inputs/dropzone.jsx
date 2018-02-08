@@ -163,7 +163,7 @@ class MyDropzone extends React.Component {
     }
 
     const defaultImageStyle = {
-      width: `${ 1 / (files.length || 1) * 100 }%`
+      width: `${1 / (files.length || 1) * 100}%`
     }
 
     const imagePreview =
@@ -228,7 +228,6 @@ class MyDropzone extends React.Component {
           onDragOver={this.onDrop}
           multiple={false}
           onClick={this.triggerInput}
-          style={dropZoneStyle}
           className='DropZone-box Input--file'
           id={`${this.props.name}-box`}
         >

@@ -93,6 +93,7 @@ const ExampleForm = props => {
       />
       <Button
         contents='Trigger Multiple check'
+        id='multiple-check-button'
         onClick={e => {
           e.preventDefault()
           props.checkMultipleFields('example-form', ['onlyBloop', 'password'])
@@ -100,6 +101,7 @@ const ExampleForm = props => {
       />
       <Button
         contents='Trigger Visible check'
+        id='visible-check-button'
         onClick={e => {
           e.preventDefault()
           props.checkForVisibleFields(props.formId)

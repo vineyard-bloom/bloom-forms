@@ -2,7 +2,7 @@
 DROPZONE
 */
 
-@import "./variables";
+@import './variables';
 
 .DropZone {
   margin-bottom: $pad-mar-med;
@@ -17,6 +17,19 @@ DROPZONE
   position: relative;
   width: 100%;
 
+  &-box {
+    border: 2px dashed #ddd;
+    border-radius: 5px;
+    color: #ddd;
+    height: 310px;
+    margin-top: 2px;
+    min-height: 100px;
+    overflow: hidden;
+    padding: 20px;
+    position: relative;
+    width: 100%;
+  }
+
   .Btn {
     background-color: $green;
     border: 0;
@@ -25,6 +38,11 @@ DROPZONE
     margin-top: $pad-mar-small;
     position: absolute;
     right: $pad-mar-small;
+
+    &:focus,
+    &:hover {
+      background-color: darken($green, 10%);
+    }
   }
 
   &-preview-container {
@@ -47,7 +65,8 @@ DROPZONE
     text-overflow: ellipsis;
     width: 100%;
   }
-  &-upload-file {
+
+  &-upload-img {
     height: auto;
     margin: 0 auto;
     max-height: 150px;
