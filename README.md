@@ -2,7 +2,7 @@
 
 #### All your form functionality in one place.
 
-## [1.0.0 Release Notes]()
+## [1.0.0 Release Notes](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/RELEASE-NOTES-1.md)
 
 ## Compatibility Note:
 All of the functionality in this library is compatible with React 15 and 16 EXCEPT for the arrowdown focus functionality on SelectInputs. Your project *must* use React 16 if you want fully accessible SelectInputs, due to the internal changes surrounding setState.
