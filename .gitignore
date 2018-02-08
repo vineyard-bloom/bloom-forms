@@ -1,12 +1,8 @@
 .DS_STORE
 *.log
-
 .vscode
 
 node_modules
 dist/*
 example-form/dist/*
 example-form/node_modules/*
-
-config/config.json
-

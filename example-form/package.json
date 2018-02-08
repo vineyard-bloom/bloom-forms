@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "rm -rf dist/*.js && webpack && webpack-dev-server --hot --inline",
+    "dev": "rm -rf dist/*.js && ./node_modules/.bin/webpack && ./node_modules/.bin/webpack-dev-server --hot --inline",
     "build": "echo \"No build script for example form\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
