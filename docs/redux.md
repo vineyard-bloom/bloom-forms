@@ -1,8 +1,8 @@
 # Redux -- formActions, formReducer, and your Redux Store
 
 ## Contents:
-  * [Redux Structure]()
-  * [formActions](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#button)
+  * [Redux Structure](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/redux.md#your-redux-store-structure)
+  * [formActions](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/redux.md#formactions)
   * [formReducer]()
 
 ## Your Redux Store Structure
@@ -57,3 +57,14 @@ forms: {
 
 - `updateVisibleFieldsArr` ** :
   Used by `checkforVisibleFields` above. Not recommended to call externally.
+
+## formReducer
+The `formReducer` should be imported directly and added to your reducers file inside `combineReducers` like:
+```
+combineReducers({
+  ...
+  forms: formReducer
+  ...
+})
+```
+All of `formReducer`'s functionality is triggered via `formActions`.
