@@ -265,7 +265,7 @@ export class Form extends React.Component {
 
   getVisibleInputs = formId => {
     const id = formId || this.props.id || this.props.formId
-    const el = document.querySelector(id)
+    const el = document.getElementById(id)
     if (el) {
       const matches = el.querySelectorAll('input, select, textarea')
       const fieldNames = []
@@ -360,6 +360,8 @@ export class Form extends React.Component {
       this.focusOnFirst()
     }
 
+    this.getVisibleInputs(this.props.id)
+
     if (this.props.submitRoute) {
       console.log(
         `%c You're using "submitRoute" in form ${
@@ -384,6 +386,10 @@ export class Form extends React.Component {
       this.populateFields(newProps, newProps.prepopulateData)
     }
 
+    if (newProps.forms[newProps.id].checkForVisibleFields) {
+      this.getVisibleInputs(newProps.id)
+    }
+
     if (
       newProps.forms &&
       newProps[newProps.id] &&
@@ -391,16 +397,6 @@ export class Form extends React.Component {
         Object.keys(newProps.forms[newProps.id].fields).length
     ) {
       this.populateFields(newProps, null, newProps.forms[newProps.id].fields)
-    }
-
-    if (newProps.forms[newProps.id] && !this.props.forms[this.props.id]) {
-      console.log('form just created. now get visible inputs')
-      // we just created the form
-      this.getVisibleInputs(newProps.id)
-    }
-
-    if (newProps.forms[newProps.id].checkVisibleFields) {
-      this.getVisibleInputs(newProps.id)
     }
 
     if (

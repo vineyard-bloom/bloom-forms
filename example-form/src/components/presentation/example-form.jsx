@@ -98,6 +98,13 @@ const ExampleForm = props => {
           props.checkMultipleFields('example-form', ['onlyBloop', 'password'])
         }}
       />
+      <Button
+        contents='Trigger Visible check'
+        onClick={e => {
+          e.preventDefault()
+          props.checkForVisibleFields(props.formId)
+        }}
+      />
       <Checkbox
         label='Checkbox'
         checked={(formData.checkbox && formData.checkbox.value) || ''}

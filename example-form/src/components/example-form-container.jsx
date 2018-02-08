@@ -52,7 +52,10 @@ class ExampleFormContainer extends React.Component {
         submitForm={this.submitForm}
         validationHelp={validationHelp}
       >
-        <ExampleForm checkMultipleFields={this.props.checkMultipleFields} />
+        <ExampleForm
+          checkMultipleFields={this.props.checkMultipleFields}
+          checkForVisibleFields={this.props.checkForVisibleFields}
+        />
       </Form>
     )
   }
@@ -61,7 +64,9 @@ class ExampleFormContainer extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     checkMultipleFields: (formId = 'example-form', fieldNames) =>
-      dispatch(formActions.checkMultipleFields(formId, fieldNames))
+      dispatch(formActions.checkMultipleFields(formId, fieldNames)),
+    checkForVisibleFields: (formId = 'example-form', fieldNames) =>
+      dispatch(formActions.checkForVisibleFields(formId, fieldNames))
   }
 }
 

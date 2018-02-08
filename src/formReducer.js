@@ -39,8 +39,7 @@ export default function formReducer(state = {}, action) {
       return { ...newForms }
 
     case 'CHECK_FOR_VISIBLE_FIELDS':
-      newForms[action.formId].checkVisibleFields =
-        !newForms[action.formId].checkVisibleFields || false
+      newForms[action.formId].checkForVisibleFields = true
       return { ...newForms }
 
     case 'ON_FOCUS':
@@ -62,6 +61,7 @@ export default function formReducer(state = {}, action) {
         newForms[action.formId] = {}
       }
       newForms[action.formId].visibleFields = action.fields
+      newForms[action.formId].checkForVisibleFields = false
       return { ...newForms }
 
     case 'CREATE_FORM':
