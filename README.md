@@ -35,7 +35,8 @@ Exposing which fields are dirtied (value has been changed), touched (input has b
 NOTE that all field values and errors are now nested one level deeper in the Redux store. This will not affect any fields dependent on `formData`, but will affect any components that pull from Redux's form object directly to get field values. THIS IS A BREAKING API CHANGE FOR SOME USE CASES.
 
 Other upgrades:
-(`checkMultipleFields`)[https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/redux.md#formactions] method is now available via redux (in formActions). This will be processed via the `<Form/>` wrapper to check every field passed in. It is useful for wizard forms where you may want to execute batch checks on pages before triggering an actual submission.
+
+`checkMultipleFields` (see docs)[https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/redux.md#formactions] method is now available via redux (in formActions). This will be processed via the `<Form/>` wrapper to check every field passed in. It is useful for wizard forms where you may want to execute batch checks on pages before triggering an actual submission.
 
 `suppressErrors` boolean is available on each input. This prop hides errors from displaying when true, but doesn't prevent validation from running. It's useful when you want errors to execute, but do not want them displayed inline, or prefer for them not to be displayed until certain other criteria are met.
 
@@ -51,6 +52,8 @@ Several persistent bug fixes, including:
 - File uploads always being appended to the state instead of replacing any fields with the same name. Exception is if 'multiple' is passed in as a prop.
 
 
+## DISCLAIMER:
+All of the functionality in this library is compatible with React 15 and 16 EXCEPT for the arrowdown focus functionality on SelectInputs. Your project *must* use React 16 if you want fully accessible SelectInputs, due to the internal changes surrounding setState.
 
 
 ## Documentation
