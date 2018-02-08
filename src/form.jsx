@@ -314,6 +314,9 @@ export class Form extends React.Component {
     }
 
     formData.awaitingCheck = []
+    formData.visibleFields = []
+    formData.touchedFieds = []
+    formData.dirtyFields = []
 
     if (responseData) {
       for (var key in responseData) {
@@ -387,11 +390,11 @@ export class Form extends React.Component {
       newProps.fieldNames.length !=
         Object.keys(newProps.forms[newProps.id].fields).length
     ) {
-      // ignore isValid
       this.populateFields(newProps, null, newProps.forms[newProps.id].fields)
     }
 
     if (newProps.forms[newProps.id] && !this.props.forms[this.props.id]) {
+      console.log('form just created. now get visible inputs')
       // we just created the form
       this.getVisibleInputs(newProps.id)
     }
