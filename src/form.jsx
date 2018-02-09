@@ -391,10 +391,8 @@ export class Form extends React.Component {
     }
 
     if (
-      newProps.forms &&
-      newProps[newProps.id] &&
       newProps.fieldNames.length !=
-        Object.keys(newProps.forms[newProps.id].fields).length
+      Object.keys(newProps.forms[newProps.id].fields).length
     ) {
       this.populateFields(newProps, null, newProps.forms[newProps.id].fields)
     }
