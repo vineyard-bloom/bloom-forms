@@ -6,16 +6,6 @@ DROPZONE
 
 .DropZone {
   margin-bottom: $pad-mar-med;
-  border: 2px dashed #ddd;
-  border-radius: 5px;
-  color: #ddd;
-  height: 310px;
-  margin-top: 2px;
-  min-height: 100px;
-  overflow: hidden;
-  padding: 20px;
-  position: relative;
-  width: 100%;
 
   &-box {
     border: 2px dashed #ddd;
