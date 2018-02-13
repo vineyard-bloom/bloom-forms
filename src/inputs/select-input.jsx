@@ -63,6 +63,19 @@ class SelectInput extends React.Component {
     }
   };
 
+  isInsideTheSelectWrapper = domElement => {
+    let parent = domElement
+    while (parent && parent.tagName) {
+      if (parent.id === `${this.props.name}-label`) {
+        return true
+      } else if (parent.tagName === 'BODY') {
+        return false
+      } else {
+        parent = parent.parentNode
+      }
+    }
+  };
+
   isInsideTheSelectPlaceholder = domElement => {
     let parent = domElement
     while (parent && parent.tagName) {
@@ -78,9 +91,6 @@ class SelectInput extends React.Component {
 
   onKeyDown = e => {
     const key = e.which || e.keyCode
-    // const currValue = document.activeElement.id && document.activeElement.id.includes(`input-${this.props.name}-placeholder`)
-    //   ? document.activeElement.id.replace(`input-${this.props.name}-placeholder-`, '')
-    //   : null
     const currValue = this.state.focusedOption || null
     const options = this.state.sortedOpts
 
@@ -204,12 +214,13 @@ class SelectInput extends React.Component {
       this.setState({
         showList: false
       })
-    }
 
-    const select = document.getElementById(this.props.name)
+      const select = document.getElementById(this.props.name)
+      console.log('closing')
 
-    if (this.props.onBlur) {
-      this.props.onBlur(e, select)
+      if (this.props.onBlur) {
+        this.props.onBlur(null, select)
+      }
     }
   };
 

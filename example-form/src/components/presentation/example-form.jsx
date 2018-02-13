@@ -153,7 +153,6 @@ const ExampleForm = props => {
         }
       />
       <div style={{ zIndex: 5 }}>
-        {' '}
         {/* notice the z-indices to help make sure select inputs overlap properly */}
         <SelectInput
           options={selectOptions}
@@ -164,9 +163,12 @@ const ExampleForm = props => {
               ? formData.select.value
               : ''
           }
+          onBlur={props.checkField}
           onChange={props.manualFieldUpdate}
+          required
           showLabel
           label='Select Input'
+          validateAs='not-empty'
           error={
             formData.select && formData.select.error
               ? formData.select.error
