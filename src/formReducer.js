@@ -1,9 +1,9 @@
 /* eslint-disable no-case-declarations */
 export default function formReducer(state = {}, action) {
-  let newForms = state
+  const newForms = { ...state }
 
   switch (action.type) {
-    case 'ADD_FORM_ERROR':
+    case 'ADD_FORM_ERROR': {
       if (!newForms[action.formId]) {
         newForms[action.formId] = {}
       }
@@ -16,9 +16,10 @@ export default function formReducer(state = {}, action) {
       newForms[action.formId].isValid = false
       newForms[action.formId].fields[action.fieldName].error = action.errorMsg
       return { ...newForms }
+    }
 
     case 'CHECK_COMPLETED': {
-      let formId = action.formId
+      const formId = action.formId
       // let fieldName = action.fieldName
       // if (!formId) {
       //   formId = Object.keys(newForms).filter(key => (newForms[key].visibleFields || []).length)
@@ -34,15 +35,22 @@ export default function formReducer(state = {}, action) {
       }
     }
 
-    case 'CLEAR_FORM':
-      newForms[action.formId] = {}
+    case 'CLEAR_FORM': {
+      newForms[action.formId].fields = {}
+      newForms[action.formId].awaitingCheck = []
+      newForms[action.formId].touchedFields = []
+      newForms[action.formId].dirtyFields = []
+      newForms[action.formId].visibleFields = []
+      delete newForms[action.formId].isValid
       return { ...newForms }
+    }
 
-    case 'CHECK_FOR_VISIBLE_FIELDS':
+    case 'CHECK_FOR_VISIBLE_FIELDS': {
       newForms[action.formId].checkForVisibleFields = true
       return { ...newForms }
+    }
 
-    case 'ON_FOCUS':
+    case 'ON_FOCUS': {
       if (!newForms[action.formId]) {
         newForms[action.formId] = {}
       }
@@ -55,23 +63,26 @@ export default function formReducer(state = {}, action) {
         newForms[action.formId].touchedFields.push(action.fieldName)
       }
       return { ...newForms }
+    }
 
-    case 'UPDATE_VISIBLE_FIELDS_ARR':
+    case 'UPDATE_VISIBLE_FIELDS_ARR': {
       if (!newForms[action.formId]) {
         newForms[action.formId] = {}
       }
       newForms[action.formId].visibleFields = action.fields
       newForms[action.formId].checkForVisibleFields = false
       return { ...newForms }
+    }
 
-    case 'CREATE_FORM':
+    case 'CREATE_FORM': {
       newForms[action.formId] = action.formObject
       newForms[action.formId].awaitingCheck =
         action.formObject.awaitingCheck || []
       newForms[action.formId].isValid = true
       return { ...newForms }
+    }
 
-    case 'DELETE_FORM_ERROR':
+    case 'DELETE_FORM_ERROR': {
       if (
         newForms[action.formId] &&
         newForms[action.formId].fields &&
@@ -92,6 +103,7 @@ export default function formReducer(state = {}, action) {
         newForms[action.formId].isValid = true
       }
       return { ...newForms }
+    }
 
     case 'TRIGGER_MULTIPLE_CHECK': {
       let formId = action.formId
@@ -114,7 +126,7 @@ export default function formReducer(state = {}, action) {
       }
     }
 
-    case 'UPDATE_FORM':
+    case 'UPDATE_FORM': {
       if (!newForms[action.formId]) {
         newForms[action.formId] = {}
       }
@@ -139,8 +151,9 @@ export default function formReducer(state = {}, action) {
         action.fieldValue
 
       return { ...newForms }
+    }
 
-    case 'UPDATE_FORM_FILE':
+    case 'UPDATE_FORM_FILE': {
       if (!newForms[action.formId]) {
         newForms[action.formId] = {}
       }
@@ -179,6 +192,8 @@ export default function formReducer(state = {}, action) {
       }
 
       return { ...newForms }
+    }
+
     default:
       return state
   }

@@ -133,7 +133,6 @@ export class Form extends React.Component {
         this.props.validationHelp ? this.props.validationHelp.dictionary : null
       )
       const allowNull = !isRequired || (fieldValue && isRequired)
-      // const thisForm = this.props.forms && this.props.forms[this.props.id] ? { ...this.props.forms[this.props.id] } : null
 
       if (fieldStatus.isValid && allowNull) {
         this.props.deleteFormError(this.props.id, fieldName)
@@ -151,34 +150,8 @@ export class Form extends React.Component {
     }
   };
 
-  submitForm = async e => {
-    e.preventDefault()
-
-    this.setState({
-      attemptedSubmit: true,
-      processingRequest: true
-    })
-
-    let thisForm =
-      this.props.forms &&
-      this.props.forms[this.props.id] &&
-      { ...this.props.forms[this.props.id] }.fields
-    const unconvertedForm = { ...thisForm }
-
-    let files
-    let checkArr = []
-
+  processFormDataForSubmit = thisForm => {
     for (let field in thisForm) {
-      if (
-        field != 'isValid' &&
-        ((thisForm[field].value || thisForm[field].value === '') &&
-          !thisForm[field].value.type) /* don't check files */ &&
-        document.getElementById(field)
-      ) {
-        // validate each field in case onBlur on that field never triggered
-        checkArr.push(this.checkField(null, document.getElementById(field)))
-      }
-
       if (thisForm[field].value || thisForm[field].value === '') {
         if (field.indexOf('confirm') > -1) {
           // don't send two of the same field (confirm is for front end)
@@ -189,13 +162,14 @@ export class Form extends React.Component {
           thisForm[field].value[0].name
         ) {
           // contains files
-          files =
-            files && files.keys() && Array.from(files.keys()).length
-              ? files
+          thisForm.files =
+            thisForm.files &&
+            thisForm.files.keys() &&
+            Array.from(thisForm.files.keys()).length
+              ? thisForm.files
               : new FormData()
           thisForm[field].value.forEach((elem, i) => {
-            console.log(`file ${i}: `, elem)
-            files.append(`${field}[${i}]`, elem)
+            thisForm.files.append(`${field}[${i}]`, elem)
           })
           delete thisForm[field]
         } else if (field != 'isValid') {
@@ -204,17 +178,47 @@ export class Form extends React.Component {
       }
     }
 
+    return thisForm
+  };
+
+  submitForm = async e => {
+    e.preventDefault()
+
+    this.setState({
+      attemptedSubmit: true,
+      processingRequest: true
+    })
+
+    const thisForm =
+      this.props.forms && this.props.forms[this.props.id]
+        ? this.processFormDataForSubmit({
+            ...this.props.forms[this.props.id].fields
+          })
+        : {}
+    const unconvertedForm = { ...this.props.forms[this.props.id] }
+
+    const files = thisForm.files
+    if (thisForm.files) {
+      delete thisForm.files
+    }
+
+    // check each field if it's not a file or 'isValid'
+    const checkArr = []
+    for (let field in thisForm) {
+      if (
+        field != 'isValid' &&
+        ((thisForm[field].value || thisForm[field].value === '') &&
+          !thisForm[field].value.type) /* don't check files */ &&
+        document.getElementById(field)
+      ) {
+        // validate each field in case onBlur on that field never triggered
+        checkArr.push(this.checkField(null, document.getElementById(field)))
+      }
+    }
+
     Promise.all(checkArr)
       .then(() => {
-        // make sure we've got an updated version in case we got invalid fields from that last checkField
-        thisForm = {
-          ...thisForm,
-          isValid: this.props.forms[this.props.id].isValid
-        }
-
-        if (thisForm && thisForm.isValid) {
-          delete thisForm.isValid
-
+        if (thisForm && this.props.forms[this.props.id].isValid) {
           const successCallback = () => {
             this.setState({
               processingRequest: false

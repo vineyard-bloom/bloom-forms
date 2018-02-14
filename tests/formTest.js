@@ -44,11 +44,52 @@ describe('<Form/>', function() {
   it ('communicates with redux form store', function() {
     const wrapper = generateComponent(store)
     wrapper.props().updateForm(null, 'example-form', 'name', 'Bob', 'text', { 'name': { value: '' } });
+    wrapper.update()
     const thisFormStore = wrapper.props().forms['example-form'].fields
     assert.ok(thisFormStore);
     assert.ok(thisFormStore.name);
     assert.ok(thisFormStore.name.value);
     assert.equal(thisFormStore.name.value, 'Bob');
+  })
+
+  it ('processes form data for submission without changing the redux state', function() {
+    const wrapper = generateComponent(store)
+    const newData = {
+      fields: {
+        'name': { value: '' },
+        'id': { value: '' },
+        'pet': { value: '' },
+        'muffinflavor': { value: '' }
+      }
+    }
+    wrapper.props().createForm('example-form', newData);
+    wrapper.update()
+
+    const processedData = wrapper.dive().instance().processFormDataForSubmit({ ...wrapper.props().forms['example-form'].fields })
+    const reduxFields = wrapper.props().forms['example-form'].fields
+
+    assert.ok(processedData)
+    assert.ok(reduxFields)
+
+    assert.deepEqual(
+      processedData,
+      { name: '', id: '', pet: '', muffinflavor: '' }
+    )
+
+    assert.deepEqual(
+      reduxFields,
+      {
+        name: { value: '' },
+        id: { value: '' },
+        pet: { value: '' },
+        muffinflavor: { value: '' }
+      }
+    )
+
+    assert.notDeepEqual(
+      processedData.name,
+      reduxFields.name
+    )
   })
 
   // *************commented out these test becuause virtualDOM is making test fail*************

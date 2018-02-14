@@ -179,6 +179,14 @@ describe('empties out form for unmounting', function() {
   it ('deletes the contents of example-form', function() {
     store.dispatch(clearForm('example-form'))
 
-    assert.deepEqual(store.getState().forms['example-form'], {})
+    const emptyExample = {
+      fields: {},
+      awaitingCheck: [],
+      visibleFields: [],
+      touchedFields: [],
+      dirtyFields: []
+    }
+
+    assert.deepEqual(store.getState().forms['example-form'], emptyExample)
   })
 })
