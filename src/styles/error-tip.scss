@@ -4,8 +4,8 @@ ERROR TIP
 
 @import './variables';
 
-.Tooltip--error {
-  .Tooltip-contents {
+.ErrorTip {
+  &--contents {
     color: $red;
     margin: $pad-mar-small 0 0;
   }

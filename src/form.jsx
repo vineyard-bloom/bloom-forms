@@ -152,7 +152,11 @@ export class Form extends React.Component {
 
   processFormDataForSubmit = thisForm => {
     for (let field in thisForm) {
-      if (thisForm[field].value || thisForm[field].value === '') {
+      if (
+        thisForm[field].value ||
+        thisForm[field].value === '' ||
+        thisForm[field].value === false
+      ) {
         if (field.indexOf('confirm') > -1) {
           // don't send two of the same field (confirm is for front end)
           delete thisForm[field]
