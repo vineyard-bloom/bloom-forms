@@ -216,7 +216,6 @@ class SelectInput extends React.Component {
       })
 
       const select = document.getElementById(this.props.name)
-      console.log('closing')
 
       if (this.props.onBlur) {
         this.props.onBlur(null, select)
