@@ -11,13 +11,9 @@ const ErrorTip = props => {
       role='alert'
     >
       <div
-        className={`ErrorTip--contents ErrorTip--contents ErrorTip--contents--${
-          props.direction
-        }`}
+        className={`ErrorTip--contents ErrorTip--contents--${props.direction}`}
       >
-        <div className='ErrorTip--contents ErrorTip--contents-text'>
-          {props.contents}
-        </div>
+        <div className='ErrorTip--contents-text'>{props.contents}</div>
       </div>
     </div>
   )

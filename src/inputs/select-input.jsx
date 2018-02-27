@@ -467,7 +467,7 @@ class SelectInput extends React.Component {
             !this.state.showList &&
             !this.state.focused &&
             !suppressErrors && (
-              <ErrorTip contents={err} className='Tooltip--error--select' />
+              <ErrorTip contents={err} className='ErrorTip--select' />
             )}
           {this.state.showList && (
             <ul
