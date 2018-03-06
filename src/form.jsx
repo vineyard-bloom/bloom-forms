@@ -221,10 +221,9 @@ export class Form extends React.Component {
     const checkArr = []
     for (let field in thisForm) {
       if (
-        (thisForm[field].value ||
-          thisForm[field].value === '' ||
-          thisForm[field].value === false) &&
-        !thisForm[field].value.type /* don't check files */ &&
+        (thisForm[field] ||
+          thisForm[field] === '' ||
+          thisForm[field] === false) &&
         document.getElementById(field)
       ) {
         // validate each field in case onBlur on that field never triggered
