@@ -138,7 +138,6 @@ const formReducer = (state = {}, action) =>
         }
         draftForms[action.formId].fields[action.fieldName].value =
           action.fieldValue
-
         break
       }
 
