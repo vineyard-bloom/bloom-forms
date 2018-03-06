@@ -1,5 +1,6 @@
-import * as assert from 'assert';
-import { combineReducers, createStore, dispatch } from 'redux';
+import { describe, it } from 'mocha'
+import * as assert from 'assert'
+import { combineReducers, createStore } from 'redux'
 import {
   addFormError,
   checkCompleted,
@@ -9,23 +10,22 @@ import {
   deleteFormError,
   updateForm,
   onFocus
-} from '../src/formActions';
-import formReducer from '../src/formReducer';
-import { log } from 'util';
+} from '../src/formActions'
+import formReducer from '../src/formReducer'
 
 const exampleApp = combineReducers({
     forms:        formReducer
-});
+})
 
-const store = createStore(exampleApp);
+const store = createStore(exampleApp)
 
 describe('Bloom Form redux', function() {
   it ('dispatches new form named example-form', function() {
     const example = { fields: {}, awaitingCheck: [] }
 
-    store.dispatch(createForm('example-form', example));
+    store.dispatch(createForm('example-form', example))
 
-    assert.deepEqual(store.getState().forms['example-form'], { fields: example.fields, awaitingCheck: [], isValid: true });
+    assert.deepEqual(store.getState().forms['example-form'], { fields: example.fields, awaitingCheck: [], isValid: true })
   })
 
   it ('adds fields to the example-form', function() {
@@ -37,10 +37,10 @@ describe('Bloom Form redux', function() {
     }
 
     for (let field in exampleFields) {
-      store.dispatch(updateForm(null, 'example-form', field, exampleFields[field].value, 'text'));
+      store.dispatch(updateForm(null, 'example-form', field, exampleFields[field].value, 'text'))
     }
 
-    assert.deepEqual(store.getState().forms['example-form'].fields, exampleFields);
+    assert.deepEqual(store.getState().forms['example-form'].fields, exampleFields)
   })
 })
 
@@ -49,7 +49,7 @@ describe('populates fieldNames after initialization', function() {
     const newFields = ['name', 'id', 'pet', 'muffinflavor', 'blep']
     newFields.forEach((field) => {
       if (store.getState().forms['example-form'] && !store.getState().forms['example-form'][field]) {
-        store.dispatch(updateForm(null, 'example-form', field, '', 'text'));
+        store.dispatch(updateForm(null, 'example-form', field, '', 'text'))
       }
     })
 
@@ -61,7 +61,7 @@ describe('populates fieldNames after initialization', function() {
       'blep': { value: '' }
     }
 
-    assert.deepEqual(store.getState().forms['example-form'].fields, exampleFields);
+    assert.deepEqual(store.getState().forms['example-form'].fields, exampleFields)
   })
 
   it ('adds values to a couple fields', function() {

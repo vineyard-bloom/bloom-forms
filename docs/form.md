@@ -28,6 +28,8 @@ By default the first input will be focused on for accessibility reasons.  Set th
 By default, the form will clear its data after unmounting from the ui. This means that a registration form will delete its data after you route to a new page. If `preserveAfterUnmount` is true, this will prevent the form from clearing, and you'll be able to return to that form and see the data still there.
 ### Prepopulate Data
 `prepopulateData` is a json object, usually return from an ajax GET request, that fills in the fields in your form. The keys in this json object should match up with the fieldNames you passed into the form.
+### Wrap in Form Element
+`wrapInFormElement` receives a boolean that will renders the form children inside of `<form></form>` instead of inside a React Fragment.
 
 [Back to Contents](https://github.com/vineyard-bloom/bloom-forms#readme-contents)
 

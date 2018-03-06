@@ -1,23 +1,24 @@
-import React from 'react';
-import * as assert from 'assert';
-import Enzyme from 'enzyme';
-import { combineReducers, createStore, dispatch } from 'redux';
-import { Provider } from 'react-redux';
-import Adapter from 'enzyme-adapter-react-16';
+import { describe, it } from 'mocha'
+import * as assert from 'assert'
+import React from 'react'
+import Enzyme, { mount } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import sinon from 'sinon'
+import { combineReducers, createStore } from 'redux'
 
-Enzyme.configure({ adapter: new Adapter() });
+Enzyme.configure({ adapter: new Adapter() })
 
-import shallowWithStore from './helpers/shallow-with-store';
-import { addFormError, clearForm, createForm, deleteFormError, updateForm } from '../src/formActions';
-import formReducer from '../src/formReducer';
-import { Form } from '../src/form'; // unconnected from redux
+import shallowWithStore from './helpers/shallow-with-store'
+// import { addFormError, clearForm, createForm, deleteFormError, updateForm } from '../src/formActions'
+import formReducer from '../src/formReducer'
+import { Form } from '../src/form' // unconnected from redux
 import { Form as ConnectedForm } from '../src' // fully connected to redux
 
-const store = createStore(combineReducers({ forms: formReducer }));
-const fieldNames = ['name', 'id', 'pet', 'muffinflavor'];
+const store = createStore(combineReducers({ forms: formReducer }))
+const fieldNames = ['name', 'id', 'pet', 'muffinflavor']
 
-const submitProcess = (formData, files, success, fail) => {
-  console.log('submitting with formData: ', formData);
+const submitProcess = (formData) => {
+  console.log('submitting with formData: ', formData)
 }
 
 function generateComponent(store, replacementProps={}) {
@@ -43,134 +44,169 @@ describe('<Form/>', function() {
 
   it ('communicates with redux form store', function() {
     const wrapper = generateComponent(store)
-    wrapper.props().updateForm(null, 'example-form', 'name', 'Bob', 'text', { 'name': { value: '' } });
+    wrapper.props().updateForm(null, 'example-form', 'name', 'Bob', 'text', { 'name': { value: '' } })
     wrapper.update()
     const thisFormStore = wrapper.props().forms['example-form'].fields
-    assert.ok(thisFormStore);
-    assert.ok(thisFormStore.name);
-    assert.ok(thisFormStore.name.value);
-    assert.equal(thisFormStore.name.value, 'Bob');
+    assert.ok(thisFormStore)
+    assert.ok(thisFormStore.name)
+    assert.ok(thisFormStore.name.value)
+    assert.equal(thisFormStore.name.value, 'Bob')
   })
 
-  it ('processes form data for submission without changing the redux state', function() {
+  it ('updates values of fields when they change', function() {
     const wrapper = generateComponent(store)
-    const newData = {
-      fields: {
-        'name': { value: '' },
-        'id': { value: '' },
-        'pet': { value: '' },
-        'muffinflavor': { value: '' }
+    const diver = wrapper.dive().instance()
+
+    diver.manualFieldUpdate('example-form', 'name', 'new value')
+    wrapper.update()
+    assert.ok(wrapper.props().forms['example-form'].fields.name.value)
+    assert.equal(
+      wrapper.props().forms['example-form'].fields.name.value,
+      'new value'
+    )
+
+    diver.manualFieldUpdate('example-form', 'name', '')
+    wrapper.update()
+    assert.ok(wrapper.props().forms['example-form'].fields.name)
+    assert.equal(
+      wrapper.props().forms['example-form'].fields.name.value,
+      ''
+    )
+  })
+
+  it ('checks a field and returns whether it\'s valid', async function() {
+    const wrapper = generateComponent(store)
+    const fakeInput = {
+      value: '',
+      name: 'fake-input',
+      required: true,
+      'data-validate': 'not-empty',
+      getAttribute: (field) => fakeInput[field]
+    }
+    const firstValid = await wrapper.dive().instance().checkField(null, fakeInput)
+    assert.equal(firstValid, false)
+
+    fakeInput.value = 'not empty anymore'
+    const secondValid = await wrapper.dive().instance().checkField(null, fakeInput)
+    assert.equal(secondValid, true)
+
+    const fakeInput2 = {
+      ...fakeInput,
+      name: 'fake-input-2',
+      'data-validate': 'email',
+      value: 'email@example.com',
+      getAttribute: (field) => fakeInput2[field]
+    }
+    const thirdValid = await wrapper.dive().instance().checkField(null, fakeInput2)
+    assert.equal(thirdValid, true)
+
+    fakeInput2.value = 'notanemail'
+    const fourthValid = await wrapper.dive().instance().checkField(null, fakeInput2)
+    assert.equal(fourthValid, false)
+
+    fakeInput2.value = 'revertingemail@example.com'
+    const fifthValid = await wrapper.dive().instance().checkField(null, fakeInput2)
+    assert.equal(fifthValid, true)
+  })
+
+  it ('processes data for submission (without changing the redux state)', function() {
+    const wrapper = generateComponent(store)
+    const propsFields = wrapper.props().forms['example-form'].fields
+    const processedFields = wrapper.dive().instance().processFormDataForSubmit(propsFields)
+
+    assert.ok(processedFields)
+    assert.deepEqual(processedFields, {
+      name: '',
+      id: '',
+      muffinflavor: '',
+      pet: ''
+    })
+
+    // make sure redux example-form was unaffected
+    wrapper.update()
+    assert.deepEqual(wrapper.props().forms['example-form'].fields, propsFields)
+  })
+
+  it ('updates the store when receiving new fieldNames', function() {
+    const wrapper = generateComponent(store)
+    assert.equal(wrapper.props().fieldNames, fieldNames)
+
+    const newFieldNames = ['name', 'id', 'pet', 'muffinflavor', 'blep']
+    wrapper.setProps({ ...wrapper.props(), fieldNames: newFieldNames })
+    wrapper.update()
+    assert.equal(
+      comparableArray(wrapper.props().fieldNames),
+      comparableArray(newFieldNames)
+    )
+
+    wrapper.dive().instance().populateFields({ ...wrapper.props(), fieldNames: newFieldNames })
+    wrapper.update()
+    assert.equal(
+      comparableArray(Object.keys(wrapper.props().forms['example-form'].fields)),
+      comparableArray(newFieldNames)
+    )
+  })
+
+  it ('prepopulates if given data', function() {
+    const prepopulateData = {
+      'muffinflavor': 'banana nut',
+      'pet': 'Doodle',
+      'stuff': {
+        'id': '123-id'
       }
     }
-    wrapper.props().createForm('example-form', newData);
+    const wrapper = generateComponent(store)
+    wrapper.setProps({ ...wrapper.props(), prepopulateData })
+    wrapper.update()
+    wrapper.dive().instance().populateFields(wrapper.props(), prepopulateData)
     wrapper.update()
 
-    const processedData = wrapper.dive().instance().processFormDataForSubmit({ ...wrapper.props().forms['example-form'].fields })
-    const reduxFields = wrapper.props().forms['example-form'].fields
-
-    assert.ok(processedData)
-    assert.ok(reduxFields)
-
-    assert.deepEqual(
-      processedData,
-      { name: '', id: '', pet: '', muffinflavor: '' }
+    const thisFormStore = wrapper.props().forms['example-form'].fields
+    assert.equal(
+      thisFormStore.muffinflavor.value,
+      prepopulateData.muffinflavor
     )
-
-    assert.deepEqual(
-      reduxFields,
-      {
-        name: { value: '' },
-        id: { value: '' },
-        pet: { value: '' },
-        muffinflavor: { value: '' }
-      }
+    assert.equal(
+      thisFormStore.pet.value,
+      prepopulateData.pet
     )
-
-    assert.notDeepEqual(
-      processedData.name,
-      reduxFields.name
+    assert.equal(
+      thisFormStore.id.value,
+      prepopulateData.stuff.id
     )
   })
 
-  // *************commented out these test becuause virtualDOM is making test fail*************
-  // it ('updates values of fields when they change', function() {
-  //   const wrapper = generateComponent(store)
-  //   const diver = wrapper.dive().instance()
+  it ('triggers multiple checkFields when receiving awaitingCheck prop', function() {
+    const initialProps = {
+      fieldNames,
+      id: 'example-form',
+      submitForm: submitProcess
+    }
 
-  //   diver.manualFieldUpdate('example-form', 'name', 'new value')
-  //   assert.ok(wrapper.props().forms['example-form'].fields.name.value)
-  //   assert.equal(
-  //     wrapper.props().forms['example-form'].fields.name.value,
-  //     'new value'
-  //   )
+    // create fake elements so the dom can access them for field checking
+    const nameElem = document.createElement('input')
+    const idElem = document.createElement('input')
+    nameElem.setAttribute('id', 'name')
+    idElem.setAttribute('id', 'id')
 
-  //   diver.manualFieldUpdate('example-form', 'name', '')
-  //   assert.ok(wrapper.props().forms['example-form'].fields.name)
-  //   assert.equal(
-  //     wrapper.props().forms['example-form'].fields.name.value,
-  //     ''
-  //   )
-  // })
+    document.body.appendChild(nameElem)
+    document.body.appendChild(idElem)
+    const wrapper = mount(<Form { ...initialProps } />)
 
-  // it ('updates the store when receiving new fieldNames', function() {
-  //   const wrapper = generateComponent(store)
-  //   assert.equal(wrapper.props().fieldNames, fieldNames)
+    const receivedPropsSpy = sinon.spy(wrapper.instance(), 'componentWillReceiveProps')
+    const checkFieldSpy = sinon.spy(wrapper.instance(), 'checkField')
 
-  //   const newFieldNames = ['name', 'id', 'pet', 'muffinflavor', 'blep'];
-  //   wrapper.setProps({ ...wrapper.props(), fieldNames: newFieldNames })
-  //   wrapper.update()
-  //   assert.equal(
-  //     comparableArray(wrapper.props().fieldNames),
-  //     comparableArray(newFieldNames)
-  //   )
-
-  //   wrapper.dive().instance().populateFields({ ...wrapper.props(), fieldNames: newFieldNames })
-  //   assert.equal(
-  //     comparableArray(Object.keys(wrapper.props().forms['example-form'].fields)),
-  //     comparableArray(newFieldNames)
-  //   )
-  // })
-
-  // it ('prepopulates if given data', function() {
-  //   const prepopulateData = {
-  //     'muffinflavor': 'banana nut',
-  //     'pet': 'Doodle',
-  //     'stuff': {
-  //       'id': '123-id'
-  //     }
-  //   }
-  //   const wrapper = generateComponent(store)
-  //   wrapper.setProps({ ...wrapper.props(), prepopulateData })
-  //   wrapper.update()
-  //   wrapper.dive().instance().populateFields(wrapper.props(), prepopulateData)
-
-  //   const thisFormStore = wrapper.props().forms['example-form'].fields
-  //   assert.equal(
-  //     thisFormStore.muffinflavor.value,
-  //     prepopulateData.muffinflavor
-  //   )
-  //   assert.equal(
-  //     thisFormStore.pet.value,
-  //     prepopulateData.pet
-  //   )
-  //   assert.equal(
-  //     thisFormStore.id.value,
-  //     prepopulateData.stuff.id
-  //   )
-  // })
-
-  it ('triggers multiple checkFields if it receives anything in awaitingCheck', function() {
-    const wrapper = generateComponent(store)
-    const newForms = {
+    const updatedProps = { ...initialProps, forms: {
       'example-form': {
-        fields: { blep: '' },
-        awaitingCheck: [{ formId: 'example-form', fieldNames: 'blep' }]
+        fields: {},
+        awaitingCheck: [{ formId: 'example-form', fieldNames: ['name', 'id'] }]
       }
-    }
-    wrapper.setProps({ ...wrapper.props(), forms: newForms })
-    wrapper.update()
-    const thisFormStore = wrapper.props().forms['example-form']
-    // assert.deepEqual(thisFormStore.awaitingCheck, newForms['example-form'].awaitingCheck)
+    }}
 
+    wrapper.setProps(updatedProps)
+    wrapper.update()
+
+    assert.equal(receivedPropsSpy.calledOnce, true)
+    assert.equal(checkFieldSpy.called, true)
   })
 })

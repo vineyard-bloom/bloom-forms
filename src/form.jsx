@@ -29,7 +29,6 @@ export class Form extends React.Component {
 
   static propTypes = {
     addFormError: PropTypes.func,
-    ignoreFocusOnFirstElement: PropTypes.bool,
     clearForm: PropTypes.func,
     createForm: PropTypes.func,
     deleteFormError: PropTypes.func,
@@ -44,6 +43,7 @@ export class Form extends React.Component {
     ).isRequired,
     forms: PropTypes.object,
     id: PropTypes.string.isRequired,
+    ignoreFocusOnFirstElement: PropTypes.bool,
     prepopulateData: PropTypes.object,
     preserveAfterUnmount: PropTypes.bool,
     submitForm: PropTypes.func.isRequired,
@@ -51,38 +51,25 @@ export class Form extends React.Component {
     validationHelp: PropTypes.shape({
       errorLanguage: PropTypes.object,
       dictionary: PropTypes.object
-    })
-  }; // make sure only those that don't come from redux are declared for better error logging to end user
+    }),
+    wrapInFormElement: PropTypes.bool
+  }; // make sure only those that don't come from redux are required for better error logging to end user
 
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      checkForVisibleFields: (formId = ownProps.id) => {
-        dispatch(checkForVisibleFields(formId))
-      },
-      updateVisibleFieldsArr: (formId = ownProps.id, fieldNames) => {
-        dispatch(updateVisibleFieldsArr(formId, fieldNames))
-      },
-      onFocus: (formId = ownProps.id, fieldName) => {
-        dispatch(onFocus(formId, fieldName))
-      },
-      updateDirtyFieldsArr: (formId = ownProps.id, fieldName) => {
-        dispatch(updateDirtyFieldsArr(formId, fieldName))
-      },
-      addFormError: (formId = ownProps.id, fieldName, errorMessage) => {
-        dispatch(addFormError(formId, fieldName, errorMessage))
-      },
-      checkCompleted: (formId = ownProps.id) => {
-        dispatch(checkCompleted(formId))
-      },
-      clearForm: (formId = ownProps.id) => {
-        dispatch(clearForm(formId))
-      },
-      createForm: (formId = ownProps.id, formObject) => {
-        dispatch(createForm(formId, formObject))
-      },
-      deleteFormError: (formId = ownProps.id, fieldName) => {
-        dispatch(deleteFormError(formId, fieldName))
-      },
+      addFormError: (formId = ownProps.id, fieldName, errorMessage) =>
+        dispatch(addFormError(formId, fieldName, errorMessage)),
+      checkCompleted: (formId = ownProps.id) =>
+        dispatch(checkCompleted(formId)),
+      checkForVisibleFields: (formId = ownProps.id) =>
+        dispatch(checkForVisibleFields(formId)),
+      clearForm: (formId = ownProps.id) => dispatch(clearForm(formId)),
+      createForm: (formId = ownProps.id, formObject) =>
+        dispatch(createForm(formId, formObject)),
+      deleteFormError: (formId = ownProps.id, fieldName) =>
+        dispatch(deleteFormError(formId, fieldName)),
+      onFocus: (formId = ownProps.id, fieldName) =>
+        dispatch(onFocus(formId, fieldName)),
       updateForm: (
         e = null,
         formId = ownProps.id,
@@ -100,8 +87,14 @@ export class Form extends React.Component {
             document.getElementById(fieldName) ||
             [...document.getElementsByName(fieldName)][0]
           ).getAttribute('type')
-        dispatch(updateForm(e, formId, fieldName, optValue, type, optMultiple))
-      }
+        return dispatch(
+          updateForm(e, formId, fieldName, optValue, type, optMultiple)
+        )
+      },
+      updateDirtyFieldsArr: (formId = ownProps.id, fieldName) =>
+        dispatch(updateDirtyFieldsArr(formId, fieldName)),
+      updateVisibleFieldsArr: (formId = ownProps.id, fieldNames) =>
+        dispatch(updateVisibleFieldsArr(formId, fieldNames))
     }
   }
 
@@ -112,6 +105,7 @@ export class Form extends React.Component {
   }
 
   checkField = async (e, elem = null) => {
+    // make sure we have all the values we need
     const field = elem && elem.getAttribute ? elem : e.target
     const fieldName = field.getAttribute('name')
     const fieldValue = field.value.trim()
@@ -119,6 +113,7 @@ export class Form extends React.Component {
       field.getAttribute('aria-required') || field.getAttribute('required')
 
     try {
+      // use the validator to find the status of all fields
       const fieldStatus = await validator(
         {
           [fieldName]: {
@@ -132,25 +127,36 @@ export class Form extends React.Component {
           : null,
         this.props.validationHelp ? this.props.validationHelp.dictionary : null
       )
-      const allowNull = !isRequired || (fieldValue && isRequired)
+      const allowDeletion = !isRequired || (fieldValue && isRequired)
 
-      if (fieldStatus.isValid && allowNull) {
-        this.props.deleteFormError(this.props.id, fieldName)
-        return Promise.resolve(true)
+      if (fieldStatus.isValid && allowDeletion) {
+        if (this.props.deleteFormError) {
+          // for testing inner component without being connected to redux
+          this.props.deleteFormError(this.props.id, fieldName)
+          return Promise.resolve(true)
+        } else {
+          return Promise.resolve(true)
+        }
       } else {
-        this.props.addFormError(
-          this.props.id,
-          fieldName,
-          fieldStatus.warnings[fieldName]
-        )
-        return Promise.resolve(false)
+        if (this.props.addFormError) {
+          // for testing inner component without being connected to redux
+          this.props.addFormError(
+            this.props.id,
+            fieldName,
+            fieldStatus.warnings[fieldName]
+          )
+          return Promise.resolve(false)
+        } else {
+          return Promise.resolve(true)
+        }
       }
     } catch (err) {
       throw new Error(err)
     }
   };
 
-  processFormDataForSubmit = thisForm => {
+  processFormDataForSubmit = originalForm => {
+    const thisForm = { ...originalForm }
     for (let field in thisForm) {
       if (
         thisForm[field].value ||
@@ -210,9 +216,10 @@ export class Form extends React.Component {
     const checkArr = []
     for (let field in thisForm) {
       if (
-        field != 'isValid' &&
-        ((thisForm[field].value || thisForm[field].value === '') &&
-          !thisForm[field].value.type) /* don't check files */ &&
+        (thisForm[field].value ||
+          thisForm[field].value === '' ||
+          thisForm[field].value === false) &&
+        !thisForm[field].value.type /* don't check files */ &&
         document.getElementById(field)
       ) {
         // validate each field in case onBlur on that field never triggered
@@ -221,17 +228,15 @@ export class Form extends React.Component {
     }
 
     Promise.all(checkArr)
-      .then(() => {
-        if (thisForm && this.props.forms[this.props.id].isValid) {
+      .then(isValidValues => {
+        if ((isValidValues || []).reduce((a, b) => a && b)) {
           const successCallback = () => {
             this.setState({
               processingRequest: false
             })
           }
 
-          const failCallback = err => {
-            // let message = err.response ? err.response.data.error.message : err
-            console.log({ ...err })
+          const failCallback = () => {
             this.setState({
               processingRequest: false
             })
@@ -348,16 +353,18 @@ export class Form extends React.Component {
       }
     }
 
-    props.createForm(props.id, formData)
-  };
-
-  componentWillUnmount = () => {
-    if (!this.props.preserveAfterUnmount) {
-      this.props.clearForm()
+    if (props.createForm) {
+      props.createForm(props.id, formData)
     }
   };
 
-  componentDidMount = () => {
+  componentWillUnmount() {
+    if (!this.props.preserveAfterUnmount) {
+      this.props.clearForm()
+    }
+  }
+
+  componentDidMount() {
     if (this.props.prepopulateData) {
       this.populateFields(this.props, this.props.prepopulateData)
     } else {
@@ -371,16 +378,16 @@ export class Form extends React.Component {
     this.getVisibleInputs(this.props.id)
 
     if (this.props.submitRoute) {
-      console.log(
+      console.error(
         `%c You're using "submitRoute" in form ${
           this.props.id
         }, which comes from a pre-release version of Bloom Forms. Please use "submitForm".`,
         'color: red'
       )
     }
-  };
+  }
 
-  componentWillReceiveProps = newProps => {
+  componentWillReceiveProps(newProps) {
     if (
       newProps.prepopulateData &&
       (!this.props.prepopulateData ||
@@ -394,18 +401,26 @@ export class Form extends React.Component {
       this.populateFields(newProps, newProps.prepopulateData)
     }
 
-    if (newProps.forms[newProps.id].checkForVisibleFields) {
+    if (
+      newProps.forms &&
+      newProps.forms[newProps.id] &&
+      newProps.forms[newProps.id].checkForVisibleInputs &&
+      newProps.forms[newProps.id].checkForVisibleFields
+    ) {
       this.getVisibleInputs(newProps.id)
     }
 
     if (
+      newProps.forms &&
+      newProps.forms[newProps.id] &&
       newProps.fieldNames.length !=
-      Object.keys(newProps.forms[newProps.id].fields).length
+        Object.keys(newProps.forms[newProps.id].fields).length
     ) {
       this.populateFields(newProps, null, newProps.forms[newProps.id].fields)
     }
 
     if (
+      newProps.forms &&
       newProps.forms[newProps.id] &&
       newProps.forms[newProps.id].awaitingCheck &&
       newProps.forms[newProps.id].awaitingCheck.length
@@ -416,20 +431,22 @@ export class Form extends React.Component {
           this.checkField(null, elem)
         }
       })
-      this.props.checkCompleted(newProps.id)
+      if (this.props.checkCompleted) {
+        // for testing inner component without being connected to redux
+        this.props.checkCompleted(newProps.id)
+      }
     }
-  };
+  }
 
   render() {
-    let { submitForm, prepopulateData, ...props } = this.props
+    let { forms, submitForm, prepopulateData, ...props } = this.props
     // make sure this works if the form has one child or many
     let children = props.children
       ? Array.isArray(this.props.children)
         ? this.props.children
         : [this.props.children]
       : []
-    let thisForm =
-      props.forms && props.forms[props.id] ? props.forms[props.id] : null
+    let thisForm = forms && forms[props.id] ? forms[props.id] : null
     // clone the children to pass in custom props related to entire form
     let formChildren = children.length
       ? React.Children.map(children, child => {
@@ -454,7 +471,15 @@ export class Form extends React.Component {
         })
       : children
 
-    return <div>{formChildren}</div>
+    if (props.wrapInFormElement) {
+      return (
+        <form id={props.id} className={props.className} noValidate>
+          {formChildren}
+        </form>
+      )
+    } else {
+      return <React.Fragment>{formChildren}</React.Fragment>
+    }
   }
 }
 

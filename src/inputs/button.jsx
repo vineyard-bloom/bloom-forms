@@ -11,7 +11,6 @@ const Button = props => {
     contents,
     disabled,
     id,
-    key,
     loading,
     loadingElement,
     onClick
@@ -22,11 +21,6 @@ const Button = props => {
       : `o-flex-container Btn ${className || ''}${
           loading ? ' is-loading' : ''
         }`
-
-  const attr = {}
-  if (key) {
-    attr.key = key
-  }
 
   return (
     <button
@@ -40,10 +34,10 @@ const Button = props => {
       }
       id={id}
       disabled={disabled || loading}
-      {...attr}
     >
       <span className='o-flex-container u-align-center Btn-contents'>
-        {loading && (loadingElement || <Loading />)}
+        {loading &&
+          (loadingElement || <Loading key={`button-${id}-loading`} />)}
         {contents}
       </span>
     </button>
@@ -55,7 +49,6 @@ Button.propTypes = {
   contents: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
     .isRequired,
   id: PropTypes.string.isRequired,
-  key: PropTypes.string,
   loading: PropTypes.bool,
   loadingElement: PropTypes.element,
   onClick: PropTypes.func.isRequired
