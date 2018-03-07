@@ -18,6 +18,7 @@ forms: {
       fieldName2: { value: '', error: '' },
     },
     isValid: true/false,
+    processingRequest: true/false,
     touchedFields: [ 'fieldName1', 'fieldName2' ],
     visibleFields: [ 'fieldName1', 'fieldName2' ]
   }
@@ -55,6 +56,9 @@ forms: {
 
 - `updateForm` ** :
   Takes in several parameters, determining if the field should be updated based on event target or manual value passed in. Also triggers special updates if the value is for a file. It's not recommended to call this method via Redux but to the use the wrapper version from `<Form/>` already passed into your child components.
+
+- `updateProcessingRequest` ** :
+  Takes in a boolean for whether the form is currently in a submitForm process.
 
 - `updateVisibleFieldsArr` ** :
   Used by `checkforVisibleFields` above. Not recommended to call externally.
