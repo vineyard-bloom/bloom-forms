@@ -99,6 +99,14 @@ const formReducer = (state = {}, action) =>
         break
       }
 
+      case 'UPDATE_PROCESSING_REQUEST': {
+        if (!draftForms[action.formId]) {
+          draftForms[action.formId] = {}
+        }
+        draftForms[action.formId].processingRequest = action.processing
+        break
+      }
+
       case 'TRIGGER_MULTIPLE_CHECK': {
         let formId = action.formId
         let fieldNames = action.fieldNames || []

@@ -23,6 +23,13 @@ export function checkForVisibleFields(formId) {
   }
 }
 
+export function updateProcessingRequest(processing) {
+  return {
+    type: 'UPDATE_PROCESSING_REQUEST',
+    processing
+  }
+}
+
 export function checkMultipleFields(formId, fieldNames) {
   return {
     type: 'TRIGGER_MULTIPLE_CHECK',

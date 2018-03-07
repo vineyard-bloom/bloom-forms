@@ -13,7 +13,8 @@ import {
   updateDirtyFieldsArr,
   updateVisibleFieldsArr,
   checkForVisibleFields,
-  updateForm
+  updateForm,
+  updateProcessingRequest
 } from './formActions'
 
 import './styles/form.scss'
@@ -57,6 +58,8 @@ export class Form extends React.Component {
 
   static mapDispatchToProps(dispatch, ownProps) {
     return {
+      updateProcessingRequest: processing =>
+        dispatch(updateProcessingRequest(processing)),
       addFormError: (formId = ownProps.id, fieldName, errorMessage) =>
         dispatch(addFormError(formId, fieldName, errorMessage)),
       checkCompleted: (formId = ownProps.id) =>
@@ -199,6 +202,7 @@ export class Form extends React.Component {
   submitForm = async e => {
     e.preventDefault()
 
+    this.props.updateProcessingRequest(true)
     this.setState({
       attemptedSubmit: true,
       processingRequest: true
@@ -235,12 +239,14 @@ export class Form extends React.Component {
       .then(isValidValues => {
         if ((isValidValues || []).reduce((a, b) => a && b)) {
           const successCallback = () => {
+            this.props.updateProcessingRequest(false)
             this.setState({
               processingRequest: false
             })
           }
 
           const failCallback = () => {
+            this.props.updateProcessingRequest(false)
             this.setState({
               processingRequest: false
             })
@@ -254,6 +260,7 @@ export class Form extends React.Component {
         } else {
           delete thisForm.isValid
 
+          this.props.updateProcessingRequest(false)
           this.setState({
             processingRequest: false
           })
