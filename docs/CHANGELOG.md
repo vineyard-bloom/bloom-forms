@@ -1,6 +1,6 @@
 # CHANGELOG
 
-### Tues March 7, 2018 -- 1.3.0 publish
+### Tues March 7, 2018 -- 1.3.0 & 1.3.1 publish
 - add processingRequest to redux so that it is easier to access.
 
 ### Tues March 6, 2018 -- 1.2.1 publish
