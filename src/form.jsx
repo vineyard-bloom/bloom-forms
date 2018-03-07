@@ -58,8 +58,8 @@ export class Form extends React.Component {
 
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      updateProcessingRequest: processing =>
-        dispatch(updateProcessingRequest(processing)),
+      updateProcessingRequest: (processing, formId) =>
+        dispatch(updateProcessingRequest(processing, formId)),
       addFormError: (formId = ownProps.id, fieldName, errorMessage) =>
         dispatch(addFormError(formId, fieldName, errorMessage)),
       checkCompleted: (formId = ownProps.id) =>
@@ -90,7 +90,14 @@ export class Form extends React.Component {
             document.getElementById(fieldName) ||
             [...document.getElementsByName(fieldName)][0]
           ).getAttribute('type')
-        if (ownProps.fieldNames.indexOf(fieldName) < 0) {
+
+        const fields = ownProps.fieldNames.map(field => {
+          if (typeof field === 'object') {
+            return field.name
+          } else return field
+        })
+
+        if (fields.indexOf(fieldName) < 0) {
           return console.error(
             `Field Name ${fieldName} does not exist on ${ownProps.id}!`
           )
@@ -202,7 +209,7 @@ export class Form extends React.Component {
   submitForm = async e => {
     e.preventDefault()
 
-    this.props.updateProcessingRequest(true)
+    this.props.updateProcessingRequest(true, this.props.id)
     this.setState({
       attemptedSubmit: true,
       processingRequest: true
@@ -239,14 +246,14 @@ export class Form extends React.Component {
       .then(isValidValues => {
         if ((isValidValues || []).reduce((a, b) => a && b)) {
           const successCallback = () => {
-            this.props.updateProcessingRequest(false)
+            this.props.updateProcessingRequest(false, this.props.id)
             this.setState({
               processingRequest: false
             })
           }
 
           const failCallback = () => {
-            this.props.updateProcessingRequest(false)
+            this.props.updateProcessingRequest(false, this.props.id)
             this.setState({
               processingRequest: false
             })
@@ -260,7 +267,7 @@ export class Form extends React.Component {
         } else {
           delete thisForm.isValid
 
-          this.props.updateProcessingRequest(false)
+          this.props.updateProcessingRequest(false, this.props.id)
           this.setState({
             processingRequest: false
           })

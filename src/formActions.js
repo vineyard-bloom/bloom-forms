@@ -23,10 +23,11 @@ export function checkForVisibleFields(formId) {
   }
 }
 
-export function updateProcessingRequest(processing) {
+export function updateProcessingRequest(processing, formId) {
   return {
     type: 'UPDATE_PROCESSING_REQUEST',
-    processing
+    processing,
+    formId
   }
 }
 
