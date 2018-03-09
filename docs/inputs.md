@@ -90,6 +90,8 @@ CurrencyInput is a special TextInput that always validates as a number and displ
 ### Optional Props
 - `className`:
   A string for styling the currency input.
+- `containerClass`:
+  A string for styling the entire div around the currency input and its label.
 - `error`:
   A string usually passed in directly from `formData` that notes an error with that field validation. Generally passed in like `formData.field.error`.
 - `labelClass`:
