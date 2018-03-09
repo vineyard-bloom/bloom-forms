@@ -51,6 +51,16 @@ class FileInput extends React.Component {
     }
   };
 
+  onKeyDown = evt => {
+    const e = evt || window.event
+    const keyCode = e.which || e.keyCode
+
+    // 13 is 'enter' key
+    if (keyCode === 13) {
+      document.getElementById(this.props.id).click()
+    }
+  };
+
   triggerInput = e => {
     const input = document.getElementById(this.props.id)
     if (e.target.getAttribute('type') === 'file') {
@@ -64,11 +74,11 @@ class FileInput extends React.Component {
     e.persist()
     const fileElem = document.getElementById(this.props.id)
     let fileNames = [...fileElem.files].map(file => file.name)
-    console.log('this.props.multiple', this.props.multiple)
-    console.log(
-      'this.state.fileText === fileNames',
-      this.state.fileText === fileNames
-    )
+    // console.log('this.props.multiple', this.props.multiple)
+    // console.log(
+    //   'this.state.fileText === fileNames',
+    //   this.state.fileText === fileNames
+    // )
 
     if (!this.props.multiple && this.state.fileText === fileNames) {
       return
@@ -134,6 +144,7 @@ class FileInput extends React.Component {
         onClick={this.triggerInput}
         id={`${name}-label`}
         onFocus={this.onFocusIn}
+        onKeyDown={this.onKeyDown}
         onBlur={this.onFocusOut}
       >
         <span className='Input--file-label-text'>
