@@ -58,7 +58,8 @@ class SelectInput extends React.Component {
     if (document.getElementById(typeaheadId) && allowFocus) {
       document.getElementById(typeaheadId).focus()
       this.setState({
-        initialFocus: true
+        initialFocus: true,
+        showList: true
       })
     }
   };
