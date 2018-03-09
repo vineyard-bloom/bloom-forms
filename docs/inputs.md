@@ -52,6 +52,8 @@
 ### Optional Props
 - `className`:
   A string for styling the checkbox input.
+- `containerClass`:
+  A string for styling the entire div around the input and its label.
 - `errors`:
   A string for displaying errors. Usually populated like `formData.field.error`.
 - `labelClass`:
@@ -91,7 +93,7 @@ CurrencyInput is a special TextInput that always validates as a number and displ
 - `className`:
   A string for styling the currency input.
 - `containerClass`:
-  A string for styling the entire div around the currency input and its label.
+  A string for styling the entire div around the input and its label.
 - `error`:
   A string usually passed in directly from `formData` that notes an error with that field validation. Generally passed in like `formData.field.error`.
 - `labelClass`:
@@ -124,6 +126,8 @@ A file input that supports drag and drop and multiple files. Forked and reworked
 ### Optional Props
 - `accept`:
   A string limiting the file types accepted. Native HTML5 'accept' attribute on input type='file'.
+- `containerClass`:
+  A string for styling the entire div around the input and its label.
 - `imageStyle`:
   An object with CSS for styling the preview images of any uploaded files. Will fall back to default styles if not defined.
 - `loadingElement`:
@@ -154,7 +158,10 @@ Inline file input that does not support drag and drop.
 ### Optional Props
 - `accept`:
   A string limiting the file types accepted. Native HTML5 'accept' attribute on input type='file'.
+- `containerClass`:
+  A string for styling the entire div around the input and its label.
 - `error`:
+  A string for displaying errors
 - `multiple`:
   A boolean allowing multiple files to be uploaded simultaneously.
 - `onBlur`:
@@ -255,6 +262,8 @@ TextArea is a multi-line text input for large amounts of text. Uses HTML5 `<text
 ### Optional Props
 - `className`:
   A string that styles the input box directly.
+- `containerClass`:
+  A string for styling the entire div around the input and its label.
 - `error`:
   A string usually passed in directly from `formData` that notes an error with that field validation. Generally passed in like `formData.field.error`.
 - `labelClass`:
