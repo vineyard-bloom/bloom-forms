@@ -45,9 +45,10 @@ class CurrencyInput extends React.Component {
   }
 
   render() {
-    let {
+    const {
       className,
       coinIcon,
+      containerClass,
       currency,
       disabled,
       error,
@@ -65,11 +66,11 @@ class CurrencyInput extends React.Component {
       value,
       ...props
     } = this.props
-    let labelTextClasses = `Input-label-text ${labelClass ? labelClass : ''} ${
-      showLabel ? '' : 'u-sr-only'
-    }`
+    const labelTextClasses = `Input-label-text ${
+      labelClass ? labelClass : ''
+    } ${showLabel ? '' : 'u-sr-only'}`
 
-    let attr = {}
+    const attr = {}
 
     if (props.required) {
       attr['aria-required'] = true
@@ -94,7 +95,7 @@ class CurrencyInput extends React.Component {
 
     return (
       <label
-        className='Input-label'
+        className={`Input-label ${containerClass || ''}`}
         id={`${id || name}-label`}
         onFocus={this.onFocusIn}
         onBlur={this.onFocusOut}
@@ -147,6 +148,7 @@ CurrencyInput.defaultProps = {
 CurrencyInput.propTypes = {
   className: PropTypes.string,
   coinIcon: PropTypes.element,
+  containerClass: PropTypes.string,
   currency: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   disabled: PropTypes.bool,
   error: PropTypes.string,
