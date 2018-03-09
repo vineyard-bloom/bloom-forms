@@ -124,6 +124,7 @@ class TextArea extends React.Component {
 
 TextArea.propTypes = {
   className: PropTypes.string,
+  containerClass: PropTypes.string,
   error: PropTypes.string,
   formData: PropTypes.object,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,

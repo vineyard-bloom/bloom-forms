@@ -134,6 +134,7 @@ class TextInput extends React.Component {
 
 TextInput.propTypes = {
   className: PropTypes.string,
+  containerClass: PropTypes.string,
   disabled: PropTypes.bool,
   error: PropTypes.string,
   formData: PropTypes.object,

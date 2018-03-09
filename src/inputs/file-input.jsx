@@ -13,6 +13,7 @@ class FileInput extends React.Component {
 
   static propTypes = {
     accept: PropTypes.string /* file type */,
+    containerClass: PropTypes.string,
     error: PropTypes.string,
     formId: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -116,6 +117,7 @@ class FileInput extends React.Component {
   render = () => {
     const {
       accept,
+      containerClass,
       error,
       id,
       label,
@@ -140,7 +142,7 @@ class FileInput extends React.Component {
     return (
       <label
         htmlFor={this.props.name}
-        className='Input-label Input--file'
+        className={`Input-label Input--file ${containerClass || ''}`}
         onClick={this.triggerInput}
         id={`${name}-label`}
         onFocus={this.onFocusIn}

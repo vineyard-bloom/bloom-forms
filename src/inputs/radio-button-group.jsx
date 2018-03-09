@@ -46,7 +46,7 @@ class RadioButtonGroup extends React.Component {
   }
 
   render() {
-    let {
+    const {
       className,
       containerClass,
       error,

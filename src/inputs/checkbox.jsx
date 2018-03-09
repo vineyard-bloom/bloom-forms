@@ -45,9 +45,10 @@ class Checkbox extends React.Component {
   }
 
   render() {
-    let {
+    const {
       checked,
       className,
+      containerClass,
       error,
       formData,
       name,
@@ -63,8 +64,8 @@ class Checkbox extends React.Component {
     let labelTextClasses = `Input-label-text ${labelClass ? labelClass : ''} ${
       showLabel ? '' : ' u-sr-only'
     }`
-    let attr = {}
 
+    const attr = {}
     if (props.required) {
       attr['aria-required'] = true
       attr.required = true
@@ -100,7 +101,9 @@ class Checkbox extends React.Component {
     return (
       <label
         style={{ paddingBottom: '2px' }}
-        className='Input-label Input-label--inline Input--checkbox'
+        className={`Input-label Input-label--inline Input--checkbox ${
+          containerClass ? containerClass : ''
+        }`}
         id={`${name}-label`}
         onFocus={this.onFocusIn}
         onBlur={this.onFocusOut}
@@ -134,6 +137,7 @@ class Checkbox extends React.Component {
 Checkbox.propTypes = {
   checked: PropTypes.bool,
   className: PropTypes.string,
+  containerClass: PropTypes.string,
   error: PropTypes.string,
   formData: PropTypes.object,
   name: PropTypes.string.isRequired,

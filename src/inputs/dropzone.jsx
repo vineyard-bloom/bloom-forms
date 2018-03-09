@@ -125,6 +125,7 @@ class MyDropzone extends React.Component {
   render() {
     const {
       accept,
+      containerClass,
       error,
       files,
       formData,
@@ -217,7 +218,7 @@ class MyDropzone extends React.Component {
 
     return (
       <label
-        className='Input-label DropZone'
+        className={`Input-label DropZone ${containerClass || ''}`}
         id={`${this.props.name}-wrapper`}
         onFocus={this.onFocusIn}
         onBlur={this.onFocusOut}
@@ -277,6 +278,7 @@ class MyDropzone extends React.Component {
 
 MyDropzone.propTypes = {
   accept: PropTypes.string,
+  containerClass: PropTypes.string,
   files: PropTypes.arrayOf(PropTypes.object),
   imageStyle: PropTypes.object,
   label: PropTypes.string.isRequired,
