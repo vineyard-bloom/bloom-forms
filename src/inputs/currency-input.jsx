@@ -101,10 +101,10 @@ class CurrencyInput extends React.Component {
         onBlur={this.onFocusOut}
       >
         <span className={labelTextClasses}>
-          {label}
+          <React.Fragment>{label}</React.Fragment>
           {attr.required && (
-            <span>
-              {'\u00A0'}*<span className='u-sr-only'> required field</span>
+            <span key='required-helper-text'>
+              {'\u00A0'}*<span className='u-sr-only'> required field </span>
             </span>
           )}
         </span>
