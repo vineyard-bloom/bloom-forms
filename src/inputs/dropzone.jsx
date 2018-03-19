@@ -136,6 +136,7 @@ class MyDropzone extends React.Component {
       name,
       required,
       suppressErrors,
+      validateAs,
       value
     } = this.props
     let requiredString = ''
@@ -244,7 +245,7 @@ class MyDropzone extends React.Component {
                 </p>
                 {accept && (
                   <p className='u-text-center'>
-                    Only ${accept} type files accepted.
+                    Only {accept} type files accepted.
                   </p>
                 )}
               </span>
@@ -253,6 +254,7 @@ class MyDropzone extends React.Component {
           <input
             type='file'
             className='u-sr-only'
+            data-validate={validateAs}
             id={name}
             onChange={this.onDrop}
             multiple={multiple}
@@ -287,7 +289,8 @@ MyDropzone.propTypes = {
   onFocus: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
-  suppressErrors: PropTypes.bool
+  suppressErrors: PropTypes.bool,
+  validateAs: PropTypes.string
 }
 
 MyDropzone.defaultProps = {

@@ -44,6 +44,10 @@ SELECT INPUT
       color: $dark-gray;
     }
 
+    &:focus {
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+
     &.is-open {
       &::after {
         transform: rotate(180deg);

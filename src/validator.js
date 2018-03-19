@@ -51,7 +51,8 @@ export async function validatorAggregator(
             validateAs,
             thisField.name,
             dict,
-            errorLanguage
+            errorLanguage,
+            true
           )
         }
       } else {
@@ -76,7 +77,8 @@ const validate = async (
   validateAs,
   fieldName,
   dict,
-  errorLanguage
+  errorLanguage,
+  multiple = false
 ) => {
   if (!dict[validateAs]) {
     throw new Error(
@@ -86,7 +88,9 @@ const validate = async (
 
   try {
     let error = await dict[validateAs](testData, fieldName, errorLanguage)
-    prevStatus.warnings[fieldName] = error
+    prevStatus.warnings[fieldName] = multiple
+      ? error || prevStatus.warnings[fieldName]
+      : error
 
     return { ...prevStatus, isValid: prevStatus.isValid && !error }
   } catch (err) {

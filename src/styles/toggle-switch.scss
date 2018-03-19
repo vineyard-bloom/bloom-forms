@@ -9,18 +9,21 @@ aka a checkbox that looks like a switch
 $active-color: $green;
 $disabled-color: #ddd;
 $toggle-height: 25px;
+$switch-height: calc(#{$toggle-height} + 4px);
 
 .ToggleSwitch {
   align-items: center;
+  box-sizing: border-box;
   cursor: pointer;
   display: inline-flex;
   font-weight: 400;
+  height: $switch-height;
   outline: none;
   position: relative;
   user-select: none;
 
   & > div {
-    height: $toggle-height;
+    height: $switch-height;
   }
 
   &.disabled {
@@ -59,9 +62,10 @@ $toggle-height: 25px;
     background-color: $disabled-color;
     border-radius: 50px;
     box-shadow: inset 0 0 5px rgba(darken($disabled-color, 15%), 0.4);
+    box-sizing: border-box;
     display: inline-flex;
     font-size: 0.8em;
-    height: calc(#{$toggle-height} + 2px);
+    height: $switch-height;
     justify-content: flex-end;
     margin-left: 5px;
     padding: 2px;
@@ -80,8 +84,8 @@ $toggle-height: 25px;
     box-shadow: 2px 2px 5px 0 rgba($med-gray, 0.4);
     display: inline-block;
     height: $toggle-height;
-    margin-left: calc(#{$toggle-height} * -2.5);
-    margin-top: 3px;
+    margin-left: calc(#{$toggle-height} * -2.4);
+    margin-top: 2px;
     position: absolute;
     transition: margin ease 0.3s;
     width: $toggle-height;

@@ -41,25 +41,36 @@ class SelectInput extends React.Component {
   };
 
   selectOpt = val => {
-    this.props.onChange(this.props.formId, this.props.name, val)
+    this.focusOnTypeAhead(null, true, false)
     this.setState({
+      focusedOption: null,
       hasUsedPresentationElements: true,
       showList: false,
       sortBy: null,
       sortedOpts: this.props.options
     })
-    this.focusOnTypeAhead(null, true)
+    this.props.onChange(this.props.formId, this.props.name, val)
   };
 
-  focusOnTypeAhead = (e, override = false) => {
+  focusOnTypeAhead = (e, override = false, showList = true) => {
     const typeaheadId = `${this.props.name}-placeholder`
     const allowFocus = !this.state.initialFocus || override
 
+    if (!this.state.initialFocus) {
+      this.onFocusIn(e)
+    }
+
+    if (e) {
+      e.preventDefault()
+    }
+
     if (document.getElementById(typeaheadId) && allowFocus) {
-      document.getElementById(typeaheadId).focus()
+      if (document.activeElement && document.activeElement.id !== typeaheadId) {
+        document.getElementById(typeaheadId).focus()
+      }
       this.setState({
         initialFocus: true,
-        showList: true
+        showList: showList
       })
     }
   };
@@ -98,8 +109,11 @@ class SelectInput extends React.Component {
     // close if esc key
     if (key === 27) {
       const typeaheadId = `${this.props.name}-placeholder`
-      document.getElementById(typeaheadId).focus()
+      if (document.getElementById(typeaheadId)) {
+        document.getElementById(typeaheadId).focus()
+      }
       this.setState({
+        focusedOption: null,
         showList: false,
         sortBy: null,
         sortedOpts: this.props.options
@@ -133,46 +147,62 @@ class SelectInput extends React.Component {
 
       if (key === 40) {
         // arrow down, open and go to next opt
+        const newDownFocus =
+          nextValue ||
+          (options[0] && options[0].value ? options[0].value : options[0])
         this.setState(
           {
-            focusedOption: nextValue,
+            focusedOption: newDownFocus,
             hasUsedPresentationElements: true,
             showList: true
           },
           () => {
             const elem = document.getElementById(
-              `input-${this.props.name}-placeholder-${nextValue}`
+              `input-${this.props.name}-placeholder-${(
+                newDownFocus || ''
+              ).replace(/\s/g, '-')}`
             )
             if (elem) {
               elem.focus()
             } else {
-              console.log(
+              console.error(
                 'cannot find option with id ' +
-                  `input-${this.props.name}-placeholder-${nextValue}`
+                  `input-${this.props.name}-placeholder-${(
+                    newDownFocus || ''
+                  ).replace(/\s/g, '-')}`
               )
             }
           }
         )
       } else if (key === 38) {
         // arrow up, go to prev opt
+        const newUpFocus =
+          prevValue ||
+          (options[options.length - 1] && options[options.length - 1].value
+            ? options[options.length - 1].value
+            : options[options.length - 1])
         this.setState(
           {
-            focusedOption: prevValue,
+            focusedOption: newUpFocus,
             hasUsedPresentationElements: true,
             showList: true
           },
           () => {
-            const elem = prevValue
+            const elem = newUpFocus
               ? document.getElementById(
-                  `input-${this.props.name}-placeholder-${prevValue}`
+                  `input-${this.props.name}-placeholder-${(
+                    newUpFocus || ''
+                  ).replace(/\s/g, '-')}`
                 )
               : document.getElementById(`${this.props.name}-placeholder`)
             if (elem) {
               elem.focus()
             } else {
-              console.log(
+              console.error(
                 'cannot find option with id ' +
-                  `input-${this.props.name}-placeholder-${prevValue}`
+                  `input-${this.props.name}-placeholder-${(
+                    newUpFocus || ''
+                  ).replace(/\s/g, '-')}`
               )
             }
           }
@@ -181,8 +211,13 @@ class SelectInput extends React.Component {
     }
   };
 
-  onFocusIn = () => {
+  onFocusIn = e => {
+    if (e) {
+      e.preventDefault()
+    }
+
     this.setState({
+      initialFocus: true,
       focused: true
     })
 
@@ -213,6 +248,7 @@ class SelectInput extends React.Component {
       (e.relatedTarget && !this.isInsideTheSelectPlaceholder(e.relatedTarget))
     ) {
       this.setState({
+        focusedOption: null,
         showList: false
       })
 
@@ -253,9 +289,14 @@ class SelectInput extends React.Component {
 
   toggleList = e => {
     e.preventDefault()
+
+    if (!this.state.initialFocus) {
+      this.onFocusIn(e)
+    }
+
     this.setState({
       hasUsedPresentationElements: true,
-      focusedOpt: null,
+      focusedOption: null,
       noMatches: !this.state.showList ? this.state.noMatches : false,
       showList: !this.state.showList
     })
@@ -284,9 +325,9 @@ class SelectInput extends React.Component {
     const { name } = this.props
     return sortedOpts.map((opt, i) => {
       return opt.label ? (
-        <li key={`${name}-opt-${i}`}>
+        <li key={`${name}-opt-${i}`} role='option'>
           <button
-            id={`input-${name}-placeholder-${opt.value}`}
+            id={`input-${name}-placeholder-${opt.value.replace(/\s/g, '-')}`}
             tabIndex={1}
             onClick={e => {
               e.preventDefault()
@@ -298,9 +339,9 @@ class SelectInput extends React.Component {
           </button>
         </li>
       ) : (
-        <li key={`${name}-opt-${i}`}>
+        <li key={`${name}-opt-${i}`} role='option'>
           <button
-            id={`input-${name}-placeholder-${opt}`}
+            id={`input-${name}-placeholder-${opt.replace(/\s/g, '-')}`}
             tabIndex={1}
             onClick={e => {
               e.preventDefault()
@@ -413,16 +454,10 @@ class SelectInput extends React.Component {
       <div
         className={`Input-label SelectInput ${containerClass || ''}`}
         id={`${name}-placeholder-label`}
-        onBlur={e => this.closeOpts(e)}
-        onFocus={e => this.focusOnTypeAhead(e)}
         aria-labelledby={`${name}-label-text`}
       >
         {labelText}
-        <span
-          onKeyDown={this.onKeyDown}
-          aria-controls={name}
-          className='SelectInput-placeholderWrapper'
-        >
+        <span aria-controls={name} className='SelectInput-placeholderWrapper'>
           {options.length && typeAhead ? (
             <input
               className={`Btn Input-placeholder non-sr-only ${
@@ -446,7 +481,6 @@ class SelectInput extends React.Component {
           ) : (
             <button
               disabled={!options.length}
-              onClick={this.toggleList}
               className={`${
                 !options.length ? 'Btn is-disabled' : 'Btn'
               } Input-placeholder non-sr-only ${
@@ -456,6 +490,9 @@ class SelectInput extends React.Component {
                 value ? `Selected Option: ${displayValue}. ` : ''
               }Press the arrow keys to view and choose Selectable Options.`}
               id={`${name}-placeholder`}
+              onClick={e => {
+                e.preventDefault()
+              }}
             >
               {this.props.placeholder && !value ? (
                 <span className='u-grayed-out'>{this.props.placeholder}</span>
@@ -474,7 +511,8 @@ class SelectInput extends React.Component {
             <ul
               className='SelectInput-opts non-sr-only'
               aria-labelledby={`${name}-label-text`}
-              name={name}
+              aria-expanded={this.state.showList}
+              id={name}
             >
               {placeholderOpts}
             </ul>
@@ -486,6 +524,16 @@ class SelectInput extends React.Component {
     return (
       <div
         onBlur={this.onFocusOut}
+        onFocus={
+          typeAhead
+            ? e => this.focusOnTypeAhead(e, false, !this.state.showList)
+            : !this.state.showList
+              ? this.toggleList
+              : e => {
+                  e.preventDefault()
+                }
+        }
+        onKeyDown={this.onKeyDown}
         id={`${name}-label`}
         className={`SelectInput-wrapper ${containerClass || ''}`}
       >

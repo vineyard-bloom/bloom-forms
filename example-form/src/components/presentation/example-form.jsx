@@ -239,9 +239,10 @@ const ExampleForm = props => {
         }
       />
       <Button
-        onClick={props.submitForm}
-        contents='Submit Button'
         className='Btn AuthForm-submit-button u-justify-center'
+        contents='Submit Button'
+        id='example-form-submit-button'
+        onClick={props.submitForm}
       />
     </form>
   )

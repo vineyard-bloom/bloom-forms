@@ -1,6 +1,6 @@
 {
   "name": "bloom-forms",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "form functionality used in bloom packages",
   "main": "index.js",
   "scripts": {
@@ -8,11 +8,12 @@
     "lint": "./node_modules/.bin/eslint --config ./.eslintrc --fix ./src/* --ext .js,.jsx",
     "prettier": "./node_modules/.bin/prettier --config ./.prettierrc --write './src/**/*.{js,jsx,scss}'",
     "test": "npm run test-redux && npm run test-components && npm run test-validator",
-    "test-components": "npm run test-form && npm run test-inputs",
-    "test-form": "./node_modules/.bin/mocha  --compilers js:babel-core/register tests/helpers/virtual-dom.js tests/formTest.js --require ignore-styles",
-    "test-inputs": "./node_modules/.bin/mocha --compilers js:babel-core/register tests/helpers/virtual-dom.js tests/inputsTest.js  --require ignore-styles",
-    "test-redux": "./node_modules/.bin/mocha tests/reduxTest --compilers js:babel-core/register",
-    "test-validator": "./node_modules/.bin/mocha tests/validatorTest --compilers js:babel-core/register"
+    "test-components": "npm run test-form && npm run test-inputs && npm run test-select",
+    "test-form": "./node_modules/.bin/mocha  --compilers js:babel-core/register tests/helpers/virtual-dom.js tests/form-test.js --require ignore-styles",
+    "test-inputs": "npm run test-select && ./node_modules/.bin/mocha --compilers js:babel-core/register tests/helpers/virtual-dom.js tests/inputs-test.js  --require ignore-styles",
+    "test-redux": "./node_modules/.bin/mocha tests/redux-test --compilers js:babel-core/register",
+    "test-select": "./node_modules/.bin/mocha --compilers js:babel-core/register tests/helpers/virtual-dom.js tests/select-input-test  --require ignore-styles",
+    "test-validator": "./node_modules/.bin/mocha tests/validator-test --compilers js:babel-core/register"
   },
   "repository": {
     "type": "git",
