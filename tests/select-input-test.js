@@ -12,7 +12,8 @@ testConfigure()
 
 const exampleFormData = {
   'select-typeahead': { value: '' },
-  'select-button': { value: '' }
+  'select-button': { value: '' },
+  'select-button-numbers': { value: '' }
 }
 const options = [
   {
@@ -60,17 +61,33 @@ describe('<SelectInput />', () => {
       value={ value }
     />
   )
+  const numberValueInput = (
+    <SelectInput
+      formData={ exampleFormData }
+      formId='example-form'
+      label={ exampleLabel }
+      name='select-button-numbers'
+      onChange={ updateValue }
+      options={ options.map((opt,i) => i+1) }
+      typeAhead={ false }
+      value={ value }
+    />
+  )
 
   // make sure there are separate divs to attach each to
   const root1 = document.createElement('div')
   root1.id = 'root-1'
   const root2 = document.createElement('div')
   root2.id = 'root-2'
+  const root3 = document.createElement('div')
+  root3.id = 'root-3'
   document.getElementById('root').appendChild(root1)
   document.getElementById('root').appendChild(root2)
+  document.getElementById('root').appendChild(root3)
 
   const typeaheadSelectWrapper = Enzyme.mount(typeaheadInput, { attachTo: document.getElementById('root-1') })
   const buttonSelectWrapper = Enzyme.mount(buttonInput, { attachTo: document.getElementById('root-2') })
+  const numberSelectWrapper = Enzyme.mount(numberValueInput, { attachTo: document.getElementById('root-3') })
 
   function resetWrappers() {
     typeaheadSelectWrapper.unmount()
@@ -85,6 +102,7 @@ describe('<SelectInput />', () => {
       assert.ok(document.getElementById('root'))
       assert.ok(document.getElementById('select-typeahead'))
       assert.ok(document.getElementById('select-button'))
+      assert.ok(document.getElementById('select-button-numbers'))
     })
   })
 
@@ -254,6 +272,47 @@ describe('<SelectInput />', () => {
       typeaheadSelectWrapper.simulate('keyDown', { keyCode: 38 })
       typeaheadSelectWrapper.update()
       assert.equal(document.activeElement.id, 'input-select-typeahead-placeholder-c')
+    })
+
+    it ('arrow down when the options are hidden opens the options (button with number values)', () => {
+      resetWrappers()
+
+      // make sure options are visible
+      numberSelectWrapper.simulate('focus')
+      numberSelectWrapper.update()
+      assert.ok(numberSelectWrapper.state().showList)
+
+      // arrow down to first option
+      numberSelectWrapper.simulate('keyDown', { keyCode: 40 })
+      numberSelectWrapper.update()
+      assert.equal(numberSelectWrapper.state().focusedOption, '1')
+
+      // ensure the first option is what we expect
+      const option1 = numberSelectWrapper.find('.SelectInput-opts').childAt(0).find('button')
+      assert.equal(option1.text(), '1')
+
+      // select an option
+      option1.simulate('click')
+      numberSelectWrapper.update()
+      assert.ok(!numberSelectWrapper.state().showList)
+
+      // make sure we're focused on button trigger
+      assert.equal(document.activeElement.id, 'select-button-numbers-placeholder')
+
+      // arrow down and make sure the options open again
+      numberSelectWrapper.simulate('keyDown', { keyCode: 40 })
+      numberSelectWrapper.update()
+      assert.ok(numberSelectWrapper.state().showList)
+    })
+    it ('arrow down when the options are visible goes to the next option (button with number values)', () => {
+      // continue the previous test
+      assert.equal(document.activeElement.id, 'input-select-button-numbers-placeholder-1')
+    })
+    it ('arrow up when the options are visible goes to the prevous option (button with number values)', () => {
+      // continue the previous test
+      numberSelectWrapper.simulate('keyDown', { keyCode: 38 })
+      numberSelectWrapper.update()
+      assert.equal(document.activeElement.id, 'input-select-button-numbers-placeholder-3')
     })
 
     it ('arrow down when the options are hidden opens the options (button)', () => {

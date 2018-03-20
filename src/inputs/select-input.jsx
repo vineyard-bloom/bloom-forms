@@ -147,9 +147,12 @@ class SelectInput extends React.Component {
 
       if (key === 40) {
         // arrow down, open and go to next opt
-        const newDownFocus =
+        const newDownFocus = (
           nextValue ||
-          (options[0] && options[0].value ? options[0].value : options[0])
+          (options[0] && options[0].value
+            ? options[0].value.toString()
+            : options[0])
+        ).toString()
         this.setState(
           {
             focusedOption: newDownFocus,
@@ -176,11 +179,12 @@ class SelectInput extends React.Component {
         )
       } else if (key === 38) {
         // arrow up, go to prev opt
-        const newUpFocus =
+        const newUpFocus = (
           prevValue ||
           (options[options.length - 1] && options[options.length - 1].value
             ? options[options.length - 1].value
             : options[options.length - 1])
+        ).toString()
         this.setState(
           {
             focusedOption: newUpFocus,
