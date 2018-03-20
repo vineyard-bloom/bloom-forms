@@ -2,10 +2,11 @@ import { before, beforeEach, describe, it } from 'mocha'
 import React from 'react'
 import * as assert from 'assert'
 import Enzyme from 'enzyme'
-import sinon from 'sinon'
 
 import testConfigure from './helpers/configure-test'
 import SelectInput from '../src/inputs/select-input.jsx'
+
+// test against values with numbers too
 
 testConfigure()
 

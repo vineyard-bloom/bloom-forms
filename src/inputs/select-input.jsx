@@ -267,7 +267,9 @@ class SelectInput extends React.Component {
         : (e && e.target && e.target.value) || null
 
     const sortValue =
-      value && value.replace(/\s/g, '') && value.replace(/\s/g, '').length
+      value &&
+      value.toString().replace(/\s/g, '') &&
+      value.toString().replace(/\s/g, '').length
         ? value
             .toString()
             .replace(/(Filtering by:\s)/g, '')
@@ -327,7 +329,9 @@ class SelectInput extends React.Component {
       return opt.label ? (
         <li key={`${name}-opt-${i}`} role='option'>
           <button
-            id={`input-${name}-placeholder-${opt.value.replace(/\s/g, '-')}`}
+            id={`input-${name}-placeholder-${opt.value
+              .toString()
+              .replace(/\s/g, '-')}`}
             tabIndex={1}
             onClick={e => {
               e.preventDefault()
@@ -341,7 +345,9 @@ class SelectInput extends React.Component {
       ) : (
         <li key={`${name}-opt-${i}`} role='option'>
           <button
-            id={`input-${name}-placeholder-${opt.replace(/\s/g, '-')}`}
+            id={`input-${name}-placeholder-${opt
+              .toString()
+              .replace(/\s/g, '-')}`}
             tabIndex={1}
             onClick={e => {
               e.preventDefault()
