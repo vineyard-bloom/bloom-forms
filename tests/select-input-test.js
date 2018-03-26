@@ -124,7 +124,7 @@ describe('<SelectInput />', () => {
 
     it ('renders the select with no typeahead if `typeAhead` prop is false', () => {
       const button = buttonSelectWrapper.find('#select-button-placeholder')
-      assert.equal(button.type(), 'button')
+      assert.equal(button.type(), 'span')
     })
   })
 

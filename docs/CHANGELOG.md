@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### Monday March 26, 2018
+- SelectInput non-typeahead button style fix (span is now display:flex inside button, instead of button flexed)
+- onFocus for Select non-typeahead button on Safari fix
+
 ### Monday March 19, 2018 -- 1.3.3 publish
 - SelectInput test fixes
 - virtual-dom helper has root for Enzyme mounting attachment

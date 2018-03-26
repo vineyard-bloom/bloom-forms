@@ -9,6 +9,7 @@ SELECT INPUT
     align-items: center;
     background: $white;
     border: 1px solid $med-gray;
+    box-sizing: border-box;
     display: flex;
     font-size: 1em;
     height: 100%;
@@ -16,16 +17,6 @@ SELECT INPUT
     min-height: 2.5em;
     padding: $pad-mar-small $pad-mar-med;
     width: 100%;
-
-    &.SelectInput-typeahead-helperText {
-      color: $med-gray;
-
-      &:active,
-      &:focus,
-      &:hover {
-        color: $med-gray;
-      }
-    }
 
     &::after {
       border-left: 5px solid transparent;
@@ -35,6 +26,16 @@ SELECT INPUT
       display: inline-block;
       margin-left: 5px;
       transition: 300ms ease;
+    }
+
+    &.SelectInput-typeahead-helperText {
+      color: $med-gray;
+
+      &:active,
+      &:focus,
+      &:hover {
+        color: $med-gray;
+      }
     }
 
     &:active,
@@ -79,6 +80,7 @@ SELECT INPUT
 .SelectInput-opts {
   background-color: $white;
   box-shadow: $box-shadow-no-top;
+  left: 0;
   margin-top: 50px;
   // margin-top: -10px;
   max-height: 200px;

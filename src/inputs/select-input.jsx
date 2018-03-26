@@ -52,6 +52,20 @@ class SelectInput extends React.Component {
     this.props.onChange(this.props.formId, this.props.name, val)
   };
 
+  focusOnPlaceholderButton = e => {
+    if (e) {
+      e.preventDefault()
+    }
+
+    if (!this.state.initialFocus) {
+      this.onFocusIn(e)
+      this.setState({
+        initialFocus: true,
+        showList: true
+      })
+    }
+  };
+
   focusOnTypeAhead = (e, override = false, showList = true) => {
     const typeaheadId = `${this.props.name}-placeholder`
     const allowFocus = !this.state.initialFocus || override
@@ -470,6 +484,12 @@ class SelectInput extends React.Component {
         <span aria-controls={name} className='SelectInput-placeholderWrapper'>
           {options.length && typeAhead ? (
             <input
+              aria-controls={name}
+              aria-label={`${
+                value ? `Selected Option: ${displayValue}` : 'Typeahead'
+              }.\
+                    Type characters to filter your list of Selectable Options, or press the arrow keys to view full list.`}
+              aria-multiline={false}
               className={`Btn Input-placeholder non-sr-only ${
                 this.state.showList ? 'is-open' : ''
               } ${error ? 'Input--invalid' : ''} ${
@@ -477,39 +497,37 @@ class SelectInput extends React.Component {
                   ? 'SelectInput-typeahead-helperText'
                   : ''
               }`}
-              type='text'
-              value={typeAheadDisplay}
               id={`${name}-placeholder`}
               name='autofill-buster'
               onChange={this.sortResults}
               placeholder={this.props.placeholder}
-              aria-label={`${
-                value ? `Selected Option: ${displayValue}` : 'Typeahead'
-              }.\
-                    Type characters to filter your list of Selectable Options, or press the arrow keys to view full list.`}
+              role='searchbox'
+              type='text'
+              value={typeAheadDisplay}
             />
           ) : (
-            <button
-              disabled={!options.length}
+            <span
+              aria-label={`${
+                value ? `Selected Option: ${displayValue}. ` : ''
+              }Press the arrow keys to view and choose Selectable Options.`}
               className={`${
                 !options.length ? 'Btn is-disabled' : 'Btn'
               } Input-placeholder non-sr-only ${
                 this.state.showList ? 'is-open' : ''
               } ${error ? 'Input--invalid' : ''}`}
-              aria-label={`${
-                value ? `Selected Option: ${displayValue}. ` : ''
-              }Press the arrow keys to view and choose Selectable Options.`}
+              disabled={!options.length}
               id={`${name}-placeholder`}
               onClick={e => {
                 e.preventDefault()
               }}
+              tabIndex={0}
             >
               {this.props.placeholder && !value ? (
                 <span className='u-grayed-out'>{this.props.placeholder}</span>
               ) : (
                 displayValue
               )}
-            </button>
+            </span>
           )}
           {err &&
             !this.state.showList &&
@@ -519,10 +537,12 @@ class SelectInput extends React.Component {
             )}
           {this.state.showList && (
             <ul
-              className='SelectInput-opts non-sr-only'
-              aria-labelledby={`${name}-label-text`}
+              className='SelectInput-opts'
+              aria-atomic
               aria-expanded={this.state.showList}
+              aria-labelledby={`${name}-label-text`}
               id={name}
+              role='listbox'
             >
               {placeholderOpts}
             </ul>
@@ -537,11 +557,7 @@ class SelectInput extends React.Component {
         onFocus={
           typeAhead
             ? e => this.focusOnTypeAhead(e, false, !this.state.showList)
-            : !this.state.showList
-              ? this.toggleList
-              : e => {
-                  e.preventDefault()
-                }
+            : e => this.focusOnPlaceholderButton(e)
         }
         onKeyDown={this.onKeyDown}
         id={`${name}-label`}

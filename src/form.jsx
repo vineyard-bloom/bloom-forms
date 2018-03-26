@@ -123,7 +123,8 @@ export class Form extends React.Component {
     // make sure we have all the values we need
     const field = elem && elem.getAttribute ? elem : e.target
     const fieldName = field.getAttribute('name')
-    const fieldValue = field.value.trim()
+    const fieldValue =
+      (field && field.value && field.value.toString().trim()) || ''
     const isRequired =
       field.getAttribute('aria-required') || field.getAttribute('required')
 
