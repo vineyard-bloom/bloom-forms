@@ -11,8 +11,13 @@ class FileInput extends React.Component {
     focused: false
   };
 
+  static defaultProps = {
+    clearable: false
+  };
+
   static propTypes = {
     accept: PropTypes.string /* file type */,
+    clearable: PropTypes.bool,
     containerClass: PropTypes.string,
     error: PropTypes.string,
     formId: PropTypes.string.isRequired,
@@ -71,18 +76,34 @@ class FileInput extends React.Component {
     input.click()
   };
 
+  clearInput = e => {
+    e.preventDefault()
+    document.getElementById(this.props.id || this.props.name).value = ''
+    this.setState(
+      {
+        fileText: ''
+      },
+      () => {
+        if (this.props.onChange) {
+          this.props.onChange(
+            this.props.formId,
+            this.props.name,
+            '',
+            'file',
+            this.props.multiple
+          )
+        }
+      }
+    )
+  };
+
   updateText = e => {
     e.persist()
-    const fileElem = document.getElementById(this.props.id)
+    const fileElem = document.getElementById(this.props.id || this.props.name)
 
     if (!fileElem.files.length) return
 
     let fileNames = [...fileElem.files].map(file => file.name)
-    // console.log('this.props.multiple', this.props.multiple)
-    // console.log(
-    //   'this.state.fileText === fileNames',
-    //   this.state.fileText === fileNames
-    // )
 
     if (!this.props.multiple && this.state.fileText === fileNames) {
       return
@@ -120,6 +141,7 @@ class FileInput extends React.Component {
   render = () => {
     const {
       accept,
+      clearable,
       containerClass,
       error,
       id,
@@ -142,11 +164,13 @@ class FileInput extends React.Component {
       attr['aria-required'] = 'true'
     }
 
+    const allowClear = clearable && !!this.state.fileText
+
     return (
       <label
         htmlFor={this.props.name}
         className={`Input-label Input--file ${containerClass || ''}`}
-        onClick={this.triggerInput}
+        onClick={allowClear ? this.clearInput : this.triggerInput}
         id={`${name}-label`}
         onFocus={this.onFocusIn}
         onKeyDown={this.onKeyDown}
@@ -158,9 +182,15 @@ class FileInput extends React.Component {
         </span>
         <div className='Input-placeholder Input-placeholder--file' tabIndex={0}>
           <div className='Input--file-text'>{this.state.fileText}</div>
-          <div className='Btn'>
-            Browse <span className='u-sr-only'>local file system</span>
-          </div>
+          {clearable && this.state.fileText ? (
+            <div className='Btn'>
+              Clear <span className='u-sr-only'> all files</span>
+            </div>
+          ) : (
+            <div className='Btn'>
+              Browse <span className='u-sr-only'>local file system</span>
+            </div>
+          )}
         </div>
         {error &&
           !this.state.focused &&
@@ -175,7 +205,13 @@ class FileInput extends React.Component {
           style={{ display: 'none' }}
           onChange={this.updateText}
           accept={accept}
-          data-multiple-caption='{count} files selected'
+          data-multiple-caption={
+            multiple
+              ? `${
+                  (this.state.fileText || '').split(', ').length
+                } files selected`
+              : ''
+          }
           multiple={multiple}
           data-validate='file'
           tabIndex={-1}

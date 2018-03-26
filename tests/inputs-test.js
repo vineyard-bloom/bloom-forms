@@ -93,10 +93,11 @@ describe('<FileInput />', () => {
   it ('renders without breaking', () => {
     const exampleLabel = 'Example File Input'
     const file = Enzyme.mount(
-      <FileInput label={ exampleLabel } name='file-input' formId='example-form' onChange={ exampleClick } id='example-form' formData={ exampleFormData } />
+      <FileInput label={ exampleLabel } name='file-input' formId='example-form' onChange={ exampleClick } formData={ exampleFormData } />
     )
 
     assert.ok((file).text().indexOf(exampleLabel) >= 0)
+    file.unmount()
   })
 })
 

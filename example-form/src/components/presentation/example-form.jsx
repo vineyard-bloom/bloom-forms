@@ -220,6 +220,7 @@ const ExampleForm = props => {
           multiple={false}
         />
         <FileInput
+          clearable
           name='file-simple-2'
           label='Multi File Input'
           id='file-simple-2'
