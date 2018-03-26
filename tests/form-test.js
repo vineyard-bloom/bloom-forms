@@ -15,14 +15,15 @@ import { Form } from '../src/form' // unconnected from redux
 import { Form as ConnectedForm } from '../src' // fully connected to redux
 
 const store = createStore(combineReducers({ forms: formReducer }))
-const fieldNames = ['name', 'id', 'pet', 'muffinflavor']
+const fieldNames = ['name', 'id', 'pet', 'muffinflavor', 'fileInput']
 
-const submitProcess = (formData) => {
+const submitProcess = (formData, files) => {
   console.log('submitting with formData: ', formData)
+  console.log('submitting with files: ', files)
 }
 
 function generateComponent(store, replacementProps={}) {
-  const component = <ConnectedForm fieldNames={fieldNames} id='example-form' submitForm={submitProcess} { ...replacementProps } />
+  const component = <ConnectedForm fieldNames={fieldNames} id='example-form' submitForm={submitProcess} testMode={true} { ...replacementProps } />
   return shallowWithStore(component, store)
 }
 
@@ -119,7 +120,8 @@ describe('<Form/>', function() {
       name: '',
       id: '',
       muffinflavor: '',
-      pet: ''
+      pet: '',
+      fileInput: ''
     })
 
     // make sure redux example-form was unaffected
@@ -208,5 +210,81 @@ describe('<Form/>', function() {
 
     assert.equal(receivedPropsSpy.calledOnce, true)
     assert.equal(checkFieldSpy.called, true)
+  })
+})
+
+describe('<Form/>: Submit Form', function() {
+  it ('populates fields and submits form without error', async function() {
+    const wrapper = generateComponent(store)
+    const diver = wrapper.dive().instance()
+
+    diver.manualFieldUpdate('example-form', 'name', 'Cletus')
+    diver.manualFieldUpdate('example-form', 'id', '4')
+    diver.manualFieldUpdate('example-form', 'pet', 'goat')
+    diver.manualFieldUpdate('example-form', 'muffinflavor', 'blueberry')
+
+    wrapper.update()
+
+    const eventMock = { preventDefault: () => {}, target: { id: '' } }
+
+    const updatedDiver = wrapper.dive().instance()
+
+    const expectedFormData = {
+      name: 'Cletus',
+      id: '4',
+      pet: 'goat',
+      muffinflavor: 'blueberry',
+      fileInput: ''
+    }
+
+    const result = await updatedDiver.forwardToSubmitForm(eventMock)
+
+    assert.equal(
+      wrapper.props().forms['example-form'].fields.name.value,
+      'Cletus'
+    )
+    assert.equal(
+      wrapper.props().forms['example-form'].fields.id.value,
+      4
+    )
+    assert.equal(
+      wrapper.props().forms['example-form'].fields.pet.value,
+      'goat'
+    )
+    assert.equal(
+      wrapper.props().forms['example-form'].fields.muffinflavor.value,
+      'blueberry'
+    )
+    assert.deepEqual(result.thisForm, expectedFormData)
+  })
+
+  it ('populates fields and submits form, file included', async function() {
+    const wrapper = generateComponent(store)
+    const diver = wrapper.dive().instance()
+
+    const eventMock = { preventDefault: () => {}, target: { id: '' } }
+    const fileMock = { type: 'file', name:'fakeFile', size: 2000}
+
+    diver.manualFieldUpdate('example-form', 'name', 'Dwight')
+    diver.manualFieldUpdate('example-form', 'fileInput', fileMock, 'file')
+
+    wrapper.update()
+    const updatedDiver = wrapper.dive().instance()
+
+    const expectedFormData = {
+      name: 'Dwight',
+      id: '',
+      pet: '',
+      muffinflavor: '',
+      fileInput: { type: 'file', name: 'fakeFile', size: 2000 } 
+    }
+
+    const result = await updatedDiver.forwardToSubmitForm(eventMock)
+
+    assert.equal(
+      wrapper.props().forms['example-form'].fields.name.value,
+      'Dwight'
+    )
+    assert.deepEqual(result.thisForm, expectedFormData)
   })
 })

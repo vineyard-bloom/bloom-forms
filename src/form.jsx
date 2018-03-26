@@ -28,6 +28,10 @@ export class Form extends React.Component {
     processingRequest: false
   };
 
+  static defaultProps = {
+    testMode: false
+  };
+
   static propTypes = {
     addFormError: PropTypes.func,
     clearForm: PropTypes.func,
@@ -207,7 +211,7 @@ export class Form extends React.Component {
     return thisForm
   };
 
-  submitForm = async e => {
+  forwardToSubmitForm = async e => {
     e.preventDefault()
 
     this.props.updateProcessingRequest(true, this.props.id)
@@ -243,7 +247,7 @@ export class Form extends React.Component {
       }
     }
 
-    Promise.all(checkArr)
+    return Promise.all(checkArr)
       .then(isValidValues => {
         if ((isValidValues || []).reduce((a, b) => a && b)) {
           const successCallback = () => {
@@ -259,12 +263,21 @@ export class Form extends React.Component {
               processingRequest: false
             })
           }
-          return this.props.submitForm(
-            thisForm,
-            files,
-            successCallback,
-            failCallback
-          )
+          if (this.props.testMode) {
+            return {
+              thisForm,
+              files,
+              successCallback,
+              failCallback
+            }
+          } else {
+            return this.props.submitForm(
+              thisForm,
+              files,
+              successCallback,
+              failCallback
+            )
+          }
         } else {
           delete thisForm.isValid
 
@@ -481,7 +494,7 @@ export class Form extends React.Component {
             prepopulated: this.state.prepopulated,
             processingRequest: this.state.processingRequest,
             updateForm: props.updateForm,
-            submitForm: this.submitForm,
+            submitForm: this.forwardToSubmitForm,
             updateVisibleFieldsArr: this.updateVisibleFieldsArr,
             onFocus: this.onFocus,
             updateDirtyFieldsArr: this.updateDirtyFieldsArr,
