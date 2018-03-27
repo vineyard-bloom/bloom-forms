@@ -1,6 +1,6 @@
 # VALIDATORS
 
-### validator.js has a few 'validateAs' types built in. These are:
+### The validator is completely customizable if you define a validationHelp object. It does however have a few 'validateAs' types built in. These are:
 
 `date`:
   - validates a string as a valid Javascript Date
@@ -30,4 +30,3 @@
 
 `zip`:
   - validates the test data against US zip codes
-  
