@@ -22,6 +22,7 @@ Features:
 * Built-in form population
 * Built-in accessibility
 * All field values and errors available through Redux
+* Inputs work inside the Form wrapper or alone, allowing you to use all the accessibility of those inputs without the opinionated state management
 
 Includes:
 
