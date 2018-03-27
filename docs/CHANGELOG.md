@@ -1,6 +1,11 @@
 # CHANGELOG
 
-### Monday March 26, 2018 -- 1.3.6 publish
+
+### Monday March 26, 2018
+-- 1.3.7 publish
+- FileInput can be clearable
+
+-- 1.3.6 publish
 - SelectInput non-typeahead button style fix (span is now display:flex inside button, instead of button flexed)
 - onFocus for Select non-typeahead button on Safari fix
 
