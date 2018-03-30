@@ -6,7 +6,10 @@
   "scripts": {
     "build": "./node_modules/.bin/webpack --config=webpack.config.js",
     "lint": "./node_modules/.bin/eslint --config ./.eslintrc --fix ./src/* --ext .js,.jsx",
-    "prettier": "./node_modules/.bin/prettier --config ./.prettierrc --write './src/**/*.{js,jsx,scss}'",
+    "lint-staged": "./node_modules/.bin/eslint --fix --ignore-path ./.eslintignore",
+    "pre-commit": "lint-staged",
+    "prettify": "node ./scripts/cross-os-prettier.js",
+    "prettify-staged": "prettier --config .prettierrc --write",
     "test": "npm run test-redux && npm run test-components && npm run test-validator",
     "test-components": "npm run test-form && npm run test-inputs",
     "test-form": "./node_modules/.bin/mocha  --compilers js:babel-core/register tests/helpers/virtual-dom.js tests/form-test.js --require ignore-styles",
@@ -27,9 +30,16 @@
     "forms",
     "accessible"
   ],
+  "lint-staged": {
+    "**/*.{js,jsx,scss}": [
+      "npm run prettify-staged",
+      "npm run lint-staged",
+      "git add"
+    ]
+  },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test && npm run prettier && npm run lint && npm run build && git add ."
+      "pre-commit": "npm run test && npm run build && npm run pre-commit"
     }
   },
   "author": "inkblotty (http://inkblotty.github.io)",
@@ -79,6 +89,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-standard": "^3.0.1",
+    "lint-staged": "^7.0.0",
     "mocha": "^5.0.1",
     "prettier": "1.10.2",
     "sinon": "^4.4.2"
