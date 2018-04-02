@@ -29,6 +29,7 @@ const formReducer = (state = {}, action) =>
       }
 
       case 'CLEAR_FORM': {
+        draftForms[action.formId].processingRequest = false
         draftForms[action.formId].fields = {}
         draftForms[action.formId].awaitingCheck = []
         draftForms[action.formId].touchedFields = []

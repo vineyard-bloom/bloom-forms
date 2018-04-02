@@ -1,7 +1,11 @@
 # CHANGELOG
 
-### Monday April 2, 2018 -- 1.3.8 publish
-- SelectInput dropdowns not reopening when clicked if already focused bug fix
+### Monday April 2, 2018
+-- 1.4.0 publish
+- processingRequest field in Redux set to false when component unmounts
+
+-- 1.3.8 publish
+- bug fix: SelectInput dropdowns not reopening when clicked if already focused
 
 ### Monday March 26, 2018
 -- 1.3.7 publish
