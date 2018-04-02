@@ -500,6 +500,7 @@ class SelectInput extends React.Component {
               id={`${name}-placeholder`}
               name='autofill-buster'
               onChange={this.sortResults}
+              onClick={() => this.setState({ showList: true })}
               placeholder={this.props.placeholder}
               role='searchbox'
               type='text'
@@ -519,6 +520,7 @@ class SelectInput extends React.Component {
               id={`${name}-placeholder`}
               onClick={e => {
                 e.preventDefault()
+                this.setState({ showList: true })
               }}
               tabIndex={0}
             >
