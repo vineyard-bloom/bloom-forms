@@ -2,4 +2,5 @@
 ./public/*
 ./dist/*
 ./scripts/*
-./webpack.config.js
+webpack.config.js
+index.js
