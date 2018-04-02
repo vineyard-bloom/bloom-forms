@@ -1,5 +1,7 @@
 # CHANGELOG
 
+### Monday April 2, 2018 -- 1.3.8 publish
+- SelectInput dropdowns not reopening when clicked if already focused bug fix
 
 ### Monday March 26, 2018
 -- 1.3.7 publish
