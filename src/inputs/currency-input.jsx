@@ -64,6 +64,7 @@ class CurrencyInput extends React.Component {
       suppressErrors,
       validateAs,
       value,
+      allowZeroValue,
       ...props
     } = this.props
     const labelTextClasses = `Input-label-text ${
@@ -128,7 +129,11 @@ class CurrencyInput extends React.Component {
           placeholder={placeholder}
           step='any'
           {...attr}
-          value={attr.value.replace(/^0+(?!\.|$)/, '')}
+          value={
+            allowZeroValue
+              ? attr.value.replace(/^0+(?!\.|$)/, '0')
+              : attr.value.replace(/^0+(?!\.|$)/, '')
+          }
         />
         {currency ? <div className='Input-after'>{currency}</div> : ''}
         {err && !this.state.focused && !suppressErrors ? (
@@ -169,6 +174,7 @@ CurrencyInput.propTypes = {
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
   onChange: PropTypes.func,
+  allowZeroValue: PropTypes.bool,
   required: PropTypes.bool,
   showLabel: PropTypes.bool,
   validateAs: PropTypes.string,
