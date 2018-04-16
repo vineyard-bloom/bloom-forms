@@ -3,27 +3,34 @@
 The validator is a fully-functional aggregator of every field passed in, returing any errors on those fields.
 
 ## Standard Usage with Bloom-Forms' Form wrapper:
-1. Pass in a dictionary of field / value pairs to the aggregator as `testDataObject`
+1. Create a `validationHelp` object to pass into the Form wrapper:
 ```
-// example testDataObject:
-  {
-    [fieldName]: { value: fieldValue, validateAs: 'not-empty', name: fieldName},
-    [fieldName]: { value: fieldValue, validateAs: 'phone', name: fieldName},
-    ...
-  }
-```
-2. Pass in error language from a localization file or json object of error messages
+  import { Form } from 'bloom-forms'
 
-3. Pass in an `optDic` of `validateAs` keys with functions to process. For example:
-```
-/*
-  {
-    'cat': (testData) => testData === 'cat' ? null : 'This field should equal "cat."',
-    'biggerThan2': (testData) => testData > 2 ? null : 'This field must be at least 2'
+  ...
+
+  const validationHelp = {
+    errorLanguage: {
+      cat: 'This field should equal "cat."'
+    },
+    dictionary: {
+      'cat': (testData) => testData === 'cat' ? null : validationHelp.errorLanguage.cat,
+      'biggerThan2': (testData) => testData > 2 ? null : 'This field must be at least 2'
+    }
   }
-*/
+
+  ...
+
+  render() {
+    <Form fieldNames={ fieldNames }
+      validationHelp={validationHelp}
+      ...
+    >
+      <CatForm />
+    </Form>
+  }
 ```
-// and now you can use validateAs='cat' and validateAs='biggerThan2'
+2. Now you can use validateAs='cat', or any of the default validators defined below.
 
 
 ## Usage without Form wrapper:
