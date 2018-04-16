@@ -1,7 +1,7 @@
-const path = require('path')
-const BUILD_DIR = path.join(__dirname, '/')
-const APP_DIR = path.join(__dirname, '/src/')
-const webpack = require('webpack')
+const path = require('path');
+const BUILD_DIR = path.join(__dirname, '/');
+const APP_DIR = path.join(__dirname, '/src/');
+const webpack = require('webpack');
 
 module.exports = {
   entry: APP_DIR + 'index.js',
@@ -23,7 +23,7 @@ module.exports = {
         exclude: /node_modules/,
         query: {
           presets: ['react', 'env'],
-          'plugins': [
+          plugins: [
             'transform-object-rest-spread',
             'transform-class-properties'
           ]
@@ -33,7 +33,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|eot|ttf|woff|woff2|svg)$/,
         loader: 'url-loader',
         include: [
-          path.join(__dirname, 'src/images'),
+          path.join(__dirname, 'src'),
           path.join(__dirname, 'public/fonts')
         ],
         options: {
@@ -71,4 +71,4 @@ module.exports = {
   resolve: {
     extensions: ['.webpack.js', '.web.js', '.jsx', '.js', '.html', '.scss']
   }
-}
+};

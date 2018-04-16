@@ -18,7 +18,6 @@ import {
 } from './formActions'
 
 import './styles/form.scss'
-import './styles/inputs.scss'
 
 // container for wrapping all forms with needed methods
 export class Form extends React.Component {
