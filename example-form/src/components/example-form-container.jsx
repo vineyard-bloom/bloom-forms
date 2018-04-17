@@ -35,7 +35,8 @@ class ExampleFormContainer extends React.Component {
       'file-simple',
       'file-simple-2',
       'file-droppable',
-      'onlyBloop'
+      'onlyBloop',
+      'textarea'
     ]
 
     const validationHelp = {
@@ -76,6 +77,6 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(
-  mapStateToProps, mapDispatchToProps
-)(ExampleFormContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  ExampleFormContainer
+)

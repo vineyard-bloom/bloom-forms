@@ -1,6 +1,6 @@
 import React from 'react'
+import { Button } from 'bloom-forms'
 import {
-  Button,
   Checkbox,
   CurrencyInput,
   DateInput,
@@ -9,9 +9,10 @@ import {
   RadioGroup,
   RadioButtonGroup,
   SelectInput,
+  TextArea,
   TextInput,
   ToggleSwitch
-} from 'bloom-forms'
+} from 'bloom-inputs'
 
 const ExampleForm = props => {
   // I am a reference form
@@ -24,7 +25,8 @@ const ExampleForm = props => {
     toggle: null,
     'file-simple': null,
     'file-simple-2': null,
-    'file-droppable': null
+    'file-droppable': null,
+    textarea: null
   }
   const radioOptions = [
     { label: 'Radio 1', id: 'radio-1' },
@@ -238,6 +240,13 @@ const ExampleForm = props => {
         files={
           (formData['file-droppable'] && formData['file-droppable'].value) || []
         }
+      />
+      <TextArea
+        formData={formData || { message: 'why am i undefined?' }}
+        name='textarea'
+        label='Large Text Area'
+        onChange={props.updateForm}
+        showLabel
       />
       <Button
         className='Btn AuthForm-submit-button u-justify-center'
