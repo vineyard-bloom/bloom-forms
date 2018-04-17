@@ -1,7 +1,7 @@
-const path = require('path');
-const BUILD_DIR = path.join(__dirname, '/');
-const APP_DIR = path.join(__dirname, '/src/');
-const webpack = require('webpack');
+const path = require('path')
+const BUILD_DIR = path.join(__dirname, '/')
+const APP_DIR = path.join(__dirname, '/src/')
+const webpack = require('webpack')
 
 module.exports = {
   entry: APP_DIR + 'index.js',
@@ -71,4 +71,4 @@ module.exports = {
   resolve: {
     extensions: ['.webpack.js', '.web.js', '.jsx', '.js', '.html', '.scss']
   }
-};
+}
