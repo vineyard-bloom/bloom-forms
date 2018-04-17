@@ -101,16 +101,20 @@ There are several methods available to trigger validation.
 
 - You can also `checkField` on an individual input. Usually this is used `onBlur` on a specific input.
 ```
-// example input that checks on blur
+// example input that checks on blur (checkField is passed in by the Form wrapper automatically)
   <TextInput
     onBlur={props.checkField}
     validateAs='not-empty'
   />
 ```
 
-- You can `checkMultipleFields`, which receives an array of field names to check. This can be triggered from anywhere, using the method from [formActions](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/redux.md#formactions).
+- You can `checkMultipleFields`, which receives the id of the form and an array of field names to check. This can be triggered from anywhere, using the method from [formActions](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/redux.md#formactions).
 ```
-// example button to trigger multiple checks
+import { formActions } from 'bloom-forms'
+
+  ...
+
+  // example button to trigger multiple checks
   <TextInput
     formData={props.formData}
     name='firstName'
@@ -126,6 +130,14 @@ There are several methods available to trigger validation.
   <Button
     onClick={(e) => {e.preventDefault(); props.checkMultipleFields(props.formId, ['firstName', 'lastName'])}}
   />
+
+  ...
+
+const mapDispatchToProps = dispatch => ({
+  checkMultipleFields: (id, fields) => dispatch(formActions.checkMultipleFields(id, fields))
+})
+
+export default connect(null, mapDispatchToProps)(ThisComponent)
 ```
 
 
