@@ -5,7 +5,7 @@ The validator is a fully-functional aggregator of every field passed in, returin
 ## Standard Usage with Bloom-Forms' Form wrapper:
 1. Create a `validationHelp` object to pass into the Form wrapper:
 ```
-  import { Form } from 'bloom-forms'
+import { Form } from 'bloom-forms'
 
   ...
 
@@ -71,7 +71,8 @@ import { validator } from 'bloom-forms'
 ...
 
 const fieldStates = validator(testDataObject, errorLanguage, dictionary)
-// returns an object like:
+
+// ^ returns an object like:
 // {
 //  isValid: false,
 //    warnings: {
