@@ -12,6 +12,7 @@ docs
 .eslintrc
 
 #other
+node_modules
 CODEOWNERS
 .DS_Store
 *.log

@@ -171,7 +171,8 @@ Inline file input that does not support drag and drop.
 [Back to Contents](https://github.com/vineyard-bloom/bloom-forms/blob/master/docs/inputs.md#contents)
 
 ## RadioGroup
-## and RadioButtonGroup
+and
+## RadioButtonGroup
 
 Both RadioGroup and RadioButtonGroup are used when there are a variety of options, but only one can be selected at once.
 RadioButtonGroup behaves nearly identically to RadioGroup but has the styling of buttons.

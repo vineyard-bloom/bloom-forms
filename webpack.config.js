@@ -23,7 +23,7 @@ module.exports = {
         exclude: /node_modules/,
         query: {
           presets: ['react', 'env'],
-          'plugins': [
+          plugins: [
             'transform-object-rest-spread',
             'transform-class-properties'
           ]
@@ -33,7 +33,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|eot|ttf|woff|woff2|svg)$/,
         loader: 'url-loader',
         include: [
-          path.join(__dirname, 'src/images'),
+          path.join(__dirname, 'src'),
           path.join(__dirname, 'public/fonts')
         ],
         options: {
